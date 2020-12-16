@@ -1,87 +1,46 @@
 <template>
-    <div>
-        <main>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-6 left">
-                        <img class="img1" src="../../assets/background.png" alt="image1">
-                    </div>
-                    <div class="col-lg-6 right">
-                        <div class="box">
-                            <div class="box1">
-                                <img class="img2" src="../../assets/coffee.png" alt="Image2">
-                                <p class="text">Coffe Shop</p>
-                            </div>
-                            <button class="login" type="submit">Login</button>
-                        </div>
-                        <div class="box2">
-                            <p class="text1">Sign Up</p>
-                        </div>
-                        <div class="box3">
-                            <form @submit.prevent="submit">
-                                <label class="text2" for="email">Email Address :</label>
-                                    <input class="email form-control" type="email" name="email" id="email" placeholder="Enter your email address" v-model="email">
-                                    <!-- <small v-if="!$v.email.required" class="text-danger">Field is required</small><br> -->
-                                    <small v-if="!$v.email.email" class="text-danger">Field is required</small><br>
-                                <label class="text3" for="password">Password :</label>
-                                    <div class="box-password">
-                                        <input class="password form-control" type="password" name="password" id="password" placeholder="Enter your password" v-model="password">
-                                        <small v-if="!$v.password.minLength" class="text-danger">Name must have at least 4 letters.</small><br>
-                                        <input class="checkbox" type="checkbox" @click="togglePassword">
-                                    </div>
-                                <label class="text4" for="phonenumber">Phone Number :</label>
-                                    <input class="phonenumber form-control" type="phonenumber" name="phonenumber" id="phonenumber" placeholder="Enter your phone number" v-model="phoneNumber">
-                                    <small v-if="!$v.phoneNumber.numeric" class="text-danger">Phone number must be numeric</small>
-                            </form>
-                            <button class="signup" @click="signUp">Sign Up</button>
-                            <button class="signupgoogle"><img src="../../assets/google.png" alt="image4" style="margin-right: 14px;">Sign up with Google</button>
-                        </div>
-                    </div>
-                </div>
+    <div class="col-lg-10 col-md-10 right">
+        <div class="box">
+            <div class="box1">
+                <img class="img2" src="../../assets/coffee-logo.png" alt="Image2">
+                <p class="text">Coffe Shop</p>
             </div>
-        </main>
-
-        <div class="box4">
-            <div>
-                <p class="text5">Get your member card now!</p>
-                <p class="text6">Let's join with our member end enjoy the deals</p>
-            </div>
-            <button class="createnow">Create Now</button>
+            <button class="login" type="submit">Login</button>
         </div>
+        <div class="box2">
+            <p class="text1">Sign Up</p>
+        </div>
+        <div class="box3">
+            <form>
+                <div class="mb-3 mt-5 form-group">
+                    <label class="form-label">Email Address:</label>
+                    <input type="email" v-model.trim="$v.email.$model" :class="{ 'is-invalid': validationStatus($v.email) }" class="form-control" placeholder="Enter your email address">
+                    <div class="invalid-feedback" v-if="!$v.email.required">Field is required.</div>
+                    <div class="invalid-feedback" v-if="!$v.email.email">invalid email</div>
+                </div>
 
-        <footer>
-            <div class="d-flex justify-content-between">
-                <div class="box5">
-                    <div class="box6">
-                        <img class="img3" src="../../assets/coffee.png" alt="Image5">
-                        <p class="text7">Coffe Shop</p>
-                    </div>
-                    <p class="text8">Coffee Shop is a store that sells some good meals, and especially coffee. We provide high quality beans</p>
-                    <a href="#"><img class="facebook" src="../../assets/facebook.png" alt="image6"></a>
-                    <a href="#"><img class="twitter" src="../../assets/twitter.png" alt="image7"></a>
-                    <a href="#"><img class="instagram" src="../../assets/instagram.png" alt="image8"></a>
-                    <p class="text9">@2020CoffeStore</p>
+                <div class="mb-3 form-group">
+                    <label class="form-label">Password:</label>
+                    <input type="password" id="password" v-model.trim="$v.password.$model" :class="{ 'is-invalid': validationStatus($v.password) }" class="form-control icon-password" placeholder="Enter your password">
+                    <input type="checkbox" class="toggle-password" @click="togglePassword">
+                    <div class="invalid-feedback" v-if="!$v.password.required">Field is required.</div>
+                    <div class="invalid-feedback" v-if="!$v.password.minLength">Field must have at least {{ $v.password.$params.minLength.min }} characters.</div>
                 </div>
-                <div class="box7">
-                    <div class="product">
-                        <p>Product</p>
-                        <a href="#"><li>Download</li></a>
-                        <a href="#"><li>Pricing</li></a>
-                        <a href="#"><li>Locations</li></a>
-                        <a href="#"><li>Countries</li></a>
-                        <a href="#"><li>Blog</li></a>
-                    </div>
-                    <div class="engage">
-                        <p>Engage</p>
-                        <a href="#"><li>Coffe Shop ?</li></a>
-                        <a href="#"><li>FAQ</li></a>
-                        <a href="#"><li>About Us</li></a>
-                        <a href="#"><li>Privacy Policy</li></a>
-                        <a href="#"><li>Terms of Service</li></a>
-                    </div>
+
+                <div class="mb-3 form-group">
+                    <label class="form-label">Phone Number:</label>
+                    <input type="number" v-model.trim="$v.phoneNumber.$model" :class="{ 'is-invalid': validationStatus($v.phoneNumber) }" class="form-control" placeholder="Enter your phone number">
+                    <div class="invalid-feedback" v-if="!$v.phoneNumber.required">Field is required.</div>
+                    <div class="invalid-feedback" v-if="!$v.phoneNumber.numeric">Phone number must be numeric</div>
                 </div>
-            </div>
-        </footer>
+
+                <div class="mb-3">
+                    <router-link to="#" class="forgot-password">Forgot password?</router-link>
+                </div>
+                <button type="submit" class="btn btn-login" @click.prevent="signUp">Sign Up</button>
+                <button type="submit" class="btn login-google"><img src="../../assets/google-logo.png" alt="">Sign Up with Google</button>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -104,8 +63,11 @@ export default {
     password: { required, minLength: minLength(8) },
     phoneNumber: { required, numeric }
   },
+
   methods: {
-    ...mapMutations(['togglePassword']),
+    validationStatus (validation) {
+      return typeof validation !== 'undefined' ? validation.$error : false
+    },
     signUp () {
       Swal.fire({
         title: 'Success',
@@ -114,11 +76,7 @@ export default {
         timer: 1000
       })
     },
-    submit () {
-      this.$v.$touch()
-      if (this.$v.$error) return
-      alert('Form submitted')
-    }
+    ...mapMutations(['togglePassword'])
   }
 }
 </script>
@@ -211,6 +169,94 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+form .form-label {
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #4F5665;
+}
+
+form .form-control {
+    background: #FFFFFF;
+    border: 1px solid #4F5665;
+    box-sizing: border-box;
+    border-radius: 20px;
+    width: 505px;
+    height: 75px;
+}
+
+form .icon-password {
+    background-image: url('../../assets/eye-crossed.png');
+    background-repeat: no-repeat;
+    background-position: right;
+    background-position-x: 443px;
+}
+
+form .form-control:focus {
+    border: 1px solid #4F5665;
+    box-shadow: none;
+}
+
+form .is-invalid {
+    border: 1px solid red;
+}
+
+form .is-invalid:focus {
+    border: 1px solid red;
+}
+
+form .form-group {
+    position: relative;
+}
+
+form .form-group .toggle-password {
+    position: absolute;
+    top: 65px;
+    left: 450px;
+    opacity: 0;
+}
+
+form .forgot-password {
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+    text-decoration-line: underline;
+
+    color: #6A4029;
+}
+
+form .btn.btn-login {
+    background: #FFBA33;
+    box-shadow: 0px 6px 20px rgba(255, 186, 51, 0.4);
+    border-radius: 20px;
+    font-size: 20px;
+    width: 505px;
+    height: 75px;
+    padding-top: 10px;
+    color: #6A4029;
+}
+
+form .login-google {
+    background: #FFFFFF;
+    box-shadow: 0px 6px 20px rgba(196, 196, 196, 0.67);
+    border-radius: 20px;
+    font-size: 20px !important;
+    width: 505px;
+    height: 75px;
+    padding-top: 15px;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 25px;
+    color: #000000 !important;
+    margin-top: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+form .login-google img {
+    padding-right: 10px;
 }
 
 .text1 {
