@@ -28,7 +28,7 @@
                 <div class="col-1 p-0">
                   <div class="actions" alt="key">
                     <div class="delete-action">
-                      <img src="../../assets/trash.png" alt="">
+                      <img @click="deleteHistory" src="../../assets/trash.png" alt="">
                     </div>
                     <div class="cancel-action">
                       <img src="../../assets/x.png" alt="">
@@ -288,7 +288,9 @@
 <script>
 import Header from '@/components/module/Header'
 import Footer from '@/components/module/Footer'
+import Swal from 'sweetalert2'
 import $ from 'jquery'
+
 export default {
   data () {
     return {
@@ -319,6 +321,25 @@ export default {
       $('.card-history').mouseup(function () {
         console.log(self.longClick)
         clearInterval(this.timeOut)
+      })
+    },
+    deleteHistory () {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#6A4029',
+        cancelButtonColor: '#FFBA33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }
       })
     }
   },
