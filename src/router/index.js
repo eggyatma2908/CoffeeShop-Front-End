@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+// import Home from '../views/Home.vue'
 import Auth from '../views/auth/Auth.vue'
 import Login from '../views/auth/Login.vue'
 import Register from '../views/auth/Register.vue'
 import ForgotPassword from '../views/auth/ForgotPassword.vue'
-import History from '@/views/history/History.vue'
 // import Home from '@/views/Home.vue'
-
+import History from '@/views/history/History.vue'
+import Chat from '../views/chat/Chat.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,6 +15,22 @@ const routes = [
     path: '/',
     name: 'History',
     component: History
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    children: [
+      {
+        path: 'chat',
+        name: 'Chat',
+        component: History
+      }
+    ]
+  },
+  {
+    path: '/chat',
+    name: 'Chat',
+    component: Chat
   },
   {
     path: '/auth',

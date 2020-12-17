@@ -7,9 +7,9 @@
                     <p class="text7">Coffe Shop</p>
                 </div>
                 <p class="text8">Coffee Shop is a store that sells some good meals, and especially coffee. We provide high quality beans</p>
-                <a href="#"><img class="facebook" src="../../assets/facebook.png" alt="image6"></a>
-                <a href="#"><img class="twitter" src="../../assets/twitter.png" alt="image7"></a>
-                <a href="#"><img class="instagram" src="../../assets/instagram.png" alt="image8"></a>
+                <a href="#"><img class="facebook" src="../../assets/Facebook.png" alt="image6"></a>
+                <a href="#"><img class="twitter" src="../../assets/Twitter.png" alt="image7"></a>
+                <a href="#"><img class="instagram" src="../../assets/Instagram.png" alt="image8"></a>
                 <p class="text9">@2020CoffeStore</p>
             </div>
             <div class="box7">

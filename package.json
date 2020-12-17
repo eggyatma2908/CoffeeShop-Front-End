@@ -13,14 +13,7 @@
     "core-js": "^3.6.5",
     "jquery": "^3.5.1",
     "register-service-worker": "^1.7.1",
-<<<<<<< HEAD
-<<<<<<< HEAD
     "sweetalert2": "^10.12.5",
-=======
->>>>>>> e6dae2fec4e330bcf3b87f2b7ba65e67ba82def5
-=======
-    "sweetalert2": "^10.12.5",
->>>>>>> historycust
     "vue": "^2.6.12",
     "vue-router": "^3.2.0",
     "vuelidate": "^0.7.6",
