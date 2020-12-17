@@ -5,6 +5,7 @@ import Auth from '../views/auth/Auth.vue'
 import Login from '../views/auth/Login.vue'
 import Register from '../views/auth/Register.vue'
 import ForgotPassword from '../views/auth/ForgotPassword.vue'
+import UserProfile from '../views/profile/UserProfile.vue'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,11 @@ const routes = [
     path: '/auth/forgot-password',
     name: 'ForgotPassword',
     component: ForgotPassword
+  },
+  {
+    path: '/profile/user-profile',
+    name: 'UserProfile',
+    component: UserProfile
   }
 ]
 
