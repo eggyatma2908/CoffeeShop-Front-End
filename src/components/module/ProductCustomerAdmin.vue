@@ -7,14 +7,14 @@
                     <p class="text1">Coupons will be updated every weeks. Check them out! </p>
                     <div class="box">
                         <div class="box1">
-                            <vue-card-stack :cards="cards" :stack-width="300" :card-width="280" :scaleMultiplier="0.5">
+                            <!-- <vue-card-stack :cards="cards" :stack-width="300" :card-width="280" :scaleMultiplier="0.5">
                                 <template v-slot:card="{ card }">
                                     <div style="width: 100%; height: 100%; border-radius: 10px;" :style="{ background: card.background }">
-                                        <div v-html="card.img"></div>
+                                        <img :src="card.img" alt="">
                                     </div>
                                 </template>
-                            </vue-card-stack>
-                            <!-- <div class="coupon"></div>
+                            </vue-card-stack> -->
+                            <div class="coupon"></div>
                             <div class="coupon1"></div>
                             <div class="coupon2"></div>
                             <div class="box2">
@@ -27,7 +27,7 @@
                                 <p class="text5">COUPON CODE</p>
                                 <p class="text6">FNPR15RG</p>
                                 <p class="text7">Valid untill October 10th 2020</p>
-                            </div> -->
+                            </div>
                         </div>
                         <button class="applycoupon" type="submit">Apply Coupon</button>
                         <div class="box3">
@@ -132,24 +132,24 @@
 </template>
 
 <script>
-import VueCardStack from 'vue-card-stack'
+// import VueCardStack from 'vue-card-stack'
 
 export default {
-  name: 'ProductCustomerAdmin',
-  components: {
-    VueCardStack
-  },
-  data () {
-    return {
-      cards: [
-        { img: "<img src='../../assets/food1.png'/>", background: '#00659d' },
-        { name: 'alex', background: '#00abbc' },
-        { background: '#e2c58a' },
-        { background: '#fc8890' },
-        { background: '#b35d7f' }
-      ]
-    }
-  }
+  name: 'ProductCustomerAdmin'
+//   components: {
+//     VueCardStack
+//   },
+//   data () {
+//     return {
+//       cards: [
+//         { img: '../../assets/food1.png', background: '#00659d' },
+//         { name: 'alex', background: '#00abbc' },
+//         { background: '#e2c58a' },
+//         { background: '#fc8890' },
+//         { background: '#b35d7f' }
+//       ]
+//     }
+//   }
 }
 </script>
 
