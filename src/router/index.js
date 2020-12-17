@@ -10,6 +10,7 @@ import History from '@/components/module/History'
 import Chat from '@/components/module/Chat'
 import ProductCustomer from '../components/module/ProductCustomer.vue'
 import ProductDetails from '../components/module/ProductDetails.vue'
+import PaymentDelivery from '../components/module/PaymentDelivery.vue'
 
 Vue.use(VueRouter)
 
@@ -42,6 +43,11 @@ const routes = [
         path: 'product-details',
         name: 'ProductDetails',
         component: ProductDetails
+      },
+      {
+        path: 'payment-delivery',
+        name: 'PaymentDelivery',
+        component: PaymentDelivery
       }
     ]
   },
