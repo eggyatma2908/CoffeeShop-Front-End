@@ -1,6 +1,4 @@
 <template>
-  <div>
-    <Header/>
     <main>
       <div class="title">
         <p class="title-desc"><span class="big-title">Let’s see what you have bought!</span><br>
@@ -281,13 +279,9 @@
         </div>
       </div>
     </main>
-    <Footer/>
-  </div>
 </template>
 
 <script>
-import Header from '@/components/module/Header'
-import Footer from '@/components/module/Footer'
 import Swal from 'sweetalert2'
 import $ from 'jquery'
 
@@ -297,10 +291,6 @@ export default {
       timeOut: 0,
       longClick: 1
     }
-  },
-  components: {
-    Header,
-    Footer
   },
   methods: {
     cardHistoryOnClick () {
@@ -402,7 +392,7 @@ main {
   font-family: Poppins;
   font-style: normal;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 22px;
   /* identical to box height */
   text-align: left;
 }
