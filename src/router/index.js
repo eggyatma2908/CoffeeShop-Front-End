@@ -9,6 +9,7 @@ import ForgotPassword from '../views/auth/ForgotPassword.vue'
 import History from '@/components/module/History'
 import Chat from '@/components/module/Chat'
 import ProductCustomer from '../components/module/ProductCustomer.vue'
+import ProductDetails from '../components/module/ProductDetails.vue'
 
 Vue.use(VueRouter)
 
@@ -36,6 +37,11 @@ const routes = [
         path: 'product-customer',
         name: 'ProductCustomer',
         component: ProductCustomer
+      },
+      {
+        path: 'product-details',
+        name: 'ProductDetails',
+        component: ProductDetails
       }
     ]
   },
