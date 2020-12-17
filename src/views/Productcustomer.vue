@@ -116,7 +116,7 @@ import Header from '../components/module/Header.vue'
 import Footer from '../components/module/Footer.vue'
 
 export default {
-  name: 'Productcustomer',
+  name: 'ProductCustomer',
   components: {
     Header,
     Footer
