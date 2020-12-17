@@ -12,7 +12,7 @@ import ProductCustomer from '../components/module/ProductCustomer.vue'
 import ProductDetails from '../components/module/ProductDetails.vue'
 import UserProfile from '../views/profile/UserProfile.vue'
 import PaymentDelivery from '../components/module/PaymentDelivery.vue'
-
+import RoomChat from '../components/module/RoomChat.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -49,6 +49,11 @@ const routes = [
         path: 'payment-delivery',
         name: 'PaymentDelivery',
         component: PaymentDelivery
+      },
+      {
+        path: 'room-chat',
+        name: 'RoomChat',
+        component: RoomChat
       }
     ]
   },
