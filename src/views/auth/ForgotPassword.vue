@@ -18,22 +18,13 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <Footer/>
-            </div>
-        </div>
     </div>
 </template>
 
 <script>
-import Footer from '../../components/module/Footer'
 import Swal from 'sweetalert2'
 export default {
   name: 'ForgotPassword',
-  components: {
-    Footer
-  },
   data () {
     return {
       countDown: 20,

@@ -1,24 +1,61 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '../views/Home/Home.vue'
 import Auth from '../views/auth/Auth.vue'
 import Login from '../views/auth/Login.vue'
 import Register from '../views/auth/Register.vue'
 import ForgotPassword from '../views/auth/ForgotPassword.vue'
-import ProductCustomer from '../views/ProductCustomer.vue'
-
+// import Home from '@/views/Home.vue'
+import History from '@/components/module/History'
+import Chat from '@/components/module/Chat'
+import ProductCustomer from '../components/module/ProductCustomer.vue'
+import ProductDetails from '../components/module/ProductDetails.vue'
+import UserProfile from '../views/profile/UserProfile.vue'
+import PaymentDelivery from '../components/module/PaymentDelivery.vue'
+import RoomChat from '../components/module/RoomChat.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: ''
   },
   {
-    path: '/productcustomer',
-    name: 'ProductCustomer',
-    component: ProductCustomer
+    path: '/home',
+    name: 'Home',
+    component: Home,
+    children: [
+      {
+        path: 'chat',
+        name: 'Chat',
+        component: Chat
+      },
+      {
+        path: 'history',
+        name: 'History',
+        component: History
+      },
+      {
+        path: 'product-customer',
+        name: 'ProductCustomer',
+        component: ProductCustomer
+      },
+      {
+        path: 'product-details',
+        name: 'ProductDetails',
+        component: ProductDetails
+      },
+      {
+        path: 'payment-delivery',
+        name: 'PaymentDelivery',
+        component: PaymentDelivery
+      },
+      {
+        path: 'room-chat',
+        name: 'RoomChat',
+        component: RoomChat
+      }
+    ]
   },
   {
     path: '/auth',
@@ -38,9 +75,14 @@ const routes = [
     ]
   },
   {
-    path: '/auth/forgot-password',
+    path: '/forgot-password',
     name: 'ForgotPassword',
     component: ForgotPassword
+  },
+  {
+    path: '/profile/user-profile',
+    name: 'UserProfile',
+    component: UserProfile
   }
 ]
 
