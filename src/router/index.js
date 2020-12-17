@@ -10,6 +10,7 @@ import History from '@/components/module/History'
 import Chat from '@/components/module/Chat'
 import ProductCustomer from '../components/module/ProductCustomer.vue'
 import ProductDetails from '../components/module/ProductDetails.vue'
+import UserProfile from '../views/profile/UserProfile.vue'
 
 Vue.use(VueRouter)
 
@@ -59,13 +60,18 @@ const routes = [
         path: 'register',
         name: 'Register',
         component: Register
-      },
-      {
-        path: 'forgot-password',
-        name: 'ForgotPassword',
-        component: ForgotPassword
       }
     ]
+  },
+  {
+    path: '/forgot-password',
+    name: 'ForgotPassword',
+    component: ForgotPassword
+  },
+  {
+    path: '/profile/user-profile',
+    name: 'UserProfile',
+    component: UserProfile
   }
 ]
 
