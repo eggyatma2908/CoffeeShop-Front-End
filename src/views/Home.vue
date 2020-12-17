@@ -1,8 +1,8 @@
 <template>
   <div>
     <Header />
+        <Productcustomer />
     <Footer />
-    <Productcustomer />
   </div>
 </template>
 
