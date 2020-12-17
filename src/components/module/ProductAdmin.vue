@@ -15,10 +15,10 @@
                                 </template>
                             </vue-card-stack> -->
                             <div class="coupon"></div>
-                            <div class="coupon1"></div>
-                            <div class="coupon2"></div>
+                            <div class="coupon1"><button class="edit"><img src="../../assets/pen.png" alt="image"></button></div>
+                            <div class="coupon2"><button class="edit1"><img src="../../assets/pen1.png" alt="image"></button></div>
                             <div class="box2">
-                                <button class="edit"><img src="../../assets/pen.png" alt="image"></button>
+                                <button class="edit2"><img src="../../assets/pen.png" alt="image"></button>
                                 <img class="img" src="../../assets/food1.png" alt="image1">
                                 <p class="text2">Beef Spaghetti</p>
                                 <p class="text3">20% OFF</p>
@@ -55,73 +55,73 @@
                             <img class="img1" src="../../assets/food2.png" alt="image2">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
-                            <button class="edit1"><img src="../../assets/pen.png" alt=""></button>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img2" src="../../assets/food2.png" alt="image3">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
-                            <button class="edit1"><img src="../../assets/pen.png" alt=""></button>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img3" src="../../assets/food2.png" alt="image4">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
-                            <button class="edit1"><img src="../../assets/pen.png" alt=""></button>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img4" src="../../assets/food2.png" alt="image5">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
-                            <button class="edit1"><img src="../../assets/pen.png" alt=""></button>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img5" src="../../assets/food2.png" alt="image6">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
-                            <button class="edit1"><img src="../../assets/pen.png" alt=""></button>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img6" src="../../assets/food2.png" alt="image7">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
-                            <button class="edit1"><img src="../../assets/pen.png" alt=""></button>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img7" src="../../assets/food2.png" alt="image8">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
-                            <button class="edit1"><img src="../../assets/pen.png" alt=""></button>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img8" src="../../assets/food2.png" alt="image9">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
-                            <button class="edit1"><img src="../../assets/pen.png" alt=""></button>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img9" src="../../assets/food2.png" alt="image10">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
-                            <button class="edit1"><img src="../../assets/pen.png" alt=""></button>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img10" src="../../assets/food2.png" alt="image11">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
-                            <button class="edit1"><img src="../../assets/pen.png" alt=""></button>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img11" src="../../assets/food2.png" alt="image12">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
-                            <button class="edit1"><img src="../../assets/pen.png" alt=""></button>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img12" src="../../assets/food2.png" alt="image13">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
-                            <button class="edit1"><img src="../../assets/pen.png" alt=""></button>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <button class="addnewproduct">Add new product</button>
                     </div>
@@ -135,7 +135,7 @@
 // import VueCardStack from 'vue-card-stack'
 
 export default {
-  name: 'ProductCustomerAdmin'
+  name: 'ProductAdmin'
 //   components: {
 //     VueCardStack
 //   },
@@ -232,14 +232,10 @@ export default {
     z-index: -2;
 }
 
-.box2 {
-    position: relative;
-}
-
 .edit {
     position: absolute;
-    top: -460px;
-    left: 40px;
+    top: 10px;
+    left: 100px;
 
     width: 30px;
     height: 30px;
@@ -252,6 +248,48 @@ export default {
 }
 
 .edit:focus {
+    outline: none;
+}
+
+.edit1 {
+    position: absolute;
+    top: 10px;
+    left: 115px;
+
+    width: 30px;
+    height: 30px;
+
+    margin-left: 130px;
+
+    border: none;
+    border-radius: 20px;
+    background: #FFBA33;
+}
+
+.edit1:focus {
+    outline: none;
+}
+
+.box2 {
+    position: relative;
+}
+
+.edit2 {
+    position: absolute;
+    top: -460px;
+    left: 110px;
+
+    width: 30px;
+    height: 30px;
+
+    margin-left: 130px;
+
+    border: none;
+    border-radius: 20px;
+    background: #6A4029;
+}
+
+.edit2:focus {
     outline: none;
 }
 
@@ -584,7 +622,7 @@ export default {
     border-radius: 30px;
 }
 
-.edit1 {
+.edit3 {
     width: 30px;
     height: 30px;
 
@@ -595,7 +633,7 @@ export default {
     background: #6A4029;
 }
 
-.edit1:focus {
+.edit3:focus {
     outline: none;
 }
 

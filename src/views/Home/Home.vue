@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header />
-    <ProductCustomerAdmin />
+    <ProductAdmin />
     <router-view/>
     <Footer />
   </div>
@@ -11,14 +11,14 @@
 // @ is an alias to /src
 import Header from '@/components/module/Header.vue'
 import Footer from '@/components/module/Footer.vue'
-import ProductCustomerAdmin from '@/components/module/ProductCustomerAdmin.vue'
+import ProductAdmin from '@/components/module/ProductAdmin.vue'
 
 export default {
   name: 'Home',
   components: {
     Header,
     Footer,
-    ProductCustomerAdmin
+    ProductAdmin
   }
 }
 </script>
