@@ -35,7 +35,7 @@
 
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 import Swal from 'sweetalert2'
 export default {
   name: 'Login',
@@ -47,20 +47,43 @@ export default {
   },
   validations: {
     email: { required, email },
-    password: { required, minLength: minLength(8) }
+    password: { required, minLength: minLength(6) }
   },
 
   methods: {
     validationStatus (validation) {
       return typeof validation !== 'undefined' ? validation.$error : false
     },
+    ...mapActions(['login']),
     goLogin () {
-      Swal.fire({
-        icon: 'success',
-        title: 'success login',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      this.$v.$touch()
+      if (this.$v.$prndding || this.$v.$error) return
+      const payload = {
+        email: this.email,
+        password: this.password
+      }
+      this.login(payload)
+        .then(res => {
+          console.log(res)
+          Swal.fire({
+            icon: 'success',
+            title: 'success login',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.$router.push('/profile/user-profile')
+        })
+        .catch(err => {
+          console.log('password ' + err)
+          if (err.response.data.err.message === 'Password Wrong ') {
+            Swal.fire({
+              icon: 'error',
+              title: 'ooopss... password wrong!',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }
+        })
     },
     ...mapMutations(['togglePassword'])
   }
