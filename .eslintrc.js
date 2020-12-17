@@ -3,7 +3,6 @@ module.exports = {
   env: {
     node: true
   },
-  singleQuote: true,
   extends: [
     'plugin:vue/essential',
     '@vue/standard'
