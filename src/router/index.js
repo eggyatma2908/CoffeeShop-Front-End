@@ -5,7 +5,7 @@ import Auth from '../views/auth/Auth.vue'
 import Login from '../views/auth/Login.vue'
 import Register from '../views/auth/Register.vue'
 import ForgotPassword from '../views/auth/ForgotPassword.vue'
-import Productcustomer from '../views/Productcustomer.vue'
+import ProductCustomer from '../views/ProductCustomer.vue'
 
 Vue.use(VueRouter)
 
@@ -17,8 +17,8 @@ const routes = [
   },
   {
     path: '/productcustomer',
-    name: 'Productcustomer',
-    component: Productcustomer
+    name: 'ProductCustomer',
+    component: ProductCustomer
   },
   {
     path: '/auth',
