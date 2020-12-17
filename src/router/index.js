@@ -33,7 +33,7 @@ const routes = [
     ]
   },
   {
-    path: '/auth/forgot-password',
+    path: '/forgot-password',
     name: 'ForgotPassword',
     component: ForgotPassword
   },

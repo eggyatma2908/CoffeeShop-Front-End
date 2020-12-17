@@ -75,18 +75,25 @@
                                         <input type="date" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <input type="radio" name="gender" id="male" class="form-control">
-                                        <label for="male" class="form-label"><span></span>Male</label>
-
-                                        <input type="radio" name="gender" id="femal" class="form-control">
-                                        <label for="female" class="form-label"><span></span>Female</label>
+                                        <label class="label-radio">
+                                            <input type="radio" name="gender" id="male" class="form-control">
+                                            <span class="form-label">Male</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="gender" id="femal" class="form-control">
+                                            <span class="form-label">Female</span>
+                                        </label>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 edit-change">
-
+                        <h6 class="text-save-change">Do you want to save the change?</h6>
+                        <button type="submit" class="btn btn-save">Save Change</button>
+                        <button type="submit" class="btn btn-cancel">Cancel</button>
+                        <button type="submit" class="btn btn-edit-password">Edit Password<img src="../../assets/arrow-right.png" alt=""></button>
+                        <button type="submit" class="btn btn-logout">Log out<img src="../../assets/arrow-right.png" alt=""></button>
                     </div>
                 </div>
             </div>
@@ -112,17 +119,14 @@ main {
     background-image: url('../../assets/bg-profile.png');
     background-size: cover;
     max-height: max-content;
-}
-.jumbotron {
-    background-image: url('../../assets/bg-profile.png');
-    background-size: cover;
-    height: 1500px;
+    background-repeat: no-repeat;
 }
 
 h6.text-main {
     font-weight: 500;
     font-size: 35px;
     line-height: 50px;
+    padding-top: 60px;
 
     color: #FFFFFF;
 }
@@ -156,11 +160,12 @@ h6.text-main {
     left: 160px;
 }
 
-.box-profile .box-image .edit-image .icon-edit {
-    width: 17px;
-    height: 17px;
+.box-profile .box-image .edit-image img {
+    width: auto;
+    height: auto;
     position: absolute;
-    left: -2px;
+    top: 1px;
+    left: 1px;
 }
 
 .box-profile .user-name {
@@ -213,7 +218,7 @@ h6.text-main {
     background: #6A4029;
     position: absolute;
     top: 15px;
-    left: 660px;
+    left: 700px;
 }
 
 .box-contact .top-edit .edit-contact img,
@@ -273,38 +278,123 @@ h6.text-main {
     width: 802px;
     height: 358px;
     margin-top: 70px;
+    border-bottom: 12px solid #6A4029;
 }
 
 .box-details .form-details-right form input {
     width: 250px;
 }
 
-.box-details .form-details-right form input[type="radio"] {
-    width: 20px;
-    border: 1px solid#9F9F9F;
+.box-details .form-details-right form .form-group {
+    display: flex;
+    flex-direction: column;
 }
 
-.box-details .form-details-right form input[type="radio"] + label span {
+.box-details .form-details-right form .label-radio {
+    margin-bottom: 20px;
+}
+
+.box-details .form-details-right form label > input[type="radio"] {
+    display: none;
+}
+
+.box-details .form-details-right form label > input[type="radio"] + *::before {
+    content: "";
     display: inline-block;
-    width: 19px;
-    height: 19px;
-    margin: 1px 4px 0 0;
     vertical-align: middle;
-    cursor: pointer;
-    border: 1px solid#9F9F9F;
+    width: 20px;
+    height: 20px;
+    margin: 1px 4px 0 0;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 0.1rem;
+    border-color: #9F9F9F;
 }
 
-.box-details .form-details-right form input[type="radio"]:checked + label span {
+.box-details .form-details-right form label > input[type="radio"]:checked + *::before {
+    color: #6A4029;
     background: #FFBA33;
+    border: 4px solid #6A4029;
+}
+
+.box-details .form-details-right form label > input[type="radio"]:checked + * {
+    color: #6A4029;
 }
 
 .edit-change {
-    background: #FFFFFF;
-    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.22);
-    border-radius: 10px;
     width: 310px;
     height: 358px;
     margin-top: 70px;
     margin-left: 20px;
+    margin-bottom: 100px;
+}
+
+.edit-change .text-save-change {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    color: #FFFFFF;
+    text-shadow: 0px 6px 9px rgba(255, 255, 255, 0.21);
+}
+
+.edit-change button {
+    margin-bottom: 10px;
+}
+
+.edit-change img {
+    float: right;
+    margin-top: 5px;
+}
+
+.edit-change .btn-save {
+    font-family: 'Poppins', sans-serif;
+    background: #6A4029;
+    border-radius: 20px;
+    width: 100%;
+    height: 60px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 27px;
+    color: #FFFFFF;
+}
+
+.edit-change .btn-cancel {
+    font-family: 'Poppins', sans-serif;
+    background: #FFBA33;
+    border-radius: 20px;
+    width: 100%;
+    height: 60px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 27px;
+    color: #6A4029;
+}
+
+.edit-change .btn-edit-password {
+    font-family: 'Poppins', sans-serif;
+    background: #FFFFFF;
+    border-radius: 20px;
+    width: 100%;
+    height: 60px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 27px;
+    color: #6A4029;
+    text-align: left;
+}
+
+.edit-change .btn-logout {
+    font-family: 'Poppins', sans-serif;
+    background: #FFFFFF;
+    border-radius: 20px;
+    width: 100%;
+    height: 60px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 27px;
+    color: #6A4029;
+    text-align: left;
 }
 </style>
