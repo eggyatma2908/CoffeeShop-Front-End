@@ -1,6 +1,4 @@
 <template>
-    <div>
-        <Header />
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-4">
@@ -12,7 +10,7 @@
                             <div class="coupon1"></div>
                             <div class="coupon2"></div>
                             <div class="box2">
-                                <img class="img" src="../assets/food1.png" alt="image1">
+                                <img class="img" src="../../assets/food1.png" alt="image1">
                                 <p class="text2">Beef Spaghetti</p>
                                 <p class="text3">20% OFF</p>
                                 <p class="text4">Buy 1 Choco Oreo and get 20% off for Beef Spaghetti</p>
@@ -44,62 +42,62 @@
                     </div>
                     <div class="box4">
                         <div class="card">
-                            <img class="img1" src="../assets/food2.png" alt="image2">
+                            <img class="img1" src="../../assets/food2.png" alt="image2">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
                         </div>
                         <div class="card">
-                            <img class="img2" src="../assets/food2.png" alt="image3">
+                            <img class="img2" src="../../assets/food2.png" alt="image3">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
                         </div>
                         <div class="card">
-                            <img class="img3" src="../assets/food2.png" alt="image4">
+                            <img class="img3" src="../../assets/food2.png" alt="image4">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
                         </div>
                         <div class="card">
-                            <img class="img4" src="../assets/food2.png" alt="image5">
+                            <img class="img4" src="../../assets/food2.png" alt="image5">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
                         </div>
                         <div class="card">
-                            <img class="img5" src="../assets/food2.png" alt="image6">
+                            <img class="img5" src="../../assets/food2.png" alt="image6">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
                         </div>
                         <div class="card">
-                            <img class="img6" src="../assets/food2.png" alt="image7">
+                            <img class="img6" src="../../assets/food2.png" alt="image7">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
                         </div>
                         <div class="card">
-                            <img class="img7" src="../assets/food2.png" alt="image8">
+                            <img class="img7" src="../../assets/food2.png" alt="image8">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
                         </div>
                         <div class="card">
-                            <img class="img8" src="../assets/food2.png" alt="image9">
+                            <img class="img8" src="../../assets/food2.png" alt="image9">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
                         </div>
                         <div class="card">
-                            <img class="img9" src="../assets/food2.png" alt="image10">
+                            <img class="img9" src="../../assets/food2.png" alt="image10">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
                         </div>
                         <div class="card">
-                            <img class="img10" src="../assets/food2.png" alt="image11">
+                            <img class="img10" src="../../assets/food2.png" alt="image11">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
                         </div>
                         <div class="card">
-                            <img class="img11" src="../assets/food2.png" alt="image12">
+                            <img class="img11" src="../../assets/food2.png" alt="image12">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
                         </div>
                         <div class="card">
-                            <img class="img12" src="../assets/food2.png" alt="image13">
+                            <img class="img12" src="../../assets/food2.png" alt="image13">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
                         </div>
@@ -107,20 +105,11 @@
                 </div>
             </div>
         </div>
-        <Footer />
-    </div>
 </template>
 
 <script>
-import Header from '../components/module/Header.vue'
-import Footer from '../components/module/Footer.vue'
-
 export default {
-  name: 'Productcustomer',
-  components: {
-    Header,
-    Footer
-  }
+  name: 'Productcustomer'
 }
 </script>
 
