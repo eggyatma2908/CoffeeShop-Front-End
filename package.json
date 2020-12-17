@@ -15,12 +15,16 @@
     "register-service-worker": "^1.7.1",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "sweetalert2": "^10.12.5",
 =======
 >>>>>>> e6dae2fec4e330bcf3b87f2b7ba65e67ba82def5
 =======
     "sweetalert2": "^10.12.5",
 >>>>>>> historycust
+=======
+    "sweetalert2": "^10.12.5",
+>>>>>>> ae73c5ec890751fb752818ead5b0931a8b9e8aa5
     "vue": "^2.6.12",
     "vue-router": "^3.2.0",
     "vuelidate": "^0.7.6",

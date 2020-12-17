@@ -1,6 +1,6 @@
 <template>
     <footer>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-around box4">
             <div class="box5">
                 <div class="box6">
                     <img class="img3" src="../../assets/coffee.png" alt="Image5">
@@ -43,8 +43,12 @@ export default {
 <style scoped>
 footer {
     width: 100%;
-    height: 528px;
     background: #F8F8F8;
+}
+
+.justify-content-around{
+    padding-top: 100px;
+    padding-bottom: 100px;
 }
 
 footer .side-left {
@@ -88,10 +92,6 @@ footer .side-left .copyright {
     background: #F8F8F8;
 }
 
-.box5 {
-    margin-left: 150px;
-}
-
 .box6 {
     display: flex;
 }
@@ -103,7 +103,6 @@ footer .side-left .copyright {
 
 .box7 {
     display: flex;
-    margin-right: 150px;
 }
 
 .text7 {
@@ -145,15 +144,59 @@ footer .side-left .copyright {
 .twitter {
     margin-right: 20px;
 }
+
 .text9 {
     margin-top: 30px;
+    margin-bottom: 0px;
 
     font-family: 'Rubik', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    line-height: 30px;
 
     color: #AFB5C0;
+}
+
+.product {
+    margin-right: 126px;
+}
+
+.product p {
+    width: 71px;
+    height: 30px;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 30px;
+    color: #0B132A;
+}
+.product li {
+    list-style: none;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 30px;
+    color: #4F5665;
+}
+.engage p {
+    width: 66px;
+    height: 30px;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 30px;
+    color: #0B132A;
+}
+.engage li {
+    list-style: none;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 30px;
+    color: #4F5665;
 }
 </style>
