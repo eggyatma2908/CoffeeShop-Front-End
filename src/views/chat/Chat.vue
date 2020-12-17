@@ -1,6 +1,4 @@
 <template>
-  <div>
-    <Header />
     <main>
       <div class="card-room-chat row">
         <div class="card-room-chat-left col-5 p-5">
@@ -79,18 +77,10 @@
         </div>
       </div>
     </main>
-    <Footer />
-  </div>
 </template>
 
 <script>
-import Header from '@/components/module/Header'
-import Footer from '@/components/module/Footer'
 export default {
-  components: {
-    Header,
-    Footer
-  }
 }
 </script>
 
