@@ -13,9 +13,14 @@ import ProductDetails from '../components/module/ProductDetails.vue'
 import ProductAdmin from '../components/module/ProductAdmin.vue'
 import ProductDetailsAdmin from '../components/module/ProductDetailsAdmin.vue'
 import UserProfile from '../views/profile/UserProfile.vue'
+<<<<<<< HEAD
 import store from '../store/index'
 import PaymentDelivery from '../components/module/PaymentDelivery.vue'
 import RoomChat from '../components/module/RoomChat.vue'
+=======
+import NewProduct from '../components/module/NewProduct.vue'
+
+>>>>>>> origin/createPageNewProduct
 Vue.use(VueRouter)
 
 const routes = [
@@ -74,6 +79,11 @@ const routes = [
         name: 'RoomChat',
         component: RoomChat,
         meta: { requiresAuth: true }
+      },
+      {
+        path: 'new-product',
+        name: 'NewProduct',
+        component: NewProduct
       }
     ]
   },
