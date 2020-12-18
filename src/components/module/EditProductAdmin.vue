@@ -26,19 +26,20 @@
                     </div>
                 </div>
                 <div class="box6">
-                    <select class="selectsize">
-                        <option value="0">Select Size</option>
-                        <option value="1">R</option>
-                        <option value="2">L</option>
-                        <option value="3">XL</option>
-                    </select>
-                </div>
-                <div class="box7">
-                    <select class="selectdelivery">
-                        <option value="0">Select Delivery Methods</option>
-                        <option value="1">Dine in</option>
-                        <option value="2">Door Delivery</option>
-                        <option value="3">Pick up</option>
+                    <select>
+                        <option >Select Size</option>
+                        <option >Audi</option>
+                        <option >BMW</option>
+                        <option >Citroen</option>
+                        <option >Ford</option>
+                        <option >Honda</option>
+                        <option >Jaguar</option>
+                        <option >Land Rover</option>
+                        <option >Mercedes</option>
+                        <option >Mini</option>
+                        <option >Nissan</option>
+                        <option >Toyota</option>
+                        <option >Volvo</option>
                     </select>
                 </div>
             </div>
@@ -171,13 +172,12 @@ export default {
     border-bottom: 1px solid #9F9F9F;
 }
 
-.selectsize {
+select {
     width: 549px;
     height: 83px;
 
     padding-left: 30px;
 
-    background: #FFFFFF;
     border: 1px solid #9F9F9F;
     box-sizing: border-box;
     border-radius: 10px;
@@ -188,6 +188,11 @@ export default {
     font-size: 20px;
 
     color: #9F9F9F;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: url('../../assets/arrow.png') 96% / 10% no-repeat #FFFFFF;
 }
 
 .selectdelivery {

@@ -8,6 +8,7 @@ import ForgotPassword from '../views/auth/ForgotPassword.vue'
 // import Home from '@/views/Home.vue'
 import History from '@/components/module/History'
 import Chat from '@/components/module/Chat'
+import EditProductAdmin from '@/components/module/EditProductAdmin.vue'
 import ProductCustomer from '../components/module/ProductCustomer.vue'
 import ProductDetails from '../components/module/ProductDetails.vue'
 import UserProfile from '../views/profile/UserProfile.vue'
@@ -29,6 +30,11 @@ const routes = [
         path: 'chat',
         name: 'Chat',
         component: Chat
+      },
+      {
+        path: 'edit-product-admin',
+        name: 'EditProductAdmin',
+        component: EditProductAdmin
       },
       {
         path: 'history',
