@@ -11,6 +11,7 @@ import Chat from '@/components/module/Chat'
 import ProductCustomer from '../components/module/ProductCustomer.vue'
 import ProductDetails from '../components/module/ProductDetails.vue'
 import ProductAdmin from '../components/module/ProductAdmin.vue'
+import ProductDetailsAdmin from '../components/module/ProductDetailsAdmin.vue'
 import UserProfile from '../views/profile/UserProfile.vue'
 import store from '../store/index'
 import PaymentDelivery from '../components/module/PaymentDelivery.vue'
@@ -56,6 +57,11 @@ const routes = [
         name: 'ProductDetails',
         component: ProductDetails,
         meta: { requiresAuth: true }
+      },
+      {
+        path: 'product-details-admin',
+        name: 'ProductDetailsAdmin',
+        component: ProductDetailsAdmin
       },
       {
         path: 'payment-delivery',
