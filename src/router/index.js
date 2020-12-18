@@ -11,6 +11,7 @@ import Chat from '@/components/module/Chat'
 import ProductCustomer from '../components/module/ProductCustomer.vue'
 import ProductDetails from '../components/module/ProductDetails.vue'
 import UserProfile from '../views/profile/UserProfile.vue'
+import store from '../store/index'
 import PaymentDelivery from '../components/module/PaymentDelivery.vue'
 import RoomChat from '../components/module/RoomChat.vue'
 Vue.use(VueRouter)
@@ -18,7 +19,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: ''
+    name: '',
+    meta: { requiresAuth: true }
   },
   {
     path: '/home',
@@ -28,32 +30,38 @@ const routes = [
       {
         path: 'chat',
         name: 'Chat',
-        component: Chat
+        component: Chat,
+        meta: { requiresAuth: true }
       },
       {
         path: 'history',
         name: 'History',
-        component: History
+        component: History,
+        meta: { requiresAuth: true }
       },
       {
         path: 'product-customer',
         name: 'ProductCustomer',
-        component: ProductCustomer
+        component: ProductCustomer,
+        meta: { requiresAuth: true }
       },
       {
         path: 'product-details',
         name: 'ProductDetails',
-        component: ProductDetails
+        component: ProductDetails,
+        meta: { requiresAuth: true }
       },
       {
         path: 'payment-delivery',
         name: 'PaymentDelivery',
-        component: PaymentDelivery
+        component: PaymentDelivery,
+        meta: { requiresAuth: true }
       },
       {
         path: 'room-chat',
         name: 'RoomChat',
-        component: RoomChat
+        component: RoomChat,
+        meta: { requiresAuth: true }
       }
     ]
   },
@@ -65,24 +73,28 @@ const routes = [
       {
         path: 'login',
         name: 'Login',
-        component: Login
+        component: Login,
+        meta: { requiresVisitor: true }
       },
       {
         path: 'register',
         name: 'Register',
-        component: Register
+        component: Register,
+        meta: { requiresVisitor: true }
       }
     ]
   },
   {
     path: '/forgot-password',
     name: 'ForgotPassword',
-    component: ForgotPassword
+    component: ForgotPassword,
+    meta: { requiresVisitor: true }
   },
   {
     path: '/profile/user-profile',
     name: 'UserProfile',
-    component: UserProfile
+    component: UserProfile,
+    meta: { requiresAuth: true }
   }
 ]
 
@@ -90,6 +102,28 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.getters.isLogin) {
+      next({
+        path: '/auth/login'
+      })
+    } else {
+      next()
+    }
+  } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+    if (store.getters.isLogin) {
+      next({
+        path: '/profile/user-profile'
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 export default router
