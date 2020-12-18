@@ -7,11 +7,12 @@
                     <p class="text1">Coupons will be updated every weeks. Check them out! </p>
                     <div class="box">
                         <div class="box1">
-                            <!-- <vue-card-stack :cards="cards" :stack-width="300" :card-width="280" :scaleMultiplier="0.5">
+                            <!-- <vue-card-stack :cards="cards" :stack-width="300" :card-width="270">
                                 <template v-slot:card="{ card }">
-                                    <div style="width: 100%; height: 100%; border-radius: 10px;" :style="{ background: card.background }">
-                                        <img :src="card.img" alt="">
-                                    </div>
+                                    <div
+                                    style="width: 100%; height: 100%;"
+                                    :style="{ background: card.background }"
+                                    ></div>
                                 </template>
                             </vue-card-stack> -->
                             <div class="coupon"></div>
@@ -142,11 +143,10 @@ export default {
 //   data () {
 //     return {
 //       cards: [
-//         { img: '../../assets/food1.png', background: '#00659d' },
-//         { name: 'alex', background: '#00abbc' },
+//         { background: '#00659d' },
+//         { background: '#00abbc' },
 //         { background: '#e2c58a' },
-//         { background: '#fc8890' },
-//         { background: '#b35d7f' }
+//         { background: '#fc8890' }
 //       ]
 //     }
 //   }
