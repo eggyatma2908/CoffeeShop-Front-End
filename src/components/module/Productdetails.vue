@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-5">
                 <div class="box">
                     <div class="box1">
                         <p class="text">Favorite & Promo ></p>
@@ -10,27 +10,27 @@
                     <img class="img" src="../../assets/coffee2.png" alt="image1">
                     <p class="text2">COLD BREW</p>
                     <p class="text3">IDR 30.000</p>
-                    <button class="addcart">Add to Cart</button>
-                    <button class="askstaff">Ask a Staff</button>
+                    <button class="addcart" type="submit">Add to Cart</button>
+                    <button class="askstaff" type="submit">Ask a Staff</button>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-7">
                 <div class="box2">
                     <p class="text4">Delivery only on <b>Monday to friday</b> at  <b>1 - 7 pm</b></p>
                     <p class="text5">Cold brewing is a method of brewing that combines ground coffee and cool water and uses time instead of heat to extract the flavor. It is brewed in small batches and steeped for as long as 48 hours.</p>
                     <p class="text6">Choose a size</p>
                     <div class="box3">
-                        <button class="size">R</button>
-                        <button class="size1">L</button>
-                        <button class="size2">XL</button>
+                        <button class="size" type="submit">R</button>
+                        <button class="size1" type="submit">L</button>
+                        <button class="size2" type="submit">XL</button>
                     </div>
                 </div>
                 <div class="box4">
                     <p class="text7">Choose Delivery Methods</p>
                     <div class="box5">
-                        <button class="dinein">Dine in</button>
-                        <button class="doordelivery">Door Delivery</button>
-                        <button class="pickup">Pick up</button>
+                        <button class="dinein" type="submit">Dine in</button>
+                        <button class="doordelivery" type="submit">Door Delivery</button>
+                        <button class="pickup" type="submit">Pick up</button>
                     </div>
                     <div class="box6">
                         <label class="settime" for="settime">Set time :</label>
@@ -46,9 +46,9 @@
                                 <p class="text9">x1 (Large)</p>
                                 <p class="text10">x1 (Regular)</p>
                             </div>
-                            <div class="minus">-</div>
+                            <button class="minus" type="submit">-</button>
                             <p class="text11">2</p>
-                            <div class="plus">+</div>
+                            <button class="plus" type="submit">+</button>
                         </div>
                     </div>
                     <button class="checkout">CHECKOUT</button>
@@ -120,7 +120,6 @@ export default {
 
     font-family: Poppins;
     font-style: normal;
-    font-weight: 900;
     font-size: 40px;
 
     color: #000000;
@@ -145,9 +144,15 @@ export default {
     color: #FFFFFF;
 }
 
+.addcart:focus {
+    outline: none;
+}
+
 .askstaff {
     width: 388px;
     height: 85px;
+
+    margin-bottom: 25px;
 
     background: #FFBA33;
     border: none;
@@ -159,6 +164,10 @@ export default {
     font-size: 25px;
 
     color: #6A4029;
+}
+
+.askstaff:focus {
+    outline: none;
 }
 
 .box2 {
@@ -235,6 +244,10 @@ export default {
     color: #000000;
 }
 
+.size:focus {
+    outline: none;
+}
+
 .size1 {
     width: 70px;
     height: 70px;
@@ -251,6 +264,10 @@ export default {
     color: #000000;
 }
 
+.size1:focus {
+    outline: none;
+}
+
 .size2 {
     width: 70px;
     height: 70px;
@@ -265,6 +282,10 @@ export default {
     font-size: 30px;
 
     color: #000000;
+}
+
+.size2:focus {
+    outline: none;
 }
 
 .box4 {
@@ -324,6 +345,7 @@ export default {
 }
 
 .dinein:focus {
+    outline: none;
     background: #6A4029;
 
     font-family: Poppins;
@@ -365,6 +387,7 @@ export default {
 }
 
 .doordelivery:focus {
+    outline: none;
     background: #6A4029;
 
     font-family: Poppins;
@@ -406,6 +429,7 @@ export default {
 }
 
 .pickup:focus {
+    outline: none;
     background: #6A4029;
 
     font-family: Poppins;
@@ -452,7 +476,7 @@ export default {
     width: 732px;
     height: 168px;
     bottom: -80px;
-    left: -450px;
+    left: -400px;
 
     background: #FFFFFF;
     box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.34);
@@ -515,9 +539,10 @@ export default {
     height: 40px;
 
     padding-top: 1px;
-    padding-right: 2px;
+    padding-right: 5px;
 
     background: rgba(231, 170, 54, 0.52);
+    border: none;
     border-radius: 20px;
 
     font-family: Poppins;
@@ -528,6 +553,10 @@ export default {
     text-align: center;
 
     color: #6A4029;
+}
+
+.minus:focus {
+    outline: none;
 }
 
 .text11 {
@@ -546,6 +575,7 @@ export default {
     height: 40px;
 
     background: rgba(231, 170, 54, 0.52);
+    border: none;
     border-radius: 20px;
 
     font-family: Poppins;
@@ -556,6 +586,10 @@ export default {
     text-align: center;
 
     color: #6A4029;
+}
+
+.plus:focus {
+    outline: none;
 }
 
 .checkout {
@@ -577,6 +611,10 @@ export default {
     font-size: 25px;
 
     color: #000000;
+}
+
+.checkout:focus {
+    outline: none;
 }
 
 </style>
