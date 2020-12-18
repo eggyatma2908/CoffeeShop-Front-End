@@ -18,6 +18,12 @@
                             <form>
                                 <div class="form-group">
                                     <input type="time" class="form-control">
+                                    <span>Select start hour</span>
+                                    <!-- <input type="text" class="form-control timepicker"> -->
+                                </div>
+                                <div class="form-group">
+                                    <input type="time" class="form-control">
+                                    <span>Select end hour</span>
                                     <!-- <input type="text" class="form-control timepicker"> -->
                                 </div>
                             </form>
@@ -109,7 +115,11 @@ button.btn-choose-gallery {
     padding-top: 130px;
 }
 
-.delivery-hour .form-control {
+.delivery-hour form {
+    position: relative;
+}
+
+.delivery-hour form .form-control {
     background: #FFFFFF;
     border: 1px solid #9F9F9F;
     box-sizing: border-box;
@@ -117,4 +127,8 @@ button.btn-choose-gallery {
     width: 391px;
     height: 83px;
 }
+
+/* .delivery-hour form span {
+    position: ;
+} */
 </style>
