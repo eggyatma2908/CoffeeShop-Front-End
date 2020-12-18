@@ -10,7 +10,7 @@
                     </div>
                     <div class="box2">
                         <img class="img" src="../../assets/coffee3.png" alt="image1">
-                        <button class="box3">
+                        <button class="box3" type="submit" @click="deleteImage">
                             <img class="img1" src="../../assets/trash.png" alt="image2">
                         </button>
                     </div>
@@ -47,13 +47,16 @@
                     </div>
                     <button class="addcart" type="submit">Add to Cart</button>
                 </div>
-                <button class="editproduct" type="submit">Edit Product</button>
+                <button class="savechange" type="submit">Save change</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
+
 export default {
   name: 'EditProductAdmin',
   data () {
@@ -69,6 +72,25 @@ export default {
       if (this.count > 0) {
         this.count = this.count - 1
       }
+    },
+    deleteImage () {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Delete'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }
+      })
     }
   }
 }
@@ -346,7 +368,7 @@ select {
     outline: none;
 }
 
-.editproduct {
+.savechange {
     width: 549px;
     height: 85px;
 
@@ -362,7 +384,7 @@ select {
     border-radius: 10px;
 }
 
-.editproduct:focus {
+.savechange:focus {
     outline: none;
 }
 
