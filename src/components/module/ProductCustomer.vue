@@ -328,6 +328,10 @@ export default {
     border-radius: 20px;
 }
 
+.applycoupon:focus {
+    outline: none;
+}
+
 .box3 {
     margin-left: -70px;
     margin-bottom: 67px;
@@ -358,6 +362,10 @@ export default {
 .navbar1 {
     text-decoration: none;
 
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 60px;
+
     font-family: Rubik;
     font-style: normal;
     font-weight: normal;
@@ -368,11 +376,19 @@ export default {
 }
 
 .navbar1:focus {
+    font-weight: bold;
+    background-image: url('../../assets/listbutton.png');
+    background-repeat: no-repeat;
+    background-position: center;
     color: #6A4029;
 }
 
 .navbar2 {
     text-decoration: none;
+
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 60px;
 
     font-family: Rubik;
     font-style: normal;
@@ -384,11 +400,19 @@ export default {
 }
 
 .navbar2:focus {
+    font-weight: bold;
+    background-image: url('../../assets/listbutton.png');
+    background-repeat: no-repeat;
+    background-position: center;
     color: #6A4029;
 }
 
 .navbar3 {
     text-decoration: none;
+
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 60px;
 
     font-family: Rubik;
     font-style: normal;
@@ -400,11 +424,19 @@ export default {
 }
 
 .navbar3:focus {
+    font-weight: bold;
+    background-image: url('../../assets/listbutton.png');
+    background-repeat: no-repeat;
+    background-position: center;
     color: #6A4029;
 }
 
 .navbar4 {
     text-decoration: none;
+
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 60px;
 
     font-family: Rubik;
     font-style: normal;
@@ -416,11 +448,19 @@ export default {
 }
 
 .navbar4:focus {
+    font-weight: bold;
+    background-image: url('../../assets/listbutton.png');
+    background-repeat: no-repeat;
+    background-position: center;
     color: #6A4029;
 }
 
 .navbar5 {
     text-decoration: none;
+
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 60px;
 
     font-family: Rubik;
     font-style: normal;
@@ -432,10 +472,10 @@ export default {
 }
 
 .navbar5:focus {
-    color: #6A4029;
-}
-
-.addon:focus {
+    font-weight: bold;
+    background-image: url('../../assets/listbutton.png');
+    background-repeat: no-repeat;
+    background-position: center;
     color: #6A4029;
 }
 
@@ -447,7 +487,6 @@ export default {
     margin-top: 65px;
     margin-left: 82px;
     margin-right: 82px;
-    margin-bottom: 65px;
 }
 
 .card {
