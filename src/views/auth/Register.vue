@@ -5,7 +5,7 @@
                 <img class="img2" src="../../assets/coffee-logo.png" alt="Image2">
                 <p class="text">Coffe Shop</p>
             </div>
-            <button class="login" type="submit">Login</button>
+            <button class="login" type="submit" @click.prevent="goPageLogin">Login</button>
         </div>
         <div class="box2">
             <p class="text1">Sign Up</p>
@@ -46,7 +46,7 @@
 
 <script>
 import { required, minLength, email, numeric } from 'vuelidate/lib/validators'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 import Swal from 'sweetalert2'
 
 export default {
@@ -60,7 +60,7 @@ export default {
   },
   validations: {
     email: { required, email },
-    password: { required, minLength: minLength(8) },
+    password: { required, minLength: minLength(6) },
     phoneNumber: { required, numeric }
   },
 
@@ -68,13 +68,29 @@ export default {
     validationStatus (validation) {
       return typeof validation !== 'undefined' ? validation.$error : false
     },
+    ...mapActions(['register']),
     signUp () {
-      Swal.fire({
-        title: 'Success',
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 1000
-      })
+      this.$v.$touch()
+      if (this.$v.$prndding || this.$v.$error) return
+      const payload = {
+        email: this.email,
+        password: this.password,
+        phoneNumber: this.phoneNumber
+      }
+      this.register(payload)
+        .then(res => {
+          console.log('register ', res.data)
+          Swal.fire({
+            title: 'Success register',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1000
+          })
+          this.$router.push('/auth/login')
+        })
+    },
+    goPageLogin () {
+      this.$router.push('/auth/login')
     },
     ...mapMutations(['togglePassword'])
   }

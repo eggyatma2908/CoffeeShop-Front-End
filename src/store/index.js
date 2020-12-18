@@ -10,6 +10,7 @@ export default new Vuex.Store({
   state: {
     password: '',
     user: {},
+    userRegister: [],
     accessToken: null || localStorage.getItem('accessToken'),
     refreshToken: null || localStorage.getItem('refreshToken')
   },
@@ -28,6 +29,9 @@ export default new Vuex.Store({
       state.accessToken = payload.accessToken
       state.refreshToken = payload.refreshToken
     },
+    SET_REGISTER (state, payload) {
+      state.userRegister = payload
+    },
     REMOVE_TOKEN (state) {
       state.accessToken = null
       state.refreshToken = null
@@ -44,6 +48,17 @@ export default new Vuex.Store({
             localStorage.setItem('refreshToken', result.refreshToken)
             context.commit('SET_USER', result)
             context.dispatch('interceptorRequest')
+            resolve(result)
+          })
+      })
+    },
+    register (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.post(`${process.env.VUE_APP_URL_API}/users/register`, payload)
+          .then(res => {
+            const result = res.data.result
+            console.log('lagi register' + result)
+            context.commit('SET_REGISTER', result)
             resolve(result)
           })
       })

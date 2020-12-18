@@ -58,6 +58,15 @@ export default {
     goLogin () {
       this.$v.$touch()
       if (this.$v.$prndding || this.$v.$error) return
+      if (this.emailVerification === 0) {
+        Swal.fire({
+          icon: 'Failed',
+          title: 'you must verify your account, please check your email',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        return
+      }
       const payload = {
         email: this.email,
         password: this.password
