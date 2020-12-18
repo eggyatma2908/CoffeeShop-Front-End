@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
@@ -71,6 +72,50 @@ export default new Vuex.Store({
               timer: 1500
             })
             resolve(result)
+          })
+      })
+    },
+    getProductCoffee (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=coffee&limit=12`)
+          .then(results => {
+            resolve(results.data.result)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+    },
+    getProductFoods (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=food&limit=12`)
+          .then(results => {
+            resolve(results.data.result)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+    },
+    getProductNonCoffee () {
+      return new Promise((resolve, reject) => {
+        axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=non-coffee &limit=12`)
+          .then(results => {
+            resolve(results.data.result)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+    },
+    getProductAddOn () {
+      return new Promise((resolve, reject) => {
+        axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=add-on&limit=12`)
+          .then(results => {
+            resolve(results.data.result)
+          })
+          .catch(error => {
+            console.log(error)
           })
       })
     },

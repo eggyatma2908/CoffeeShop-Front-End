@@ -9,7 +9,7 @@ import ForgotPassword from '../views/auth/ForgotPassword.vue'
 import History from '@/components/module/History'
 import Chat from '@/components/module/Chat'
 import EditProductAdmin from '@/components/module/EditProductAdmin.vue'
-import ProductCustomer from '../components/module/ProductCustomer.vue'
+import ProductCustomer from '../components/module/ProductCustomer/ProductCustomer.vue'
 import ProductDetails from '../components/module/ProductDetails.vue'
 import ProductAdmin from '../components/module/ProductAdmin.vue'
 import ProductDetailsAdmin from '../components/module/ProductDetailsAdmin.vue'
@@ -18,6 +18,11 @@ import store from '../store/index'
 import PaymentDelivery from '../components/module/PaymentDelivery.vue'
 import RoomChat from '../components/module/RoomChat.vue'
 import NewProduct from '../components/module/NewProduct.vue'
+import FavoriteProduct from '../components/module/ProductCustomer/components/FavoriteProducts.vue'
+import NonCoffee from '../components/module/ProductCustomer/components/NonCoffee.vue'
+import Foods from '../components/module/ProductCustomer/components/Foods.vue'
+import Coffee from '../components/module/ProductCustomer/components/Coffee.vue'
+import AddOn from '../components/module/ProductCustomer/components/AddOn.vue'
 
 Vue.use(VueRouter)
 
@@ -53,7 +58,34 @@ const routes = [
         path: 'product-customer',
         name: 'ProductCustomer',
         component: ProductCustomer,
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true },
+        children: [
+          {
+            path: 'favorite-product',
+            name: 'FavoriteProduct',
+            component: FavoriteProduct
+          },
+          {
+            path: 'non-coffee',
+            name: 'NonCoffee',
+            component: NonCoffee
+          },
+          {
+            path: 'coffee',
+            name: 'Coffee',
+            component: Coffee
+          },
+          {
+            path: 'foods',
+            name: 'Foods',
+            component: Foods
+          },
+          {
+            path: 'add-on',
+            name: 'AddOn',
+            component: AddOn
+          }
+        ]
       },
       {
         path: 'product-admin',
