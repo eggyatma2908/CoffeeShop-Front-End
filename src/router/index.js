@@ -11,6 +11,7 @@ import Chat from '@/components/module/Chat'
 import ProductCustomer from '../components/module/ProductCustomer.vue'
 import ProductDetails from '../components/module/ProductDetails.vue'
 import UserProfile from '../views/profile/UserProfile.vue'
+import NewProduct from '../components/module/NewProduct.vue'
 
 Vue.use(VueRouter)
 
@@ -43,6 +44,11 @@ const routes = [
         path: 'product-details',
         name: 'ProductDetails',
         component: ProductDetails
+      },
+      {
+        path: 'new-product',
+        name: 'NewProduct',
+        component: NewProduct
       }
     ]
   },
