@@ -10,6 +10,7 @@ import History from '@/components/module/History'
 import Chat from '@/components/module/Chat'
 import ProductCustomer from '../components/module/ProductCustomer.vue'
 import ProductDetails from '../components/module/ProductDetails.vue'
+import ProductAdmin from '../components/module/ProductAdmin.vue'
 import UserProfile from '../views/profile/UserProfile.vue'
 import store from '../store/index'
 import PaymentDelivery from '../components/module/PaymentDelivery.vue'
@@ -44,6 +45,11 @@ const routes = [
         name: 'ProductCustomer',
         component: ProductCustomer,
         meta: { requiresAuth: true }
+      },
+      {
+        path: 'product-admin',
+        name: 'ProductAdmin',
+        component: ProductAdmin
       },
       {
         path: 'product-details',

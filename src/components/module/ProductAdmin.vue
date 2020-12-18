@@ -1,4 +1,5 @@
 <template>
+    <div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-4">
@@ -7,9 +8,10 @@
                     <div class="box">
                         <div class="box1">
                             <div class="coupon"></div>
-                            <div class="coupon1"></div>
-                            <div class="coupon2"></div>
+                            <div class="coupon1"><button class="edit"><img src="../../assets/pen.png" alt="image"></button></div>
+                            <div class="coupon2"><button class="edit1"><img src="../../assets/pen1.png" alt="image"></button></div>
                             <div class="box2">
+                                <button class="edit2"><img src="../../assets/pen.png" alt="image"></button>
                                 <img class="img" src="../../assets/food1.png" alt="image1">
                                 <p class="text2">Beef Spaghetti</p>
                                 <p class="text3">20% OFF</p>
@@ -30,6 +32,7 @@
                                 <li>Should make member card to apply coupon</li>
                             </ol>
                         </div>
+                        <button class="addnewpromo" type="submit">Add new promo</button>
                     </div>
                 </div>
                 <div class="col-lg-8">
@@ -45,71 +48,85 @@
                             <img class="img1" src="../../assets/food2.png" alt="image2">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img2" src="../../assets/food2.png" alt="image3">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img3" src="../../assets/food2.png" alt="image4">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img4" src="../../assets/food2.png" alt="image5">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img5" src="../../assets/food2.png" alt="image6">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img6" src="../../assets/food2.png" alt="image7">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img7" src="../../assets/food2.png" alt="image8">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img8" src="../../assets/food2.png" alt="image9">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img9" src="../../assets/food2.png" alt="image10">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img10" src="../../assets/food2.png" alt="image11">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img11" src="../../assets/food2.png" alt="image12">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
                         <div class="card">
                             <img class="img12" src="../../assets/food2.png" alt="image13">
                             <p class="productname">Veggie tomato mix</p>
                             <p class="price">IDR 34.000</p>
+                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
                         </div>
+                        <button class="addnewproduct">Add new product</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
 export default {
-  name: 'ProductCustomer'
+  name: 'ProductAdmin'
 }
 </script>
 
@@ -192,8 +209,65 @@ export default {
     z-index: -2;
 }
 
+.edit {
+    position: absolute;
+    top: 10px;
+    left: 100px;
+
+    width: 30px;
+    height: 30px;
+
+    margin-left: 130px;
+
+    border: none;
+    border-radius: 20px;
+    background: #6A4029;
+}
+
+.edit:focus {
+    outline: none;
+}
+
+.edit1 {
+    position: absolute;
+    top: 10px;
+    left: 115px;
+
+    width: 30px;
+    height: 30px;
+
+    margin-left: 130px;
+
+    border: none;
+    border-radius: 20px;
+    background: #FFBA33;
+}
+
+.edit1:focus {
+    outline: none;
+}
+
 .box2 {
     position: relative;
+}
+
+.edit2 {
+    position: absolute;
+    top: -460px;
+    left: 110px;
+
+    width: 30px;
+    height: 30px;
+
+    margin-left: 130px;
+
+    border: none;
+    border-radius: 20px;
+    background: #6A4029;
+}
+
+.edit2:focus {
+    outline: none;
 }
 
 .img {
@@ -347,6 +421,28 @@ export default {
     line-height: 14px;
 
     color: #4F5665;
+}
+
+.addnewpromo {
+    width: 284px;
+    height: 90px;
+
+    margin-bottom: 95px;
+
+    background: #FFBA33;
+    border: none;
+    border-radius: 20px;
+
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+
+    color: #6A4029;
+}
+
+.addnewpromo:focus {
+    outline: none;
 }
 
 .menu {
@@ -503,6 +599,21 @@ export default {
     border-radius: 30px;
 }
 
+.edit3 {
+    width: 30px;
+    height: 30px;
+
+    margin-left: 130px;
+
+    border: none;
+    border-radius: 20px;
+    background: #6A4029;
+}
+
+.edit3:focus {
+    outline: none;
+}
+
 .productname {
     width: 117px;
     height: 61px;
@@ -530,6 +641,29 @@ export default {
     text-align: center;
 
     color: #6A4029;
+}
+
+.addnewproduct {
+    width: 729px;
+    height: 90px;
+
+    margin-top: 70px;
+
+    background: #6A4029;
+    border: none;
+    border-radius: 20px;
+
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 30px;
+
+    color: #FFFFFF;
+}
+
+.addnewproduct:focus {
+    outline: none;
 }
 
 </style>
