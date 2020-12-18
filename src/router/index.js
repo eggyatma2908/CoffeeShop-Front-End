@@ -10,6 +10,7 @@ import History from '@/components/module/History'
 import Chat from '@/components/module/Chat'
 import ProductCustomer from '../components/module/ProductCustomer.vue'
 import ProductDetails from '../components/module/ProductDetails.vue'
+import ProductDetailsAdmin from '../components/module/ProductDetailsAdmin.vue'
 import UserProfile from '../views/profile/UserProfile.vue'
 import PaymentDelivery from '../components/module/PaymentDelivery.vue'
 import RoomChat from '../components/module/RoomChat.vue'
@@ -44,6 +45,11 @@ const routes = [
         path: 'product-details',
         name: 'ProductDetails',
         component: ProductDetails
+      },
+      {
+        path: 'product-details-admin',
+        name: 'ProductDetailsAdmin',
+        component: ProductDetailsAdmin
       },
       {
         path: 'payment-delivery',

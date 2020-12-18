@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <div class="container-fluid">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-lg-5">
                 <div class="box">
@@ -57,7 +56,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
 
