@@ -10,6 +10,7 @@ import History from '@/components/module/History'
 import Chat from '@/components/module/Chat'
 import ProductCustomer from '../components/module/ProductCustomer.vue'
 import ProductDetails from '../components/module/ProductDetails.vue'
+import ProductAdmin from '../components/module/ProductAdmin.vue'
 import UserProfile from '../views/profile/UserProfile.vue'
 
 Vue.use(VueRouter)
@@ -38,6 +39,11 @@ const routes = [
         path: 'product-customer',
         name: 'ProductCustomer',
         component: ProductCustomer
+      },
+      {
+        path: 'product-admin',
+        name: 'ProductAdmin',
+        component: ProductAdmin
       },
       {
         path: 'product-details',

@@ -7,14 +7,6 @@
                     <p class="text1">Coupons will be updated every weeks. Check them out! </p>
                     <div class="box">
                         <div class="box1">
-                            <!-- <vue-card-stack :cards="cards" :stack-width="300" :card-width="270">
-                                <template v-slot:card="{ card }">
-                                    <div
-                                    style="width: 100%; height: 100%;"
-                                    :style="{ background: card.background }"
-                                    ></div>
-                                </template>
-                            </vue-card-stack> -->
                             <div class="coupon"></div>
                             <div class="coupon1"><button class="edit"><img src="../../assets/pen.png" alt="image"></button></div>
                             <div class="coupon2"><button class="edit1"><img src="../../assets/pen1.png" alt="image"></button></div>
@@ -133,23 +125,8 @@
 </template>
 
 <script>
-// import VueCardStack from 'vue-card-stack'
-
 export default {
   name: 'ProductAdmin'
-//   components: {
-//     VueCardStack
-//   },
-//   data () {
-//     return {
-//       cards: [
-//         { background: '#00659d' },
-//         { background: '#00abbc' },
-//         { background: '#e2c58a' },
-//         { background: '#fc8890' }
-//       ]
-//     }
-//   }
 }
 </script>
 
