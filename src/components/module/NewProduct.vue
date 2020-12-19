@@ -59,9 +59,18 @@
                             <h6 class="text-input-product">Input product size :</h6>
                             <p>Click methods you want to use for this product</p>
                             <div class="product-size">
-                                <input type="radio" class="btn btn-reguler" value="R">
-                                <input type="radio" class="btn btn-large" value="L">
-                                <input type="radio" class="btn btn-xtra-large" value="XL">
+                                <div class="size">
+                                    <input class="radiobtn" type="radio" id="reguler" name="size" value="reguler">
+                                    <label for="reguler">R</label><br>
+                                </div>
+                                <div class="size">
+                                    <input class="radiobtn" type="radio" id="large" name="size" value="large">
+                                    <label for="large">L</label><br>
+                                </div>
+                                <div class="size">
+                                    <input class="radiobtn" type="radio" id="xtra-large" name="size" value="xtra-large">
+                                    <label for="xtra-large">XL</label>
+                                </div>
                                 <button class="btn btn-250-gr">250 gr</button>
                                 <button class="btn btn-300-gr">300 gr</button>
                                 <button class="btn btn-500-gr">500 gr</button>
@@ -74,7 +83,7 @@
                                 <button class="btn btn-dine-in">Dine in</button>
                                 <button class="btn btn-take-away">Take away</button>
                             </div>
-                            <button type="submit" class="btn btn-save" @click.prevent="saveNewProduct">Save Product</button>
+                            <button type="submit" class="btn btn-save" @click.prevent="save">Save Product</button>
                             <button class="btn btn-cancel">Cancel</button>
                         </form>
                     </div>
@@ -91,9 +100,8 @@ export default {
   data () {
     return {
       productName: '',
-      price: 0,
-      description: '',
-      category: ''
+      price: '',
+      description: ''
     }
   },
   validations: {
@@ -108,17 +116,17 @@ export default {
     }
   },
   ...mapActions(['addNewProduct']),
-  saveNewProduct () {
+  save () {
     this.$v.$touch()
     if (this.$v.$pendding || this.$v.$error) return
+    const form = new FormData()
+    form.append(this.productName)
+    form.append(this.price)
+    form.append(this.description)
     const payload = {
-      productName: this.productName,
-      price: this.price,
-      description: this.description
+      formData: form
     }
     this.addNewProduct(payload)
-      .then(() => {
-      })
   }
 }
 </script>
@@ -294,12 +302,46 @@ form .delivery-methods {
     display: flex;
 }
 
+.size {
+    position: relative;
+
+    margin-top: 50px;
+
+    width: 70px;
+    height: 70px;
+
+    background: rgba(186, 186, 186, 0.35);
+    border-radius: 50%;
+    margin-left: 20px;
+    padding: 10px;
+
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 45px;
+    text-align: center;
+
+    color: #000000;
+}
+
+.radiobtn {
+    position:absolute;
+    top: 0px;
+    right: 0px;
+    width: 70px;
+    height: 70px;
+    background: rgba(186, 186, 186, 0.35);
+    border-radius: 50%;
+    margin-left: 20px;
+    opacity: 1;
+}
+
 form .btn-reguler,
 form .btn-large,
 form .btn-xtra-large,
 form .btn-250-gr,
 form .btn-300-gr,
 form .btn-500-gr {
+    position: relative;
     width: 70px;
     height: 70px;
     background: rgba(186, 186, 186, 0.35);

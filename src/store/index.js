@@ -45,7 +45,7 @@ export default new Vuex.Store({
       state.userData = payload
     },
     SET_DATA_PRODCUT (state, payload) {
-      state.dataProdcut = payload
+      state.dataProduct = payload
     }
   },
   actions: {
@@ -54,6 +54,7 @@ export default new Vuex.Store({
         axios.post(`${process.env.VUE_APP_URL_API}/users/login`, payload)
           .then(res => {
             const result = res.data.result
+            console.log(result)
             localStorage.setItem('accessToken', result.accessToken)
             localStorage.setItem('refreshToken', result.refreshToken)
             jwt.verify(result.accessToken, process.env.VUE_APP_ACCESS_TOKEN_KEY, (error, data) => {
@@ -150,10 +151,9 @@ export default new Vuex.Store({
     },
     addNewProduct (context, payload) {
       return new Promise((resolve, reject) => {
-        axios.post(`${process.env.VUE_APP_URL_API}/products`, payload)
-          .then(result => {
-            console.log(result.data.result)
-            resolve(result.data.result)
+        axios.post(`${process.env.VUE_APP_URL_API}/products`, payload.formData)
+          .then(res => {
+            resolve(res)
           })
           .catch(error => {
             console.log(error)
