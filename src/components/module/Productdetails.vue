@@ -4,19 +4,19 @@
             <div class="col-lg-5">
                 <div class="box">
                     <div class="box1">
-                        <p class="text">{{ this.$route.query.type }} ></p>
-                        <p class="text1">Cold Brew</p>
+                        <p class="text" @click="backToType">{{ this.$route.query.type }} ></p>
+                        <p class="text1" @click="backToType">{{ productDetails.productName }}</p>
                     </div>
-                    <img class="img" src="../../assets/coffee2.png" alt="image1">
-                    <p class="text2">COLD BREW</p>
-                    <p class="text3">IDR 30.000</p>
+                    <img class="img" :src="productDetails.photoProduct" alt="image1">
+                    <p class="text2">{{ productDetails.productName }}</p>
+                    <p class="text3">IDR {{ productDetails.price }}</p>
                     <button class="addcart" type="submit">Add to Cart</button>
                     <button class="askstaff" type="submit">Ask a Staff</button>
                 </div>
             </div>
             <div class="col-lg-7">
                 <div class="box2">
-                    <p class="text4">Delivery only on <b>Monday to friday</b> at  <b>1 - 7 pm</b></p>
+                    <p class="text4">Delivery only on <b>Monday to friday</b> at  <b>{{ productDetails.deliveryHourStart }} - {{ productDetails.deliveryHourEnd }} pm</b></p>
                     <p class="text5">Cold brewing is a method of brewing that combines ground coffee and cool water and uses time instead of heat to extract the flavor. It is brewed in small batches and steeped for as long as 48 hours.</p>
                     <p class="text6">Choose a size</p>
                     <div class="box3">
@@ -76,6 +76,9 @@ export default {
       }
       const resultsProductDetails = await this.getProductDetailsById(payload)
       this.productDetails = resultsProductDetails
+    },
+    backToType () {
+      this.$router.go(-1)
     }
   },
   async mounted () {
@@ -102,7 +105,10 @@ export default {
     margin-top: 50px;
     margin-bottom: 60px;
 }
-
+.text {
+    text-transform:capitalize;
+		cursor:pointer;
+}
 .text1 {
     margin-left: 5px;
 
@@ -110,8 +116,9 @@ export default {
     font-style: normal;
     font-weight: normal;
     font-size: 17px;
-
+    text-transform:capitalize;
     color: #6A4029;
+		cursor:pointer;
 }
 
 .img {

@@ -26,7 +26,7 @@ export default {
       this.dataCoffee = result.products
     },
     toProductDetails (idProduct) {
-      this.$router.push({ path: '/home/product-details/' + idProduct })
+      this.$router.push({ path: '/home/product-details/' + idProduct, query: { type: 'coffee' } })
     }
   },
   async mounted () {
