@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+        <div class="container-fluid">
         <div class="row">
             <div class="col-lg-4">
                 <p class="text">Promo for you</p>
@@ -56,68 +56,7 @@
                     <div class="foods"><router-link class="navbar4" :to="{path: '#'}">Foods</router-link></div>
                     <div class="addon"><router-link class="navbar5" :to="{path: '#'}">Add-on</router-link></div>
                 </div>
-                <div class="box5">
-                    <div class="card">
-                        <img class="img1" src="../../assets/food2.png" alt="image2">
-                        <p class="productname">Veggie tomato mix</p>
-                        <p class="price">IDR 34.000</p>
-                    </div>
-                    <div class="card">
-                        <img class="img2" src="../../assets/food2.png" alt="image3">
-                        <p class="productname">Veggie tomato mix</p>
-                        <p class="price">IDR 34.000</p>
-                    </div>
-                    <div class="card">
-                        <img class="img3" src="../../assets/food2.png" alt="image4">
-                        <p class="productname">Veggie tomato mix</p>
-                        <p class="price">IDR 34.000</p>
-                    </div>
-                    <div class="card">
-                        <img class="img4" src="../../assets/food2.png" alt="image5">
-                        <p class="productname">Veggie tomato mix</p>
-                        <p class="price">IDR 34.000</p>
-                    </div>
-                    <div class="card">
-                        <img class="img5" src="../../assets/food2.png" alt="image6">
-                        <p class="productname">Veggie tomato mix</p>
-                        <p class="price">IDR 34.000</p>
-                    </div>
-                    <div class="card">
-                        <img class="img6" src="../../assets/food2.png" alt="image7">
-                        <p class="productname">Veggie tomato mix</p>
-                        <p class="price">IDR 34.000</p>
-                    </div>
-                    <div class="card">
-                        <img class="img7" src="../../assets/food2.png" alt="image8">
-                        <p class="productname">Veggie tomato mix</p>
-                        <p class="price">IDR 34.000</p>
-                    </div>
-                    <div class="card">
-                        <img class="img8" src="../../assets/food2.png" alt="image9">
-                        <p class="productname">Veggie tomato mix</p>
-                        <p class="price">IDR 34.000</p>
-                    </div>
-                    <div class="card">
-                        <img class="img9" src="../../assets/food2.png" alt="image10">
-                        <p class="productname">Veggie tomato mix</p>
-                        <p class="price">IDR 34.000</p>
-                    </div>
-                    <div class="card">
-                        <img class="img10" src="../../assets/food2.png" alt="image11">
-                        <p class="productname">Veggie tomato mix</p>
-                        <p class="price">IDR 34.000</p>
-                    </div>
-                    <div class="card">
-                        <img class="img11" src="../../assets/food2.png" alt="image12">
-                        <p class="productname">Veggie tomato mix</p>
-                        <p class="price">IDR 34.000</p>
-                    </div>
-                    <div class="card">
-                        <img class="img12" src="../../assets/food2.png" alt="image13">
-                        <p class="productname">Veggie tomato mix</p>
-                        <p class="price">IDR 34.000</p>
-                    </div>
-                </div>
+                <router-view/>
             </div>
         </div>
     </div>
@@ -127,7 +66,7 @@
 import VueCardStack from 'vue-card-stack'
 
 export default {
-  name: 'Productcustomer',
+  name: 'ProductCustomer',
   components: {
     VueCardStack
   },
@@ -136,7 +75,7 @@ export default {
       cards: [
         {
           background: '#FFCB65',
-          image: require('../../assets/food1.png'),
+          image: require('../../../assets/food1.png'),
           foodName: 'Beef Spaghetti',
           diskon: '20% OFF',
           required: 'Buy 1 Choco Oreo and get 20% off for Beef Spaghetti',
@@ -147,7 +86,7 @@ export default {
         {
           background: '#000000',
           color: '#FFFFFF',
-          image: require('../../assets/food1.png'),
+          image: require('../../../assets/food1.png'),
           foodName: 'Beef Spaghetti',
           diskon: '20% OFF',
           required: 'Buy 1 Choco Oreo and get 20% off for Beef Spaghetti',
@@ -157,7 +96,7 @@ export default {
         },
         {
           background: '#895537',
-          image: require('../../assets/food1.png'),
+          image: require('../../../assets/food1.png'),
           foodName: 'Beef Spaghetti',
           diskon: '20% OFF',
           required: 'Buy 1 Choco Oreo and get 20% off for Beef Spaghetti',
@@ -167,7 +106,7 @@ export default {
         },
         {
           background: '#fc8890',
-          image: require('../../assets/food1.png'),
+          image: require('../../../assets/food1.png'),
           foodName: 'Beef Spaghetti',
           diskon: '20% OFF',
           required: 'Buy 1 Choco Oreo and get 20% off for Beef Spaghetti',
@@ -177,7 +116,7 @@ export default {
         },
         {
           background: '#b35d7f',
-          image: require('../../assets/food1.png'),
+          image: require('../../../assets/food1.png'),
           foodName: 'Beef Spaghetti',
           diskon: '20% OFF',
           required: 'Buy 1 Choco Oreo and get 20% off for Beef Spaghetti',
