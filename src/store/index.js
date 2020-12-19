@@ -165,11 +165,7 @@ export default new Vuex.Store({
         }
         return response
       }, function (error) {
-<<<<<<< HEAD
-        if (error.response.status === 401) {
-=======
         if (error.response.data.status === 401) {
->>>>>>> origin/register
           if (error.response.data.err.message === 'Invalid Token') {
             localStorage.removeItem('accessToken')
             localStorage.removeItem('refreshToken')
