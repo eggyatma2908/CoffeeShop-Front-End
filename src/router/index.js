@@ -90,7 +90,8 @@ const routes = [
       {
         path: 'product-admin',
         name: 'ProductAdmin',
-        component: ProductAdmin
+        component: ProductAdmin,
+        meta: { requiresAuth: true }
       },
       {
         path: 'product-details/:idProduct',
@@ -101,7 +102,8 @@ const routes = [
       {
         path: 'product-details-admin',
         name: 'ProductDetailsAdmin',
-        component: ProductDetailsAdmin
+        component: ProductDetailsAdmin,
+        meta: { requiresAuth: true }
       },
       {
         path: 'payment-delivery',

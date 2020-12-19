@@ -1,16 +1,13 @@
 <template>
-    <div class="col-lg-10 col-md-10 right">
-        <div class="box">
-            <div class="box1">
-                <img class="img2" src="../../assets/coffee-logo.png" alt="Image2">
-                <p class="text">Coffe Shop</p>
-            </div>
-            <button class="login" type="submit">Login</button>
+    <div class="col-lg-10 col-md-10 form-box">
+        <div class="top">
+            <img src="../../assets/coffee-logo.png" alt="coffee logo">
+            <p class="coffee-shop">Coffee Shop</p>
+            <button type="submit" class="btn login" @click.prevent="goPageLogin">Login</button>
         </div>
-        <div class="box2">
-            <p class="text1">Sign Up</p>
-        </div>
-        <div class="box3">
+
+        <h6 class="sign-up">Sign Up</h6>
+
             <form>
                 <div class="mb-3 mt-5 form-group">
                     <label class="form-label">Email Address:</label>
@@ -40,14 +37,12 @@
                 <button type="submit" class="btn btn-login" @click.prevent="signUp">Sign Up</button>
                 <button type="submit" class="btn login-google"><img src="../../assets/google-logo.png" alt="">Sign Up with Google</button>
             </form>
-        </div>
     </div>
 </template>
 
 <script>
 import { required, minLength, email, numeric } from 'vuelidate/lib/validators'
-import { mapMutations } from 'vuex'
-import Swal from 'sweetalert2'
+import { mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'Register',
@@ -60,7 +55,7 @@ export default {
   },
   validations: {
     email: { required, email },
-    password: { required, minLength: minLength(8) },
+    password: { required, minLength: minLength(6) },
     phoneNumber: { required, numeric }
   },
 
@@ -68,13 +63,21 @@ export default {
     validationStatus (validation) {
       return typeof validation !== 'undefined' ? validation.$error : false
     },
+    ...mapActions(['register']),
     signUp () {
-      Swal.fire({
-        title: 'Success',
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 1000
-      })
+      this.$v.$touch()
+      if (this.$v.$prndding || this.$v.$error) return
+      const payload = {
+        email: this.email,
+        password: this.password,
+        phoneNumber: this.phoneNumber
+      }
+      this.register(payload)
+        .then(() => {
+        })
+    },
+    goPageLogin () {
+      this.$router.push('/auth/login')
     },
     ...mapMutations(['togglePassword'])
   }
@@ -82,93 +85,61 @@ export default {
 </script>
 
 <style scoped>
-body {
-    margin: 0px;
-    padding: 0px;
-}
-
-.left {
-    margin: 0px;
-    padding: 0px;
-}
-
-.img1 {
-    width: 100%;
-    height: 100%;
-}
-
-.right {
-    margin: 0px;
-    padding: 0px;
-}
-
-.box {
+.form-box {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    position: relative;
 }
 
-.box1 {
+.form-box .top {
     display: flex;
-    flex-direction: row;
+    margin-top: 35px;
 }
 
-.img2 {
-    width: 30px;
-    height: 33px;
-
-    margin-left: 55px;
-    margin-top: 55px
+.form-box .top img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 
-.text {
-    width: 122px;
-    height: 24px;
-
-    margin-left: 15px;
-    margin-top: 59px;
-
-    font-family: Rubik;
-    font-style: normal;
+.form-box .top .coffee-shop {
+    margin-top: 15px;
+    margin-left: 5px;
     font-weight: bold;
     font-size: 20px;
     line-height: 24px;
-
     color: #0B132A;
 }
 
-.login {
+.form-box .top .btn.login {
+    border-radius: 50px;
+    background: #FFBA33;
+
     width: 150px;
     height: 45px;
-
-    margin-top: 55px;
-    margin-right: 55px;
-
-    background: #FFBA33;
-    border: none;
-    border-radius: 50px;
-
-    font-family: Rubik;
-    font-style: normal;
+    font-weight: 500;
+    line-height: 19px;
+    margin-left: 210px;
+    margin-top: 5px;
     font-weight: 500;
     font-size: 16px;
-    line-height: 19px;
-
+    padding-top: 3px;
     color: #6A4029;
 }
 
-.login:focus {
+.form-box .top .btn.login:focus {
     outline: none;
+    box-shadow: none;
 }
 
-.box2 {
-    display: flex;
-    justify-content: center;
-}
+.form-box .sign-up {
+    font-weight: bold;
+    font-size: 35px;
+    line-height: 41px;
+    text-align: center;
+    margin-top: 140px;
 
-.box3 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    color: #6A4029;
 }
 
 form .form-label {

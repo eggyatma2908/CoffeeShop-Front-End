@@ -4,14 +4,15 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import createPersistedState from 'vuex-persistedstate'
 import router from '../router/index'
-import jwt from 'jsonwebtoken'
 import Swal from 'sweetalert2'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     password: '',
     user: {},
+    userRegister: [],
     accessToken: null || localStorage.getItem('accessToken'),
     refreshToken: null || localStorage.getItem('refreshToken'),
     userData: ''
@@ -30,6 +31,9 @@ export default new Vuex.Store({
       state.user = payload
       state.accessToken = payload.accessToken
       state.refreshToken = payload.refreshToken
+    },
+    SET_REGISTER (state, payload) {
+      state.userRegister = payload
     },
     REMOVE_TOKEN (state) {
       state.accessToken = null
@@ -56,7 +60,15 @@ export default new Vuex.Store({
             })
             context.commit('SET_USER', result)
             context.dispatch('interceptorRequest')
-            resolve(result)
+            resolve(res)
+          })
+      })
+    },
+    register (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.post(`${process.env.VUE_APP_URL_API}/users/register`, payload)
+          .then(res => {
+            resolve(res)
           })
       })
     },
@@ -140,22 +152,77 @@ export default new Vuex.Store({
     },
     interceptorResponse (context) {
       axios.interceptors.response.use(function (response) {
+        if (response.data.statusCode === 200) {
+          if (response.data.result.message === 'User Has been created') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success register',
+              showConfirmButton: false,
+              timer: 5000
+            })
+            router.push('/auth/login')
+          }
+        }
         return response
       }, function (error) {
+<<<<<<< HEAD
         if (error.response.status === 401) {
+=======
+        if (error.response.data.status === 401) {
+>>>>>>> origin/register
           if (error.response.data.err.message === 'Invalid Token') {
             localStorage.removeItem('accessToken')
             localStorage.removeItem('refreshToken')
             context.commit('REMOVE_TOKEN')
-            alert('dont change token')
+            Swal.fire({
+              icon: 'error',
+              title: 'Invalid Token',
+              showConfirmButton: false,
+              timer: 1500
+            })
             router.push('/auth/login')
           } else if (error.response.data.err.message === 'Access Token expired') {
             localStorage.removeItem('accessToken')
             localStorage.removeItem('refreshToken')
             context.commit('REMOVE_TOKEN')
-            alert('token expired')
+            Swal.fire({
+              icon: 'error',
+              title: 'Access Token expired',
+              showConfirmButton: false,
+              timer: 1500
+            })
             router.push('/auth/login')
+          } else if (error.response.data.err.message === 'Password Wrong ') {
+            Swal.fire({
+              icon: 'error',
+              title: 'ooopss... password wrong!',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          } else if (error.response.data.err.message === 'Email has not been verified') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Email has not been verified',
+              showConfirmButton: false,
+              timer: 1500
+            })
           }
+        } else if (error.response.data.status === 409) {
+          if (error.response.data.err.message === 'Forbidden: Email already exists. ') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Email already exists',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }
+        } else if (error.response.data.status === 500) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Looks like server having trouble',
+            showConfirmButton: false,
+            timer: 1500
+          })
         }
         return Promise.reject(error)
       })

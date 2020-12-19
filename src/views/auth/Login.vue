@@ -3,7 +3,7 @@
         <div class="top">
             <img src="../../assets/coffee-logo.png" alt="coffee logo">
             <p class="coffee-shop">Coffee Shop</p>
-            <button type="submit" class="btn sign-up">Sign Up</button>
+            <button type="submit" class="btn sign-up" @click.prevent="goPageRegister">Sign Up</button>
         </div>
 
         <h6 class="login">Login</h6>
@@ -57,14 +57,14 @@ export default {
     ...mapActions(['login']),
     goLogin () {
       this.$v.$touch()
-      if (this.$v.$prndding || this.$v.$error) return
+      if (this.$v.$pendding || this.$v.$error) return
       const payload = {
         email: this.email,
         password: this.password
       }
       this.login(payload)
         .then(res => {
-          console.log(res)
+          console.log(res, 'halo')
           Swal.fire({
             icon: 'success',
             title: 'success login',
@@ -73,17 +73,9 @@ export default {
           })
           this.$router.push('/profile/user-profile')
         })
-        .catch(err => {
-          console.log('password ' + err)
-          if (err.response.data.err.message === 'Password Wrong ') {
-            Swal.fire({
-              icon: 'error',
-              title: 'ooopss... password wrong!',
-              showConfirmButton: false,
-              timer: 1500
-            })
-          }
-        })
+    },
+    goPageRegister () {
+      this.$router.push('/auth/register')
     },
     ...mapMutations(['togglePassword'])
   }
@@ -131,6 +123,11 @@ export default {
     font-size: 16px;
     padding-top: 3px;
     color: #6A4029;
+}
+
+.form-box .top .btn.sign-up:focus {
+    outline: none;
+    box-shadow: none;
 }
 
 .form-box .login {
