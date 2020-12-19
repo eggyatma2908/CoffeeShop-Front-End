@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import Vue from 'vue'
 import Vuex from 'vuex'
+import jwt from 'jsonwebtoken'
 import axios from 'axios'
 import createPersistedState from 'vuex-persistedstate'
 import router from '../router/index'
