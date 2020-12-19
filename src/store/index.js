@@ -119,6 +119,17 @@ export default new Vuex.Store({
           })
       })
     },
+    getProductDetailsById (payload) {
+      return new Promise((resolve, reject) => {
+        axios.get(`${process.env.VUE_APP_URL_API}/products/${payload.id}`)
+          .then(results => {
+            resolve(results.data.result)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+    },
     interceptorRequest (context) {
       axios.interceptors.request.use(function (config) {
         config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`

@@ -93,7 +93,7 @@ const routes = [
         component: ProductAdmin
       },
       {
-        path: 'product-details',
+        path: 'product-details/:idProduct',
         name: 'ProductDetails',
         component: ProductDetails,
         meta: { requiresAuth: true }

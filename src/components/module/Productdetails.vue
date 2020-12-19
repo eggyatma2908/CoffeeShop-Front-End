@@ -59,8 +59,18 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
-  name: 'ProductDetails'
+  name: 'ProductDetails',
+  methods: {
+    ...mapActions(['getProductDetailsById']),
+    handleGetProductDetailsById () {
+      const payload = {
+        id: $route.params.idProduct
+      }
+      this.getProductDetailsById()
+    }
+  }
 }
 </script>
 
