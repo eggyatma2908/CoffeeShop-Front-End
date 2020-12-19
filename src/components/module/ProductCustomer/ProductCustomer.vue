@@ -1,54 +1,132 @@
 <template>
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-4">
-                    <p class="text">Promo for you</p>
-                    <p class="text1">Coupons will be updated every weeks. Check them out! </p>
-                    <div class="box">
-                        <div class="box1">
-                            <div class="coupon"></div>
-                            <div class="coupon1"></div>
-                            <div class="coupon2"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <p class="text">Promo for you</p>
+                <p class="text1">Coupons will be updated every weeks. Check them out! </p>
+                <div class="box">
+                    <vue-card-stack :cards="cards" :stack-width="360" :card-width="280" style="transform:rotateY(180deg);">
+                      <template v-slot:card="{ card }">
+                        <div class="box1" style="width: 100%; height: 100%; transform:rotateY(180deg);" :style="{ background: card.background, color: card.color }">
                             <div class="box2">
-                                <img class="img" src="../../../assets/food1.png" alt="image1">
-                                <p class="text2">Beef Spaghetti</p>
-                                <p class="text3">20% OFF</p>
-                                <p class="text4">Buy 1 Choco Oreo and get 20% off for Beef Spaghetti</p>
+                                <div class="box3">
+                                    <img :src="card.image" alt="image1">
+                                </div>
+                                <p style="margin-bottom: 0px">{{card.name}}</p>
+                                <p class="text2">{{ card.foodName }}</p>
+                                <p class="text3">{{ card.diskon }}</p>
+                                <p class="text4">{{ card.required }}</p>
                                 <div class="borderdashed"></div>
-                                <p class="text5">COUPON CODE</p>
-                                <p class="text6">FNPR15RG</p>
-                                <p class="text7">Valid untill October 10th 2020</p>
+                                <p class="text5">{{ card.title }}</p>
+                                <p class="text6">{{ card.couponCode }}</p>
+                                <p class="text7">{{ card.valid }}</p>
                             </div>
                         </div>
-                        <button class="applycoupon" type="submit">Apply Coupon</button>
-                        <div class="box3">
-                            <p class="text8">Terms and Condition</p>
-                            <ol>
-                                <li>You can only apply 1 coupon per day</li>
-                                <li>It only for dine in</li>
-                                <li>Buy 1 get 1 only for new user</li>
-                                <li>Should make member card to apply coupon</li>
-                            </ol>
-                        </div>
+                    </template>
+
+                    <template v-slot:nav="{ activeCardIndex, onNext, onPrevious }">
+                        <nav class="nav" >
+                        <div class="counter" style="transform:rotateY(180deg)">{{activeCardIndex + 1}}/{{cards.length}}</div>
+                        <button v-on:click="onPrevious" class="button" style="transform:rotateY(360deg)">
+                            <span class="chevron left"></span>
+                        </button>
+                        <button v-on:click="onNext" class="button" style="transform:rotateY(360deg)">
+                            <span class="chevron right"></span>
+                        </button>
+                        </nav>
+                    </template>
+                    </vue-card-stack>
+                    <button class="applycoupon" type="submit">Apply Coupon</button>
+                    <div class="box4">
+                        <p class="text8">Terms and Condition</p>
+                        <ol>
+                            <li>You can only apply 1 coupon per day</li>
+                            <li>It only for dine in</li>
+                            <li>Buy 1 get 1 only for new user</li>
+                            <li>Should make member card to apply coupon</li>
+                        </ol>
                     </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="menu">
-                        <div class="favoriteproduct"><router-link class="navbar1" :to="{path: '/home/product-customer/favorite-product'}">Favorite Product</router-link></div>
-                        <div class="coffee1"><router-link class="navbar2" :to="{path: '/home/product-customer/coffee'}">Coffee</router-link></div>
-                        <div class="noncoffee"><router-link class="navbar3" :to="{path: '/home/product-customer/non-coffee'}">Non Coffee</router-link></div>
-                        <div class="foods"><router-link class="navbar4" :to="{path: '/home/product-customer/foods'}">Foods</router-link></div>
-                        <div class="addon"><router-link class="navbar5" :to="{path: '/home/product-customer/add-on'}">Add-on</router-link></div>
-                    </div>
-                    <router-view/>
                 </div>
             </div>
+            <div class="col-lg-8">
+                <div class="menu">
+                    <div class="favoriteproduct"><router-link class="navbar1" :to="{path: '#'}">Favorite Product</router-link></div>
+                    <div class="coffee1"><router-link class="navbar2" :to="{path: '#'}">Coffee</router-link></div>
+                    <div class="noncoffee"><router-link class="navbar3" :to="{path: '#'}">Non Coffee</router-link></div>
+                    <div class="foods"><router-link class="navbar4" :to="{path: '#'}">Foods</router-link></div>
+                    <div class="addon"><router-link class="navbar5" :to="{path: '#'}">Add-on</router-link></div>
+                </div>
+                <router-view/>
+            </div>
         </div>
+    </div>
 </template>
 
 <script>
+import VueCardStack from 'vue-card-stack'
+
 export default {
-  name: 'ProductCustomer'
+  name: 'ProductCustomer',
+  components: {
+    VueCardStack
+  },
+  data () {
+    return {
+      cards: [
+        {
+          background: '#FFCB65',
+          image: require('../../../assets/food1.png'),
+          foodName: 'Beef Spaghetti',
+          diskon: '20% OFF',
+          required: 'Buy 1 Choco Oreo and get 20% off for Beef Spaghetti',
+          title: 'COUPON CODE',
+          couponCode: 'FNPR15RG',
+          valid: 'Valid untill October 10th 2020'
+        },
+        {
+          background: '#000000',
+          color: '#FFFFFF',
+          image: require('../../../assets/food1.png'),
+          foodName: 'Beef Spaghetti',
+          diskon: '20% OFF',
+          required: 'Buy 1 Choco Oreo and get 20% off for Beef Spaghetti',
+          title: 'COUPON CODE',
+          couponCode: 'FNPR15RG',
+          valid: 'Valid untill October 10th 2020'
+        },
+        {
+          background: '#895537',
+          image: require('../../../assets/food1.png'),
+          foodName: 'Beef Spaghetti',
+          diskon: '20% OFF',
+          required: 'Buy 1 Choco Oreo and get 20% off for Beef Spaghetti',
+          title: 'COUPON CODE',
+          couponCode: 'FNPR15RG',
+          valid: 'Valid untill October 10th 2020'
+        },
+        {
+          background: '#fc8890',
+          image: require('../../../assets/food1.png'),
+          foodName: 'Beef Spaghetti',
+          diskon: '20% OFF',
+          required: 'Buy 1 Choco Oreo and get 20% off for Beef Spaghetti',
+          title: 'COUPON CODE',
+          couponCode: 'FNPR15RG',
+          valid: 'Valid untill October 10th 2020'
+        },
+        {
+          background: '#b35d7f',
+          image: require('../../../assets/food1.png'),
+          foodName: 'Beef Spaghetti',
+          diskon: '20% OFF',
+          required: 'Buy 1 Choco Oreo and get 20% off for Beef Spaghetti',
+          title: 'COUPON CODE',
+          couponCode: 'FNPR15RG',
+          valid: 'Valid untill October 10th 2020'
+        }
+      ]
+    }
+  }
 }
 </script>
 
@@ -71,7 +149,6 @@ export default {
     font-style: normal;
     font-weight: bold;
     font-size: 25px;
-    line-height: 30px;
 
     color: #6A4029;
 }
@@ -86,171 +163,157 @@ export default {
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
-    line-height: 18px;
+
     text-align: center;
 
     color: #000000;
 }
 
 .box1 {
-    position: relative;
-
-    margin-top: 28px
-}
-
-.coupon {
-    width: 284px;
-    height: 472px;
-
-    background: #FFCB65;
     border-radius: 20px;
-    z-index: -1;
-}
-
-.coupon1 {
-    position: absolute;
-    width: 270px;
-    height: 400px;
-    left: 50px;
-    top: 40px;
-
-    background: #000000;
-    border-radius: 20px;
-    z-index: -1;
-}
-
-.coupon2 {
-    position: absolute;
-    width: 284px;
-    height: 338px;
-    left: 65px;
-    top: 70px;
-
-    background: #895537;
-    border-radius: 20px;
-    z-index: -2;
 }
 
 .box2 {
-    position: relative;
+    height: 400px;
+
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
 }
 
-.img {
+.box3 {
+    width: 100px;
+}
+
+.box2 img {
+    width: 100%;
+    height: auto;
+
+    border-radius: 200px;
+}
+
+.chevron.right {
+    transform: rotate(45deg);
+}
+
+.nav .button:last-of-type {
+    right: 0;
+}
+
+.chevron.left {
+    transform: rotate(-135deg);
+    margin-left: 4px;
+}
+
+.chevron {
+    border-style: solid;
+    border-width: .25em .25em 0 0;
+    content: "";
+    height: .45em;
+    width: .45em;
+}
+
+.nav .button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #2d2d2d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
-    top: -420px;
-    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 999;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+button.button {
+    outline: none;
 }
 
 .text2 {
-    position: absolute;
-    width: 180px;
-    height: 32px;
-    left: 60px;
-    top: -270px;
+    margin-top: 10px;
+    margin-bottom: 0px;
 
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
     font-size: 22px;
-    line-height: 101.34%;
-
-    color: #000000;
 }
 
 .text3 {
-    position: absolute;
-    width: 180px;
-    height: 32px;
-    left: 95px;
-    top: -240px;
+    margin-bottom: 0px;
 
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
     font-size: 22px;
-    line-height: 101.34%;
-
-    color: #000000;
 }
 
 .text4 {
-    position: absolute;
     width: 247px;
     height: 28px;
-    left: 20px;
-    top: -210px;
+
+    margin-bottom: 30px;
 
     font-family: Poppins;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
-    line-height: 101.34%;
 
     text-align: center;
-
-    color: #000000;
 }
 
 .borderdashed {
-    position: absolute;
-    width: 284.02px;
-    height: 0px;
-    top: -150px;
+    width: 280px;
 
-    border: 1px dashed #000000;
+    border: 1px dashed;
 }
 
 .text5 {
-    position: absolute;
-    left: 80px;
-    top: -120px;
+    margin-top: 10px;
+    margin-bottom: 0px;
 
     font-family: Poppins;
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
-    line-height: 101.34%;
-
-    color: #000000;
 }
 
 .text6 {
-    position: absolute;
-    width: 166px;
-    height: 33px;
-    left: 55px;
-    top: -90px;
+    margin-bottom: 0px;
 
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
     font-size: 33px;
-    line-height: 101.34%;
-
-    color: #000000;
 }
 
 .text7 {
-    position: absolute;
     width: 173px;
     height: 12px;
-    left: 45px;
-    top: -40px;
+
+    margin-bottom: 0px;
 
     font-family: Poppins;
     font-style: normal;
     font-weight: normal;
     font-size: 12px;
-    line-height: 101.34%;
 
     text-align: center;
-
 }
 
 .applycoupon {
     width: 284px;
     height: 64px;
 
+    margin-left: 30px;
     margin-top: 45px;
     margin-bottom: 112px;
 
@@ -258,7 +321,6 @@ export default {
     font-style: normal;
     font-weight: bold;
     font-size: 17px;
-    line-height: 25px;
 
     color: #FFFFFF;
 
@@ -267,12 +329,8 @@ export default {
     border-radius: 20px;
 }
 
-.applycoupon:focus {
-    outline: none;
-}
-
-.box3 {
-    margin-left: -70px;
+.box4 {
+    margin-left: -40px;
     margin-bottom: 67px;
 }
 
@@ -301,10 +359,6 @@ export default {
 .navbar1 {
     text-decoration: none;
 
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 60px;
-
     font-family: Rubik;
     font-style: normal;
     font-weight: normal;
@@ -315,19 +369,11 @@ export default {
 }
 
 .navbar1:focus {
-    font-weight: bold;
-    background-image: url('../../../assets/listbutton.png');
-    background-repeat: no-repeat;
-    background-position: center;
     color: #6A4029;
 }
 
 .navbar2 {
     text-decoration: none;
-
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 60px;
 
     font-family: Rubik;
     font-style: normal;
@@ -339,19 +385,11 @@ export default {
 }
 
 .navbar2:focus {
-    font-weight: bold;
-    background-image: url('../../../assets/listbutton.png');
-    background-repeat: no-repeat;
-    background-position: center;
     color: #6A4029;
 }
 
 .navbar3 {
     text-decoration: none;
-
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 60px;
 
     font-family: Rubik;
     font-style: normal;
@@ -363,19 +401,11 @@ export default {
 }
 
 .navbar3:focus {
-    font-weight: bold;
-    background-image: url('../../../assets/listbutton.png');
-    background-repeat: no-repeat;
-    background-position: center;
     color: #6A4029;
 }
 
 .navbar4 {
     text-decoration: none;
-
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 60px;
 
     font-family: Rubik;
     font-style: normal;
@@ -387,19 +417,11 @@ export default {
 }
 
 .navbar4:focus {
-    font-weight: bold;
-    background-image: url('../../../assets/listbutton.png');
-    background-repeat: no-repeat;
-    background-position: center;
     color: #6A4029;
 }
 
 .navbar5 {
     text-decoration: none;
-
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 60px;
 
     font-family: Rubik;
     font-style: normal;
@@ -411,14 +433,14 @@ export default {
 }
 
 .navbar5:focus {
-    font-weight: bold;
-    background-image: url('../../../assets/listbutton.png');
-    background-repeat: no-repeat;
-    background-position: center;
     color: #6A4029;
 }
 
-.box4 {
+.addon:focus {
+    color: #6A4029;
+}
+
+.box5 {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -426,6 +448,7 @@ export default {
     margin-top: 65px;
     margin-left: 82px;
     margin-right: 82px;
+    margin-bottom: 65px;
 }
 
 .card {
