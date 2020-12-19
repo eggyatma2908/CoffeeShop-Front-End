@@ -1,8 +1,7 @@
 <template>
   <div class="box4">
-      <div v-for="nonCoffee in dataNonCoffee" :key="nonCoffee.idProduct" class="card">
+      <div v-for="nonCoffee in dataNonCoffee" :key="nonCoffee.idProduct" @click="toProductDetails(nonCoffee.idProduct)" class="card">
           <div class="photo-product">
-              {{  }}
              <img :src="nonCoffee.photoProduct ? nonCoffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
           </div>
           <p class="productname">{{ nonCoffee.productName }}</p>
@@ -25,6 +24,9 @@ export default {
     async handleGetGetProductNonCoffee () {
       const result = await this.getProductNonCoffee()
       this.dataNonCoffee = result.products
+    },
+    toProductDetails (idProduct) {
+      this.$router.push({ path: '/home/product-details/' + idProduct })
     }
   },
   async mounted () {
@@ -252,7 +254,7 @@ export default {
     font-weight: 900;
     font-size: 22px;
     line-height: 101.34%;
-
+		cursor: pointer;
     text-align: center;
 
     color: #000000;
@@ -277,6 +279,7 @@ export default {
     height:100%;
     object-fit:cover;
     border-radius: 50%;
+		cursor: pointer;
 }
 .photo-product {
     width: 120px;

@@ -4,7 +4,7 @@
             <div class="col-lg-5">
                 <div class="box">
                     <div class="box1">
-                        <p class="text">Favorite & Promo ></p>
+                        <p class="text">{{ this.$route.query.type }} ></p>
                         <p class="text1">Cold Brew</p>
                     </div>
                     <img class="img" src="../../assets/coffee2.png" alt="image1">
@@ -62,15 +62,24 @@
 import { mapActions } from 'vuex'
 export default {
   name: 'ProductDetails',
+  data () {
+    return {
+      productDetails: ''
+    }
+  },
   methods: {
     ...mapActions(['getProductDetailsById']),
-    handleGetProductDetailsById () {
+    async handleGetProductDetailsById () {
+      console.log(this.$route.params.idProduct)
       const payload = {
         id: this.$route.params.idProduct
       }
-      console.log(payload)
-      this.getProductDetailsById()
+      const resultsProductDetails = await this.getProductDetailsById(payload)
+      this.productDetails = resultsProductDetails
     }
+  },
+  async mounted () {
+    await this.handleGetProductDetailsById()
   }
 }
 </script>

@@ -132,10 +132,11 @@ export default new Vuex.Store({
           })
       })
     },
-    getProductDetailsById (payload) {
+    getProductDetailsById (context, payload) {
       return new Promise((resolve, reject) => {
         axios.get(`${process.env.VUE_APP_URL_API}/products/${payload.id}`)
           .then(results => {
+            console.log(results.data.result.dineIn)
             resolve(results.data.result)
           })
           .catch(error => {

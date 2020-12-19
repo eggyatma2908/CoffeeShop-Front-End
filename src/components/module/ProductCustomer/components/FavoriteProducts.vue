@@ -275,6 +275,8 @@ export default {
     background: #FFFFFF;
     box-shadow: 0px 30px 60px rgba(57, 57, 57, 0.1);
     border-radius: 30px;
+    padding:20px;
+    box-sizing: content-box;
 }
 
 .productname {
@@ -286,10 +288,11 @@ export default {
     font-weight: 900;
     font-size: 22px;
     line-height: 101.34%;
-
+		cursor: pointer;
     text-align: center;
 
     color: #000000;
+    margin:10px 0 0 0 ;
 }
 
 .price {
@@ -299,10 +302,21 @@ export default {
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 17px;
+    font-size: 19px;
     line-height: 25px;
     text-align: center;
 
     color: #6A4029;
+}
+.photo-product img{
+    width: 100%;
+    height:100%;
+    object-fit:cover;
+    border-radius: 50%;
+		cursor: pointer;
+}
+.photo-product {
+    width: 120px;
+    height: 120px;
 }
 </style>

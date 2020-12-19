@@ -1,9 +1,8 @@
 <template>
   <div class="box4">
-      <div v-for="addOn in dataAddOn" :key="addOn.idProduct" class="card">
+      <div v-for="addOn in dataAddOn" :key="addOn.idProduct" @click="toProductDetails(addOn.idProduct)" class="card">
           <div class="photo-product">
-              {{  }}
-             <img :src="addOn.photoProduct ? addOn.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
+             <img :src="addOn.photoProduct !== '' ? addOn.photoProduct : '@/assets/coffee-logo-symbol-19.png'" alt="image2">
           </div>
           <p class="productname">{{ addOn.productName }}</p>
           <p class="price">{{ addOn.price }}</p>
@@ -25,6 +24,9 @@ export default {
     async handleGetGetProductAddOn () {
       const result = await this.getProductAddOn()
       this.dataAddOn = result.products
+    },
+    toProductDetails (idProduct) {
+      this.$router.push({ path: '/home/product-details/' + idProduct })
     }
   },
   async mounted () {
@@ -252,7 +254,7 @@ export default {
     font-weight: 900;
     font-size: 22px;
     line-height: 101.34%;
-
+		cursor: pointer;
     text-align: center;
 
     color: #000000;
@@ -277,6 +279,7 @@ export default {
     height:100%;
     object-fit:cover;
     border-radius: 50%;
+		cursor: pointer;
 }
 .photo-product {
     width: 120px;
