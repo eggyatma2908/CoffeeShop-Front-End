@@ -50,11 +50,11 @@
             </div>
             <div class="col-lg-8">
                 <div class="menu">
-                    <div class="favoriteproduct"><router-link class="navbar1" :to="{path: '#'}">Favorite Product</router-link></div>
-                    <div class="coffee1"><router-link class="navbar2" :to="{path: '#'}">Coffee</router-link></div>
-                    <div class="noncoffee"><router-link class="navbar3" :to="{path: '#'}">Non Coffee</router-link></div>
-                    <div class="foods"><router-link class="navbar4" :to="{path: '#'}">Foods</router-link></div>
-                    <div class="addon"><router-link class="navbar5" :to="{path: '#'}">Add-on</router-link></div>
+                    <div class="favoriteproduct"><router-link class="navbar1" :to="{path: '/home/product-customer/favorite-product'}">Favorite Product</router-link></div>
+                    <div class="coffee1"><router-link class="navbar2" :to="{path: '/home/product-customer/coffee'}">Coffee</router-link></div>
+                    <div class="noncoffee"><router-link class="navbar3" :to="{path: '/home/product-customer/non-coffee'}">Non Coffee</router-link></div>
+                    <div class="foods"><router-link class="navbar4" :to="{path: '/home/product-customer/foods'}">Foods</router-link></div>
+                    <div class="addon"><router-link class="navbar5" :to="{path: '/home/product-customer/add-on'}">Add-on</router-link></div>
                 </div>
                 <router-view/>
             </div>
