@@ -16,7 +16,8 @@ export default new Vuex.Store({
     userRegister: [],
     accessToken: null || localStorage.getItem('accessToken'),
     refreshToken: null || localStorage.getItem('refreshToken'),
-    userData: ''
+    userData: '',
+    dataProdcut: ''
   },
   plugins: [createPersistedState()],
   mutations: {
@@ -42,6 +43,9 @@ export default new Vuex.Store({
     },
     SET_USER_DATA (state, payload) {
       state.userData = payload
+    },
+    SET_DATA_PRODCUT (state, payload) {
+      state.dataProdcut = payload
     }
   },
   actions: {
@@ -138,6 +142,18 @@ export default new Vuex.Store({
           .then(results => {
             console.log(results.data.result.dineIn)
             resolve(results.data.result)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+    },
+    addNewProduct (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.post(`${process.env.VUE_APP_URL_API}/products`, payload)
+          .then(result => {
+            console.log(result.data.result)
+            resolve(result.data.result)
           })
           .catch(error => {
             console.log(error)

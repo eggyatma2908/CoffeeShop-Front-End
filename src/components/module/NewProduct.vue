@@ -35,9 +35,9 @@
                         <form>
                             <div class="mb-3 mt-5 form-group">
                                 <label class="form-label">Name :</label>
-                                <input type="text" v-model.trim="$v.name.$model" :class="{ 'is-invalid': validationStatus($v.name) }" class="form-control" placeholder="Type product name min. 50 characters">
-                                <div class="invalid-feedback" v-if="!$v.name.required">Field is required.</div>
-                                <div class="invalid-feedback" v-if="!$v.name.minLength">Minim 50 characters</div>
+                                <input type="text" v-model.trim="$v.productName.$model" :class="{ 'is-invalid': validationStatus($v.productName) }" class="form-control" placeholder="Type product name min. 50 characters">
+                                <div class="invalid-feedback" v-if="!$v.productName.required">Field is required.</div>
+                                <div class="invalid-feedback" v-if="!$v.productName.minLength">Minim 50 characters</div>
                             </div>
                             <div class="mb-3 mt-5 form-group">
                                 <label class="form-label">Price :</label>
@@ -59,9 +59,9 @@
                             <h6 class="text-input-product">Input product size :</h6>
                             <p>Click methods you want to use for this product</p>
                             <div class="product-size">
-                                <button class="btn btn-reguler">R</button>
-                                <button class="btn btn-large">L</button>
-                                <button class="btn btn-xtra-large">XL</button>
+                                <input type="radio" class="btn btn-reguler" value="R">
+                                <input type="radio" class="btn btn-large" value="L">
+                                <input type="radio" class="btn btn-xtra-large" value="XL">
                                 <button class="btn btn-250-gr">250 gr</button>
                                 <button class="btn btn-300-gr">300 gr</button>
                                 <button class="btn btn-500-gr">500 gr</button>
@@ -74,7 +74,7 @@
                                 <button class="btn btn-dine-in">Dine in</button>
                                 <button class="btn btn-take-away">Take away</button>
                             </div>
-                            <button class="btn btn-save">Save Product</button>
+                            <button type="submit" class="btn btn-save" @click.prevent="saveNewProduct">Save Product</button>
                             <button class="btn btn-cancel">Cancel</button>
                         </form>
                     </div>
@@ -85,26 +85,40 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
+import { mapActions } from 'vuex'
 export default {
   name: 'NewProduct',
   data () {
     return {
-      name: '',
+      productName: '',
       price: 0,
       description: '',
       category: ''
     }
   },
   validations: {
-    name: { required, minLength: minLength(50) },
+    productName: { required, minLength: minLength(0) },
     price: { required },
-    description: { required, minLength: minLength(150) },
+    description: { required, minLength: minLength(0) },
     category: { required }
   },
   methods: {
     validationStatus (validation) {
       return typeof validation !== 'undefined' ? validation.$error : false
     }
+  },
+  ...mapActions(['addNewProduct']),
+  saveNewProduct () {
+    this.$v.$touch()
+    if (this.$v.$pendding || this.$v.$error) return
+    const payload = {
+      productName: this.productName,
+      price: this.price,
+      description: this.description
+    }
+    this.addNewProduct(payload)
+      .then(() => {
+      })
   }
 }
 </script>
