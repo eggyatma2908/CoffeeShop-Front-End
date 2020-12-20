@@ -340,16 +340,14 @@ export default new Vuex.Store({
     getProductId (state) {
       return state.products
     },
-<<<<<<< HEAD
     getCartLocalStorage () {
       return JSON.parse(localStorage.getItem('cardData')) !== null
-=======
+    },
     getPagination (state) {
       return state.pagination
     },
     getDataType (state) {
       return state.dataType
->>>>>>> origin/pagination
     }
   },
   modules: {
