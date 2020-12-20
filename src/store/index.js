@@ -57,6 +57,10 @@ export default new Vuex.Store({
     },
     REMOVE_CART_DATA (state, payload) {
       state.cartData = []
+    },
+    REMOVE_USER (state) {
+      state.user = null
+      state.userData = null
     }
   },
   actions: {
@@ -80,6 +84,12 @@ export default new Vuex.Store({
             resolve(res)
           })
       })
+    },
+    logout (context) {
+      localStorage.removeItem('accessToken')
+      localStorage.removeItem('refreshToken')
+      context.commit('REMOVE_TOKEN')
+      context.commit('REMOVE_USER')
     },
     register (context, payload) {
       return new Promise((resolve, reject) => {
@@ -148,19 +158,6 @@ export default new Vuex.Store({
           })
       })
     },
-    // getProductDetailsById (context, payload) {
-    //   return new Promise((resolve, reject) => {
-    //     axios.get(`${process.env.VUE_APP_URL_API}/products/${router.currentRoute.query.idProduct}`)
-    //       .then(results => {
-    //         console.log('data id product ', results.data.result)
-    //         context.commit('SET_PRODUCT', results.data.result)
-    //         resolve(results)
-    //       })
-    //       .catch(error => {
-    //         console.log(error)
-    //       })
-    //   })
-    // },
     getProductDetailsById (context, payload) {
       return new Promise((resolve, reject) => {
         axios.get(`${process.env.VUE_APP_URL_API}/products/${router.currentRoute.params.idProduct}`)
