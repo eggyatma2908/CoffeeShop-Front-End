@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-lg-3 box-profile">
                         <div class="box-image">
-                            <img id="update-photo" src="../../assets/user-profile.png" alt="user profile">
+                            <img id="update-photo" :src="getUserData.photoProfile" alt="user profile">
                             <div class="edit-image">
                                <input id="input-upload-image" type="file" accept="image/x-png/,image/gif,image/jpeg"/>
                                <label for="input-upload-image"><img src="../../assets/edit.png" alt="edit" class="icon-edit"></label>
@@ -159,7 +159,7 @@ export default {
     dateObject () {
       return this.bornDate ? new Date(this.date) : null
     },
-    handleUpdateUserProfile () {
+    async handleUpdateUserProfile () {
       this.$v.$touch()
       if (!document.getElementById('input-upload-image').files[0]) {
         return Swal.fire({
@@ -176,17 +176,18 @@ export default {
       form.append('email', this.email)
       form.append('phoneNumber', this.mobileNumber)
       form.append('address', this.deliveryAddress)
-      form.append('displayName', this.displayName)
+      form.append('username', this.displayName)
       form.append('firstName', this.firstName)
       form.append('lastName', this.lastName)
       form.append('bornDate', this.bornDate)
+      console.log(this.bornDate)
       form.append('gender', this.gender)
-      const userId = this.getUserData.userId
+      const userId = this.getUserData.id
       const payload = {
         userId,
         formData: form
       }
-      this.updateUserProfile(payload)
+      await this.updateUserProfile(payload)
     },
     onInputUploadChange () {
       const self = this

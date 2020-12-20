@@ -100,6 +100,7 @@ export default new Vuex.Store({
               showConfirmButton: false,
               timer: 1500
             })
+            router.push({ path: '/home/product-customer/favorite-product' })
             resolve(result)
           })
       })

@@ -4,22 +4,24 @@
             <div class="d-flex justify-content-around box0">
                 <div class="box">
                     <img class="img1" src="../../assets/coffee.png" alt="image1">
-                    <p class="text">Coffeshop</p>
+                    <p class="text">Coffee Shop</p>
                 </div>
                 <div class="box1">
                     <a class="home">Home</a>
                     <a class="product" @click="toProduct">Product</a>
-                    <a class="cart" href="#">Your Cart</a>
-                    <a class="history" href="#">History</a>
+                    <a class="cart" @click="toCart">Your Cart</a>
+                    <a class="history" @click="toHistory">History</a>
                 </div>
                 <div class="box2">
                     <img class="img2" src="../../assets/search.png" alt="image2">
                     <div class="box3">
-                        <img class="img3" src="../../assets/chat.png" alt="image3">
+                        <img class="img3" @click="toChat" src="../../assets/chat.png" alt="image3">
                         <img class="img4" src="../../assets/ellipse.png" alt="image4">
                         <p class="text1">1</p>
                     </div>
-                    <img class="img5" src="../../assets/profile2.png" alt="image5">
+                    <div class="photo-profile">
+                      <img @click="toProfile" :src="getUserData.photoProfile" alt="image5">
+                    </div>
                 </div>
             </div>
         </div>
@@ -27,6 +29,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'Header',
   methods: {
@@ -35,7 +38,22 @@ export default {
     },
     toProduct () {
       this.$router.push({ path: '/home/product-customer/favorite-product' })
+    },
+    toCart () {
+      this.$router.push({ path: '/home/payment-delivery' })
+    },
+    toHistory () {
+      this.$router.push({ path: '/home/history' })
+    },
+    toChat () {
+      this.$router.push({ path: '/home/chat' })
+    },
+    toProfile () {
+      this.$router.push({ path: '/profile/user-profile' })
     }
+  },
+  computed: {
+    ...mapGetters(['getUserData'])
   }
 }
 </script>
@@ -70,7 +88,7 @@ body {
 .text {
     width: 122px;
     height: 24px;
-
+    cursor:pointer;
     margin-left: 15px;
     margin-top: 5px;
 
@@ -178,7 +196,7 @@ body {
 .img2 {
     width: 30px;
     height: 30px;
-
+    cursor:pointer;
     margin-right: 34px;
 }
 
@@ -189,7 +207,7 @@ body {
 .img3 {
     width: 30px;
     height: 33px;
-
+    cursor:pointer;
     margin-right: 34px;
 }
 
@@ -197,6 +215,7 @@ body {
     position: absolute;
     top: -5px;
     right: 85px;
+    cursor:pointer;
 }
 
 .text1 {
@@ -218,5 +237,17 @@ body {
 .img5 {
     width: 30px;
     height: 30px;
+    cursor:pointer;
+}
+.photo-profile {
+    width: 40px;
+    height: 40px;
+    cursor:pointer;
+}
+.photo-profile img{
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+    border-radius:50%;
 }
 </style>

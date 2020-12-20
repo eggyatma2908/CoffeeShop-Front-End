@@ -61,7 +61,7 @@
                             <button class="plus" type="submit" @click="increaseTotalOrder">+</button>
                         </div>
                     </div>
-                    <button class="checkout" >CHECKOUT</button>
+                    <button class="checkout" @click="toCheckOut">CHECKOUT</button>
                 </div>
             </div>
         </div>
@@ -165,6 +165,7 @@ export default {
               return item
             })
             localStorage.setItem('cardData', JSON.stringify(cardDataCopy))
+            this.alertAddCartSucceed()
             return
           }
           const payload2 = [
@@ -172,14 +173,24 @@ export default {
             this.listOrder
           ]
           localStorage.setItem('cardData', JSON.stringify(payload2))
+          this.alertAddCartSucceed()
         }
       } else {
         const payload = [this.listOrder]
         localStorage.setItem('cardData', JSON.stringify(payload))
+        this.alertAddCartSucceed()
       }
     },
     toCheckOut () {
-      this.$router.push({ path: '/home/' })
+      this.$router.push({ path: '/home/payment-delivery' })
+    },
+    alertAddCartSucceed () {
+      Swal.fire({
+        icon: 'success',
+        title: 'product has been added to the cart',
+        showConfirmButton: false,
+        timer: 1000
+      })
     }
   },
   async mounted () {

@@ -3,9 +3,9 @@
       <div class="card-room-chat row">
         <div class="card-room-chat-left col-5 p-5">
           <div class="search-box">
-            <input type="text" class="search-input" placeholder="Search Chat" />
+            <input type="text" id="searchChat" class="search-input" placeholder="Search Chat" />
             <div class="input-icon">
-              <img src="../../assets/Vector.png" alt="" />
+              <label for="searchChat"><img src="../../assets/Vector.png" alt="" /></label>
             </div>
           </div>
           <p class="text-desc text-center mt-3">
@@ -80,7 +80,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
+  name: 'chatUser',
+  computed: {
+    ...mapGetters(['getUserData'])
+  }
 }
 </script>
 
