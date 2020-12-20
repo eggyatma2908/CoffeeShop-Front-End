@@ -149,6 +149,17 @@ export default new Vuex.Store({
           })
       })
     },
+    getAllProduct () {
+      return new Promise((resolve, reject) => {
+        axios.get(`${process.env.VUE_APP_URL_API}/products/`)
+          .then(results => {
+            resolve(results.data.result)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+    },
     addNewProduct (context, payload) {
       return new Promise((resolve, reject) => {
         axios.post(`${process.env.VUE_APP_URL_API}/products`, payload.formData)

@@ -28,30 +28,27 @@
                                 </div>
                             </form>
                         </div>
-                        <h6 class="input-stock">Input Stock :</h6>
-                            <select>
-                                <option disabled selected>Input Stock</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                            </select>
+                        <div class="stocked">
+                            <label class="labelstock"  id="inputstock">Input Stock :</label>
+                            <input class="inputstock" type="number" id="inputstock" placeholder="Input stock" v-model.trim="$v.stock.$model">
+                        </div>
                     </div>
                     <div class="col-lg-6">
                         <form>
                             <div class="mb-3 mt-5 form-group">
                                 <label class="form-label">Name :</label>
-                                <input type="text" v-model.trim="$v.productName.$model" :class="{ 'is-invalid': validationStatus($v.productName) }" class="form-control" placeholder="Type product name min. 50 characters">
+                                <input type="text" v-model.trim="$v.productName.$model" :class="{ 'is-invalid': validationStatus($v.productName) }" class="productname" placeholder="Type product name min. 50 characters">
                                 <div class="invalid-feedback" v-if="!$v.productName.required">Field is required.</div>
                                 <div class="invalid-feedback" v-if="!$v.productName.minLength">Minim 50 characters</div>
                             </div>
                             <div class="mb-3 mt-5 form-group">
                                 <label class="form-label">Price :</label>
-                                <input type="number" v-model.trim="$v.price.$model" :class="{ 'is-invalid': validationStatus($v.price) }" class="form-control" placeholder="Type the price">
+                                <input type="number" v-model.trim="$v.price.$model" :class="{ 'is-invalid': validationStatus($v.price) }" class="price" placeholder="Type the price">
                                 <div class="invalid-feedback" v-if="!$v.price.required">Field is required.</div>
                             </div>
                             <div class="mb-3 mt-5 form-group">
                                 <label class="form-label">Description :</label>
-                                <input type="text" v-model.trim="$v.description.$model" :class="{ 'is-invalid': validationStatus($v.description) }" class="form-control" placeholder="Describe your product min. 150 characters">
+                                <input type="text" v-model.trim="$v.description.$model" :class="{ 'is-invalid': validationStatus($v.description) }" class="description" placeholder="Describe your product min. 150 characters">
                                 <div class="invalid-feedback" v-if="!$v.description.required">Field is required.</div>
                                 <div class="invalid-feedback" v-if="!$v.description.minLength">Minim 150 characters</div>
                             </div>
@@ -60,25 +57,36 @@
                                 <input type="text" v-model.trim="$v.category.$model" :class="{ 'is-invalid': validationStatus($v.category) }" class="form-control" placeholder="Enter category">
                                 <div class="invalid-feedback" v-if="!$v.category.required">Field is required.</div>
                             </div> -->
-
+                            <form id="selectcategory" onsubmit="return false">
+                            <select id="category" v-on:change="addCategory">
+                                <option disabled selected>Category</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                                <option value='4'>4</option>
+                            </select>
+                            </form>
                             <h6 class="text-input-product">Input product size :</h6>
                             <p>Click methods you want to use for this product</p>
                             <div class="product-size">
                                 <div class="size">
-                                    <input class="radiobtn" type="radio" id="reguler" name="size" value="reguler">
-                                    <label for="reguler">R</label><br>
+                                    <input type="radio" class="radiobtn" value="r">R
                                 </div>
                                 <div class="size">
-                                    <input class="radiobtn" type="radio" id="large" name="size" value="large">
-                                    <label for="large">L</label><br>
+                                    <input type="radio" class="radiobtn" value="l">L
                                 </div>
                                 <div class="size">
-                                    <input class="radiobtn" type="radio" id="xtra-large" name="size" value="xtra-large">
-                                    <label for="xtra-large">XL</label>
+                                    <input type="radio" class="radiobtn" value="xl">XL
                                 </div>
-                                <button class="btn btn-250-gr">250 gr</button>
-                                <button class="btn btn-300-gr">300 gr</button>
-                                <button class="btn btn-500-gr">500 gr</button>
+                                <div class="weight">
+                                    <input type="radio" class="radiobtn1" value="250">250 gr
+                                </div>
+                                <div class="weight">
+                                    <input type="radio" class="radiobtn1" value="300">300 gr
+                                </div>
+                                <div class="weight">
+                                    <input type="radio" class="radiobtn1" value="500">500 gr
+                                </div>
                             </div>
 
                             <h6 class="text-input-delivery">Input delivery methods :</h6>
@@ -110,20 +118,31 @@ export default {
       productName: '',
       price: '',
       description: '',
-      previewImg: ''
+      previewImg: '',
+      stock: '',
+      idTypeProduct: '',
+      homeDelivery: '',
+      dineIn: '',
+      takeAway: ''
     }
   },
   validations: {
     productName: { required, minLength: minLength(0) },
     price: { required },
-    description: { required, minLength: minLength(0) }
-    // category: { required }
+    description: { required, minLength: minLength(0) },
+    stock: { required, minLength: minLength(0) },
+    idTypeProduct: { required, minLength: minLength(0) }
   },
   methods: {
     validationStatus (validation) {
       return typeof validation !== 'undefined' ? validation.$error : false
     },
     ...mapActions(['addNewProduct']),
+    ...mapActions(['getAllProduct']),
+    addCategory (event) {
+      const categoryId = document.getElementById('selectcategory').category.value
+      this.idTypeProduct = categoryId
+    },
     upload (event) {
       const imagename = (event.target.files[0].name)
       this.photoProduct = imagename
@@ -144,7 +163,9 @@ export default {
       form.append('photoProduct', document.getElementById('upload-image').files[0])
       form.append('productName', this.productName)
       form.append('price', this.price)
+      form.append('stock', this.stock)
       form.append('description', this.description)
+      form.append('idTypeProduct', this.idTypeProduct)
       const payload = {
         formData: form
       }
@@ -167,6 +188,7 @@ export default {
     }
   },
   mounted () {
+    this.getAllProduct()
     this.onInputUploadChange()
   }
 }
@@ -274,25 +296,116 @@ input#upload-image {
      border: 1px solid #9F9F9F;
 }
 
-.input-stock {
-    font-size: 25px;
-    line-height: 30px;
-    color: #6A4029;
-    font-weight: bold;
-    padding-top: 130px;
+.stocked {
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 50px;
 }
 
-select {
+.labelstock {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 30px;
+
+    color: #6A4029;
+}
+
+.inputstock {
     width: 391px;
     height: 83px;
 
-    padding-left: 30px;
+    padding-left: 10px;
 
+    background: #FFFFFF;
     border: 1px solid #9F9F9F;
     box-sizing: border-box;
     border-radius: 20px;
 
-    font-family: 'Poppins', sans-serif;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+
+    color: #9F9F9F;
+}
+
+form .form-label {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 30px;
+    color: #6A4029;
+}
+
+.productname {
+    width: 549px;
+
+    margin-top: 30px;
+    padding: 15px;
+
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #9F9F9F;
+
+    border: none;
+    border-bottom: 1px solid #9F9F9F;
+}
+
+.price {
+    width: 549px;
+
+    margin-top: 30px;
+    padding: 15px;
+
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #9F9F9F;
+
+    border: none;
+    border-bottom: 1px solid #9F9F9F;
+}
+
+.description {
+    width: 549px;
+
+    margin-top: 30px;
+    padding: 15px;
+
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #9F9F9F;
+
+    border: none;
+    border-bottom: 1px solid #9F9F9F;
+}
+
+select {
+    width: 549px;
+    height: 83px;
+
+    padding-left: 30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    border: 1px solid #9F9F9F;
+    box-sizing: border-box;
+    border-radius: 10px;
+
+    font-family: Poppins;
     font-style: normal;
     font-weight: normal;
     font-size: 20px;
@@ -303,22 +416,14 @@ select {
     -moz-appearance: none;
     appearance: none;
     background: url('../../assets/arrow.png') 96% / 10% no-repeat #FFFFFF;
-    margin-bottom: 100px;
 }
 
-select:focus {
-    outline: none;
-}
-
-select option {
-    border-top-left-radius: 20px;
-}
-
-form .form-label {
-    font-weight: bold;
-    font-size: 25px;
-    line-height: 30px;
-    color: #6A4029;
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
 }
 
 form .form-control:focus {
@@ -350,15 +455,37 @@ form .text-input-product {
     font-size: 25px;
     line-height: 30px;
     color: #6A4029;
-    padding-top: 60px;
+    padding-top: 30px;
 }
 
 form .product-size,
 form .delivery-methods {
     display: flex;
+    justify-content: space-between;
 }
 
 .size {
+    position: relative;
+
+    margin-top: 50px;
+
+    width: 70px;
+    height: 70px;
+
+    background: rgba(186, 186, 186, 0.35);
+    border-radius: 50%;
+    margin-left: 20px;
+    padding: 10px;
+
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 45px;
+    text-align: center;
+
+    color: #000000;
+}
+
+.weight {
     position: relative;
 
     margin-top: 50px;
@@ -387,13 +514,34 @@ form .delivery-methods {
     height: 70px;
     background: rgba(186, 186, 186, 0.35);
     border-radius: 50%;
-    margin-left: 20px;
-    opacity: 1;
+    opacity: 0;
+    cursor: pointer;
 }
 
-form .btn-reguler,
-form .btn-large,
-form .btn-xtra-large,
+.radiobtn1 {
+    position:absolute;
+    top: 0px;
+    right: 0px;
+    width: 70px;
+    height: 70px;
+    background: rgba(186, 186, 186, 0.35);
+    border-radius: 50%;
+    opacity: 0;
+    cursor: pointer;
+
+    width: 29px;
+    height: 46px;
+    left: 1003px;
+    top: 893px;
+
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+
+    color: #4F5665;
+}
+
 form .btn-250-gr,
 form .btn-300-gr,
 form .btn-500-gr {
@@ -402,23 +550,8 @@ form .btn-500-gr {
     height: 70px;
     background: rgba(186, 186, 186, 0.35);
     border-radius: 50%;
-    margin-left: 20px;
 }
 
-form .btn-reguler,
-form .btn-large,
-form .btn-xtra-large {
-    font-weight: bold;
-    font-size: 30px;
-    line-height: 45px;
-    text-align: center;
-
-    color: #000000;
-}
-
-form .btn-reguler::after,
-form .btn-large:checked,
-form .btn-xtra-large:checked,
 form .btn-250-gr:checked,
 form .btn-300-gr:checked,
 form .btn-500-gr:checked {
@@ -453,10 +586,9 @@ form p.methods {
 form .btn-home-delivery,
 form .btn-dine-in,
 form .btn-take-away {
-    width: 180px;
+    width: 170px;
     height: 72px;
     background: rgba(186, 186, 186, 0.35);
-    margin-left: 20px;
     border-radius: 20px;
     font-weight: bold;
     font-size: 20px;
@@ -464,11 +596,16 @@ form .btn-take-away {
     color: #6A4029;
 }
 
+form .btn-home-delivery:focus,
+form .btn-dine-in:focus,
+form .btn-take-away:focus {
+    background: #FFBA33;
+}
+
 form .btn-save {
     height: 98px;
     width: 100%;
-    background: #6A4029;
-    box-shadow: 0px 6px 20px rgba(106, 64, 41, 0.4);
+    background: rgba(186, 186, 186, 0.35);
     border-radius: 20px;
     font-weight: bold;
     font-size: 25px;
@@ -476,7 +613,19 @@ form .btn-save {
     letter-spacing: 0.03em;
     font-family: 'Poppins', sans-serif;
 
+    color: #4F5665;
+}
+
+form .btn-save:hover {
+    background: #6A4029;
     color: #FFFFFF;
+    box-shadow: 0px 6px 20px rgba(106, 64, 41, 0.4);
+}
+
+form .btn-save:focus {
+    background: #6A4029;
+    color: #FFFFFF;
+    box-shadow: 0px 6px 20px rgba(106, 64, 41, 0.4);
 }
 
 form .btn-cancel {
@@ -489,8 +638,21 @@ form .btn-cancel {
     line-height: 138.84%;
     letter-spacing: 0.03em;
     font-family: 'Poppins', sans-serif;
-    margin-top: 60px;
+    margin-top: 30px;
+    margin-bottom: 30px;
 
     color: #4F5665;
+}
+
+form .btn-cancel:hover {
+    background: #6A4029;
+    color: #FFFFFF;
+    box-shadow: 0px 6px 20px rgba(106, 64, 41, 0.4);
+}
+
+form .btn-cancel:focus {
+    background: #6A4029;
+    color: #FFFFFF;
+    box-shadow: 0px 6px 20px rgba(106, 64, 41, 0.4);
 }
 </style>
