@@ -155,8 +155,10 @@ export default {
 }
 
 .img {
-    width: 300px;
-    border-radius: 200px;
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    border-radius: 50%;
 }
 
 .text2 {

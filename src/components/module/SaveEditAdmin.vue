@@ -9,8 +9,8 @@
                         <p class="text2"> > Edit Product</p>
                     </div>
                     <div class="box2">
-                        <img class="img" src="../../assets/coffee3.png" alt="image1">
-                        <button class="box3" type="submit" @click="deleteImage">
+                        <img class="img" :src="getProductId.photoProduct" alt="image1">
+                        <button class="box3" type="submit">
                             <img class="img1" src="../../assets/trash.png" alt="image2">
                         </button>
                     </div>
@@ -20,12 +20,12 @@
             <div class="col-lg-6">
                 <div class="box4">
                     <div class="box5">
-                        <input class="productname" type="text" v-model="getProductId.productName" placeholder="Enter product name" value="COLD BREW">
-                        <input class="price" type="text" v-model="getProductId.price" placeholder="Enter price" value="IDR 30.000">
-                        <textarea class="productdetail" type="text" v-model="getProductId.description" placeholder="Enter details" value=""></textarea>
+                        <label class="productname">{{getProductId.productName}}</label>
+                        <label class="price">{{getProductId.price}}</label>
+                        <label class="productdetail">{{getProductId.description}}</label>
                     </div>
                 </div>
-                <div class="box6">
+                <!-- <div class="box6">
                     <select>
                         <option disabled selected>Select Size</option>
                         <option>R</option>
@@ -38,11 +38,11 @@
                         <option>Door delivery</option>
                         <option>Pick up</option>
                     </select>
-                </div>
+                </div> -->
                 <div class="box7">
                     <div class="box8">
                         <button class="plus" type="submit" @click="plusCount">+</button>
-                        <p class="text4">{{stock}}</p>
+                        <p class="text4">{{getProductId.stock}}</p>
                         <button class="minus" type="submit" @click="minusCount">-</button>
                     </div>
                     <button class="addcart" type="submit">Add to Cart</button>
@@ -55,19 +55,9 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import 'sweetalert2/src/sweetalert2.scss'
 
 export default {
   name: 'SaveEditAdmin',
-  data () {
-    return {
-      stock: 1,
-      productName: '',
-      price: 0,
-      description: ''
-    }
-  },
   methods: {
     plusCount () {
       this.stock = this.stock + 1
@@ -83,39 +73,47 @@ export default {
       const payload = {
         id
       }
-      console.log(this.getProductDetailsById(payload))
+      console.log('hasil update ', this.getProductDetailsById(payload))
       this.getProductDetailsById(payload)
-    },
-    deleteImage () {
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Delete'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
-            'success'
-          )
-        }
-      })
-    },
-    computed: {
-      ...mapGetters(['getProductId'])
-    },
-    async mounted () {
-      await this.getProductDetailsById()
     }
+    // deleteImage () {
+    //   Swal.fire({
+    //     title: 'Are you sure?',
+    //     text: "You won't be able to revert this!",
+    //     icon: 'warning',
+    //     showCancelButton: true,
+    //     confirmButtonColor: '#3085d6',
+    //     cancelButtonColor: '#d33',
+    //     confirmButtonText: 'Delete'
+    //   }).then((result) => {
+    //     if (result.isConfirmed) {
+    //       Swal.fire(
+    //         'Deleted!',
+    //         'Your file has been deleted.',
+    //         'success'
+    //       )
+    //     }
+    //   })
+    // },
+  },
+  computed: {
+    ...mapGetters(['getProductId'])
+  },
+  mounted () {
+    this.getProductDetailsById()
   }
 }
 </script>
 
 <style scoped>
+.box2 .img {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    margin-top: 20%;
+    margin-left: 5%;
+}
+
     .box {
     display: flex;
     flex-direction: column;

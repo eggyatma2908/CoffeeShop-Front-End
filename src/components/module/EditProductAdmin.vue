@@ -9,14 +9,20 @@
                         <p class="text2"> > Edit Product</p>
                     </div>
                     <div class="box2">
-                        <img id="update-photo" src="../../assets/coffee3.png" alt="photo product" class="img">
+                        <div class="box-image">
+                            <img id="update-photo" :src="getProductId.photoProduct" alt="user profile">
                             <div class="edit-image">
-                               <button class="box3">
-                               <label for="input-upload-image"><img src="../../assets/trash.png" alt="edit" class="img1 icon-edit">
-                                    <input id="input-upload-image" type="file" accept="image/x-png/,image/gif,image/jpeg"/>
-                               </label>
-                               </button>
+                               <input id="input-upload-image" type="file" accept="image/x-png/,image/gif,image/jpeg"/>
+                               <label for="input-upload-image"><img src="../../assets/edit.png" alt="edit" class="icon-edit"></label>
                             </div>
+                        </div>
+                        <!-- <img id="update-photo" src="../../assets/coffee3.png" alt="photo product" class="img">
+                            <div class="edit-image">
+                                <input id="input-upload-image" type="file" accept="image/x-png/,image/gif,image/jpeg"/>
+
+                               <label for="input-upload-image"><img src="../../assets/trash.png" alt="edit" class="img1 icon-edit"></label>
+
+                            </div> -->
                         <!-- <img class="img" src="../../assets/coffee3.png" alt="image1">
                         <button class="box3">
                             <img class="img1" src="../../assets/trash.png" alt="image2">
@@ -33,7 +39,7 @@
                         <textarea class="productdetail" v-model="description" type="text" placeholder="Enter details"></textarea>
                     </div>
                 </div>
-                <div class="box6">
+                <!-- <div class="box6">
                     <select>
                         <option disabled selected>Select Size</option>
                         <option>R</option>
@@ -46,7 +52,7 @@
                         <option>Dine In</option>
                         <option>Take away</option>
                     </select>
-                </div>
+                </div> -->
                 <div class="box7">
                     <div class="box8">
                         <button class="plus" type="submit" @click="plusCount">+</button>
@@ -55,7 +61,7 @@
                     </div>
                     <button class="addcart" type="submit">Add to Cart</button>
                 </div>
-                <button class="editproduct" type="submit" @click.prevent="updateProduct">Save Change</button>
+                <button class="editproduct" type="submit" @click.prevent="updateProduct(getProductId.idProduct)">Save Change</button>
             </div>
         </div>
     </div>
@@ -64,18 +70,16 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Swal from 'sweetalert2'
+import $ from 'jquery'
 export default {
   name: 'EditProductAdmin',
   data () {
     return {
-      stock: 1,
+      stock: 0,
       productName: '',
       price: 0,
       description: '',
-      discountPercent: 0,
-      idTypeProduct: 0,
-      photoProduct: [],
-      selected: ''
+      photoProduct: []
     }
   },
   methods: {
@@ -96,7 +100,7 @@ export default {
       console.log(this.getProductDetailsById(payload))
       this.getProductDetailsById(payload)
     },
-    updateProduct () {
+    updateProduct (idProduct) {
       if (!document.getElementById('input-upload-image').files[0]) {
         return Swal.fire({
           icon: 'error',
@@ -105,37 +109,87 @@ export default {
           showConfirmButton: false
         })
       }
-      const payload = new FormData()
-      payload.append('firstName', this.firstName)
-      payload.append('photoProduct', document.getElementById('input-upload-image').files[0])
-      payload.append('productName', this.productName)
-      payload.append('price', this.price)
-      payload.append('description', this.description)
-      payload.append('stock', this.stock)
-      payload.append('discountPercent', this.discountPercent)
-      payload.append('idTypeProduct', this.idTypeProduct)
-      payload.append('homeDelivery', this.homeDelivery)
-      payload.append('dineIn', this.dineIn)
-      payload.append('takeAway', this.takeAway)
-      console.log('update')
+      const form = new FormData()
+      form.append('photoProduct', document.getElementById('input-upload-image').files[0])
+      form.append('productName', this.productName)
+      form.append('price', this.price)
+      form.append('description', this.description)
+      form.append('stock', this.stock)
+      form.append('discountPercent', this.getProductId.discountPercent)
+      form.append('idTypeProduct', this.getProductId.idTypeProduct)
+      form.append('homeDelivery', this.getProductId.homeDelivery)
+      form.append('dineIn', this.getProductId.dineIn)
+      form.append('takeAway', this.getProductId.takeAway)
+      console.log('udah isi update')
+      const id = this.$route.params.idProduct
+      const payload = {
+        id,
+        formData: form
+      }
       this.updateProducts(payload)
         .then(res => {
-          console.log('hasil update ', res)
-        //   this.$router.push(`/home/save-product/${id}`)
+          console.log(res)
+          this.$router.push(`/home/save-product/${idProduct}`)
         })
+    },
+    onInputUploadChange () {
+      const self = this
+      $('#input-upload-image').change(function () {
+        self.readImgUrlAndPreview(this)
+      })
+    },
+    readImgUrlAndPreview (input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader()
+        reader.onload = function (e) {
+          $('#update-photo').attr('src', e.target.result)
+        }
+        reader.readAsDataURL(input.files[0])
+      }
     }
   },
   computed: {
     ...mapGetters(['getProductId'])
   },
-  mounted () {
-    this.getProductDetailsById()
-    this.updateProducts()
+  async mounted () {
+    await this.getProductDetailsById()
+    await this.onInputUploadChange()
+    // this.updateProducts()
   }
 }
 </script>
 
 <style scoped>
+.box-image img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin-top: 20%;
+    margin-left: 5%;
+}
+
+.edit-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #6A4029;
+    position: absolute;
+    top: 20px;
+    left: 420px;
+}
+
+.edit-image img {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top: 12px;
+    left: 15px;
+}
+
+#input-upload-image {
+  display:none;
+}
+
 .box {
     display: flex;
     flex-direction: column;

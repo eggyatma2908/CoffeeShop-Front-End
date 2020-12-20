@@ -55,7 +55,7 @@ const routes = [
         component: EditProductAdmin
       },
       {
-        path: 'save-product',
+        path: 'save-product/:idProduct',
         name: 'SaveEditAdmin',
         component: SaveEditAdmin
       },

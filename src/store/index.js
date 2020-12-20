@@ -183,19 +183,14 @@ export default new Vuex.Store({
     updateProducts (context, payload) {
       console.log('api update product')
       return new Promise((resolve, reject) => {
-        axios.patch(`${process.env.VUE_APP_URL_API}/products/${router.currentRoute.params.idProduct}`, payload)
+        console.log('otw update')
+        axios.patch(`${process.env.VUE_APP_URL_API}/products/${payload.id}`, payload.formData)
           .then(results => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Succeed',
-              text: 'product has been updated',
-              showConfirmButton: false,
-              timer: 1500
-            })
+            console.log('hasil result', results)
             resolve(results)
           })
           .catch(error => {
-            console.log(error)
+            console.log(error.response)
           })
       })
     },
@@ -218,6 +213,13 @@ export default new Vuex.Store({
               timer: 5000
             })
             router.push('/auth/login')
+          } else if (response.data.result.message === 'Data Product has been updated') {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success update product',
+              showConfirmButton: false,
+              timer: 5000
+            })
           }
         }
         return response
