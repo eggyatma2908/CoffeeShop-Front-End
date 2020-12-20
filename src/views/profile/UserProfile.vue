@@ -106,7 +106,7 @@
                         <button type="submit" @click="handleUpdateUserProfile" class="btn btn-save">Save Change</button>
                         <button type="submit" class="btn btn-cancel">Cancel</button>
                         <button type="submit" class="btn btn-edit-password">Edit Password<img src="../../assets/arrow-right.png" alt=""></button>
-                        <button type="submit" class="btn btn-logout">Log out<img src="../../assets/arrow-right.png" alt=""></button>
+                        <button type="submit" @click.prevent="handleLogout" class="btn btn-logout">Log out<img src="../../assets/arrow-right.png" alt=""></button>
                     </div>
                 </div>
             </div>
@@ -152,7 +152,7 @@ export default {
     gender: { required }
   },
   methods: {
-    ...mapActions(['updateUserProfile']),
+    ...mapActions(['updateUserProfile', 'logout']),
     validationStatus (validation) {
       return typeof validation !== 'undefined' ? validation.$error : false
     },
@@ -203,6 +203,19 @@ export default {
         }
         reader.readAsDataURL(input.files[0])
       }
+    },
+    handleLogout () {
+      localStorage.removeItem('vuex')
+      this.logout()
+        .then(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Succeed logout',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.$router.push('/auth/login')
+        })
     }
   },
   mounted () {
