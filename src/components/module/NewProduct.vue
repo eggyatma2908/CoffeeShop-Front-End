@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="settime" for="settime1"></label>
-                                    <input id="settime1" type="time" v-model="deliveryHourEnd" style="outline:none;" class="input1" min="09:00" max="18:00" v-on:change="setTime1" required>
+                                    <input id="settime1" type="time" v-model="deliveryHourEnd" style="outline:none;" class="input1" min="09:00" max="18:00" v-on:change="setTime1" placeholder="Select end hour" required>
                                 </div>
                             </form>
                         </div>
@@ -148,7 +148,6 @@ export default {
       return typeof validation !== 'undefined' ? validation.$error : false
     },
     ...mapActions(['addNewProduct']),
-    ...mapActions(['getAllProduct']),
     addCategory (event) {
       const categoryId = document.getElementById('selectcategory').category.value
       this.idTypeProduct = categoryId
@@ -223,13 +222,18 @@ export default {
     }
   },
   mounted () {
-    this.getAllProduct()
     this.onInputUploadChange()
   }
 }
 </script>
 
 <style scoped>
+.col-lg-6 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .box4 {
     display: flex;
     justify-content: space-between;
@@ -297,10 +301,9 @@ main {
     height: 300px;
     background: rgba(186, 186, 186, 0.35);
     border-radius: 50%;
-    margin-left: 50px;
     background-image: url('../../assets/camera.png');
     background-repeat: no-repeat;
-    background-position: 100px
+    background-position: 100px;
 }
 
 img {
@@ -331,6 +334,7 @@ button.btn-take-picture {
     flex-direction: column;
     justify-content: center;
     margin-top: 20px;
+    margin-right: 0px;
     background: #FFBA33;
     border-radius: 20px;
     width: 391px;
@@ -341,7 +345,12 @@ button.btn-take-picture {
     color: #6A4029;
 }
 
+.btn-choose-gallery label {
+    margin-bottom: 0px;
+}
+
 input#upload-image {
+    width: 365px;
     position: absolute;
     opacity: 0;
 }
