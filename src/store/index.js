@@ -16,7 +16,8 @@ export default new Vuex.Store({
     userRegister: [],
     accessToken: null || localStorage.getItem('accessToken'),
     refreshToken: null || localStorage.getItem('refreshToken'),
-    userData: ''
+    userData: '',
+    cartData: []
   },
   plugins: [createPersistedState()],
   mutations: {
@@ -42,6 +43,12 @@ export default new Vuex.Store({
     },
     SET_USER_DATA (state, payload) {
       state.userData = payload
+    },
+    SET_CARD_DATA (state, payload) {
+      state.cartData = [payload]
+    },
+    REMOVE_CART_DATA (state, payload) {
+      state.cartData = []
     }
   },
   actions: {
@@ -56,6 +63,7 @@ export default new Vuex.Store({
               if (!error) {
                 delete data.iat
                 delete data.exp
+                context.dispatch('getDataUserById', data.userId)
                 context.commit('SET_USER_DATA', data)
               }
             })
@@ -136,11 +144,19 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         axios.get(`${process.env.VUE_APP_URL_API}/products/${payload.id}`)
           .then(results => {
-            console.log(results.data.result.dineIn)
             resolve(results.data.result)
           })
           .catch(error => {
             console.log(error)
+          })
+      })
+    },
+    getDataUserById (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.get(`${process.env.VUE_APP_URL_API}/users/${payload}`)
+          .then(results => {
+            context.commit('SET_USER_DATA', results.data.result)
+            resolve(results.data.result)
           })
       })
     },
@@ -232,6 +248,9 @@ export default new Vuex.Store({
     },
     getUserData (state) {
       return state.userData
+    },
+    getCardData (state) {
+      return state.cartData
     }
   },
   modules: {

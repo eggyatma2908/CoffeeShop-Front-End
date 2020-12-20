@@ -10,31 +10,37 @@
                     <img class="img" :src="productDetails.photoProduct" alt="image1">
                     <p class="text2">{{ productDetails.productName }}</p>
                     <p class="text3">IDR {{ productDetails.price }}</p>
-                    <button class="addcart" type="submit">Add to Cart</button>
+                    <button class="addcart" type="submit" @click="addCardData">Add to Cart</button>
                     <button class="askstaff" type="submit">Ask a Staff</button>
                 </div>
             </div>
             <div class="col-lg-7">
                 <div class="box2">
                     <p class="text4">Delivery only on <b>Monday to friday</b> at  <b>{{ productDetails.deliveryHourStart }} - {{ productDetails.deliveryHourEnd }} pm</b></p>
-                    <p class="text5">Cold brewing is a method of brewing that combines ground coffee and cool water and uses time instead of heat to extract the flavor. It is brewed in small batches and steeped for as long as 48 hours.</p>
+                    <p class="text5">{{ productDetails.description }}</p>
                     <p class="text6">Choose a size</p>
                     <div class="box3">
-                        <button class="size" type="submit">R</button>
-                        <button class="size1" type="submit">L</button>
-                        <button class="size2" type="submit">XL</button>
+                        <input class="size" id="btn-choose-size-r" value="R" v-model="inputChooseSize" type="radio" name="size">
+												<label for="btn-choose-size-r">R</label>
+                        <input class="size" id="btn-choose-size-l" value="L" v-model="inputChooseSize" type="radio" name="size">
+												<label for="btn-choose-size-l">L</label>
+                        <input class="size" id="btn-choose-size-xl" value="XL" v-model="inputChooseSize" type="radio" name="size">
+												<label for="btn-choose-size-xl">XL</label>
                     </div>
                 </div>
                 <div class="box4">
                     <p class="text7">Choose Delivery Methods</p>
                     <div class="box5">
-                        <button class="dinein" type="submit">Dine in</button>
-                        <button class="doordelivery" type="submit">Door Delivery</button>
-                        <button class="pickup" type="submit">Pick up</button>
+                        <input type="radio" v-model="chooseDelivery" value="dinein" id="dine-in-option" name="delivery">
+                        <label for="dine-in-option" class="dinein">Dine In</label>
+                        <input type="radio" v-model="chooseDelivery" value="doordelivery" id="door-delivery-option" name="delivery">
+                        <label for="door-delivery-option" class="doordelivery">Door Delivery</label>
+                        <input type="radio" v-model="chooseDelivery" value="pickup" id="pick-up-delivery-option" name="delivery">
+                        <label for="pick-up-delivery-option" class="pickup">Pick Up</label>
                     </div>
                     <div class="box6">
                         <label class="settime" for="settime">Set time :</label>
-                        <input class="input1" type="text" placeholder="Enter the time your arrived">
+                        <input type="time" v-model="timeDeliverd" class="input1" min="09:00" max="18:00" required>
                     </div>
                 </div>
                 <div class="box7">
@@ -42,16 +48,20 @@
                         <div class="box9">
                             <img class="img1" src="../../assets/coffee2.png" alt="image2">
                             <div class="box10">
-                                <p class="text8">COLD BREW</p>
-                                <p class="text9">x1 (Large)</p>
-                                <p class="text10">x1 (Regular)</p>
+                                <p class="text8">{{ productDetails.productName }}</p>
+                                <p class="text10" v-if="listOrder.regular > 0">x{{ listOrder.regular }} (Regular)</p>
+                                <p class="text9" v-if="listOrder.large > 0">x{{ listOrder.large }} (Large)</p>
+                                <p class="text10" v-if="listOrder.xtralarge > 0">x{{ listOrder.xtralarge }} (XtraLarge)</p>
+                                <!-- <ul v-for="order in listOrder" :key="order.id">
+                                    <li>x{{ order.amount }} ({{ order.size }}) </li>
+                                </ul> -->
                             </div>
-                            <button class="minus" type="submit">-</button>
-                            <p class="text11">2</p>
-                            <button class="plus" type="submit">+</button>
+                            <button class="minus" type="submit" @click="decreaseTotalOrder">-</button>
+                            <p class="text11">{{ totalOrder }}</p>
+                            <button class="plus" type="submit" @click="increaseTotalOrder">+</button>
                         </div>
                     </div>
-                    <button class="checkout">CHECKOUT</button>
+                    <button class="checkout" >CHECKOUT</button>
                 </div>
             </div>
         </div>
@@ -59,12 +69,26 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
+import Swal from 'sweetalert2'
+
 export default {
   name: 'ProductDetails',
   data () {
     return {
-      productDetails: ''
+      productDetails: '',
+      inputChooseSize: '',
+      chooseDelivery: '',
+      totalOrder: 0,
+      timeDeliverd: '',
+      listOrder: {
+        idProduct: '',
+        productName: '',
+        regular: 0,
+        large: 0,
+        xtralarge: 0,
+        basePrice: 0
+      }
     }
   },
   methods: {
@@ -79,10 +103,93 @@ export default {
     },
     backToType () {
       this.$router.go(-1)
+    },
+    checkChooseSizeButton () {
+      console.log(document.getElementById('btn-choose-size-r'))
+    },
+    increaseTotalOrder () {
+      if (!this.inputChooseSize || !this.chooseDelivery || !this.timeDeliverd) {
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Sorry field input required',
+          showConfirmButton: false,
+          timer: 1000
+        })
+      }
+      if (this.inputChooseSize === 'L') {
+        this.increaseLarge.large++
+      }
+      if (this.inputChooseSize === 'R') {
+        this.increaseLarge.regular++
+      }
+      if (this.inputChooseSize === 'XL') {
+        this.increaseLarge.xtralarge++
+      }
+      this.totalOrder++
+    },
+    decreaseTotalOrder () {
+      if (this.totalOrder > 0) {
+        if (this.inputChooseSize === 'L') {
+          this.increaseLarge.large--
+        }
+        if (this.inputChooseSize === 'R') {
+          this.increaseLarge.regular--
+        }
+        if (this.inputChooseSize === 'XL') {
+          this.increaseLarge.xtralarge--
+        }
+        this.totalOrder--
+      }
+    },
+    ...mapMutations(['SET_CARD_DATA', 'REMOVE_CART_DATA']),
+    addCardData () {
+      this.listOrder.productName = this.productDetails.productName
+      this.listOrder.basePrice = this.productDetails.price
+      this.listOrder.idProduct = this.$route.params.idProduct
+      this.listOrder.photoProduct = this.productDetails.photoProduct
+      const cardData = JSON.parse(localStorage.getItem('cardData'))
+      if (cardData) {
+        if (cardData.length > 0) {
+          if (cardData.find((value) => value.productName === this.productDetails.productName)) {
+            console.log(cardData)
+            const cardDataCopy = cardData.map(item => {
+              console.log(item)
+              if (item.productName === this.productDetails.productName) {
+                const newItem = Object.assign({}, item)
+                newItem.regular += this.increaseLarge.regular
+                newItem.large += this.increaseLarge.large
+                newItem.xtralarge += this.increaseLarge.xtralarge
+                return newItem
+              }
+              return item
+            })
+            localStorage.setItem('cardData', JSON.stringify(cardDataCopy))
+            return
+          }
+          const payload2 = [
+            ...cardData,
+            this.listOrder
+          ]
+          localStorage.setItem('cardData', JSON.stringify(payload2))
+        }
+      } else {
+        const payload = [this.listOrder]
+        localStorage.setItem('cardData', JSON.stringify(payload))
+      }
+    },
+    toCheckOut () {
+      this.$router.push({ path: '/home/' })
     }
   },
   async mounted () {
     await this.handleGetProductDetailsById()
+    this.checkChooseSizeButton()
+  },
+  computed: {
+    increaseLarge () {
+      return this.listOrder
+    }
   }
 }
 </script>
@@ -137,7 +244,7 @@ export default {
     font-style: normal;
     font-weight: 900;
     font-size: 60px;
-
+		text-transform: capitalize;
     color: #000000;
 }
 
@@ -254,7 +361,39 @@ export default {
     justify-content: space-around;
     width: 60%;
 }
+.box3 input[type="radio"] {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}
+.box3 label {
+    width: 70px;
+		height:70px;
+    background: #FFBA33;
+    border: none;
+    border-radius: 50%;
+		text-align:center;
+		padding:10px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
 
+    color: #000000;
+}
+.box3 label:hover {
+  background-color: rgba(231, 170, 54, 0.52);
+}
+
+.box3 input[type="radio"]:focus + label {
+    border: 2px dashed #444;
+}
+
+.box3 input[type="radio"]:checked + label {
+    background-color: rgba(231, 170, 54, 0.52);
+    border: 3px solid #6A4029;
+		color:#6A4029;
+}
 .size {
     width: 70px;
     height: 70px;
@@ -320,10 +459,34 @@ export default {
     flex-direction: column;
     align-items: center;
 
-    margin-left: -150px;
+    margin-left: -300px;
     margin-top: 45px;
 }
+.box5 input[type="radio"]{
+     opacity: 0;
+  position: fixed;
+  width: 0;
+}
+.box5 label:hover {
+    background-color: rgba(231, 170, 54, 0.52);
+    border: 3px solid #6A4029;
+    color:#6A4029;
+}
 
+.box5 input[type="radio"]:focus + label {
+    border: 2px dashed #444;
+}
+
+.box5 input[type="radio"]:checked + label {
+    background: #6A4029;
+    border: 3px solid #6A4029;
+    color:white;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 24px;
+}
 .text7 {
     font-family: Poppins;
     font-style: normal;
@@ -350,7 +513,8 @@ export default {
     border: 1px solid rgba(186, 186, 186, 0.35);
     box-sizing: border-box;
     border-radius: 10px;
-
+    padding:10px;
+    text-align:center;
     font-family: Poppins;
     font-style: normal;
     font-weight: normal;
@@ -392,7 +556,8 @@ export default {
     border: 1px solid rgba(186, 186, 186, 0.35);
     box-sizing: border-box;
     border-radius: 10px;
-
+    padding:10px;
+    text-align:center;
     font-family: Poppins;
     font-style: normal;
     font-weight: normal;
@@ -434,7 +599,8 @@ export default {
     border: 1px solid rgba(186, 186, 186, 0.35);
     box-sizing: border-box;
     border-radius: 10px;
-
+    padding:10px;
+    text-align:center;
     font-family: Poppins;
     font-style: normal;
     font-weight: normal;

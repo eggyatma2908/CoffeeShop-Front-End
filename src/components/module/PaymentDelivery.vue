@@ -5,48 +5,18 @@
       <div class="card-order p-5 col-5 p-0">
           <p class="card-order-title">Order Summary</p>
           <div class="card-order-list mt-5">
-            <div class="order-list row mt-3">
+            <div class="order-list row mt-3" v-for="listOrder in getListOrder" :key="listOrder.idProduct">
               <div class="card-order-photo col-3">
-                <img src="../../assets/image 36.png" />
+                <img :src="listOrder.photoProduct" />
               </div>
               <div class="order-details col-6">
-                <p>Hazelnut Latte</p>
-                <p>x 1</p>
-                <p>Regular</p>
+                <p>{{ listOrder.productName }}</p>
+                <p>x {{listOrder.regular + listOrder.large + listOrder.xtralarge }}</p>
+                <p>{{ listOrder.regular !== 0 ? 'Regular' : '' }} {{ listOrder.large !== 0 ? 'Large' : '' }} {{ listOrder.xtralarge !== 0 ? 'XtraLarge' : '' }}</p>
               </div>
               <div class="order-price col-3">
                 <p>
-                  IDR 24.0
-                </p>
-              </div>
-            </div>
-            <div class="order-list row mt-3">
-              <div class="card-order-photo col-3">
-                <img src="../../assets/image 36.png" />
-              </div>
-              <div class="order-details col-6">
-                <p>Hazelnut Latte</p>
-                <p>x 1</p>
-                <p>Regular</p>
-              </div>
-              <div class="order-price col-3">
-                <p>
-                  IDR 24.0
-                </p>
-              </div>
-            </div>
-            <div class="order-list row mt-3">
-              <div class="card-order-photo col-3">
-                <img src="../../assets/image 36.png" />
-              </div>
-              <div class="order-details col-6">
-                <p>Hazelnut Latte</p>
-                <p>x 1</p>
-                <p>Regular</p>
-              </div>
-              <div class="order-price col-3">
-                <p>
-                  IDR 24.0
+                  {{ getTotalPerItem(listOrder.productName) }}
                 </p>
               </div>
             </div>
@@ -56,25 +26,25 @@
               <p class="bold-500">SUB TOTAL </p>
             </div>
             <div class="col-6">
-              <p class="price-amount">IDR 24.0</p>
+              <p class="price-amount">IDR {{ subTotal }}</p>
             </div>
             <div class="col-6">
               <p class="bold-500">TAX & FEES</p>
             </div>
             <div class="col-6">
-            <p class="price-amount">IDR 120.000</p>
+            <p class="price-amount">IDR {{ taxAndFees }}</p>
             </div>
             <div class="col-6">
               <p class="bold-500">SHIPPING</p>
             </div>
             <div class="col-6">
-              <p class="price-amount">IDR 120.000</p>
+              <p class="price-amount">IDR {{ shipping }}</p>
             </div>
             <div class="col-6">
               <p class="total">TOTAL </p>
             </div>
             <div class="col-6">
-              <p class="total">IDR 264.000</p>
+              <p class="total">IDR {{ totalAmountInvoice }}</p>
             </div>
           </div>
       </div>
@@ -85,10 +55,9 @@
             <p class="action-edit m-2">edit</p>
           </div>
           <div class="card-address-details m-0 bold-500">
-            <p class="delivery-name"><span class="bold-700">Delivery</span> <span class="bold-500">to Iskandar Street</span></p>
-            <p class="delivery-to">Km 5 refinery road oppsite re
-                public road, effurun, Jakarta</p>
-            <p class="delivery-number">+62 81348287878</p>
+            <p class="delivery-name"><span class="bold-700">Delivery</span> <span class="bold-500">to {{ getUserData.firstName + ' ' + getUserData.lastName }}</span></p>
+            <p class="delivery-to">{{ getUserData.address }}</p>
+            <p class="delivery-number">{{ getUserData.phoneNumber }}</p>
           </div>
         </div>
         <div class="payment-method mt-5">
@@ -126,8 +95,99 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: 'PaymentDelivery'
+  name: 'PaymentDelivery',
+  data () {
+    return {
+      listOrder: '',
+      subTotal: 0,
+      taxAndFees: 2000,
+      shipping: 12000,
+      totalAmountInvoice: 0,
+      userData: null
+    }
+  },
+  methods: {
+    totalAmount () {
+      const subTotal = this.getListOrder.reduce((total, value) => {
+        let totalLarge = 0
+        let totalRegular = 0
+        let totalXtraLarge = 0
+        if (value.large > 0) {
+          for (let i = 1; i <= value.large; i++) {
+            // eslint-disable-next-line no-unused-expressions
+            totalLarge += value.basePrice + (value.basePrice * 10 / 100)
+          }
+        }
+        if (value.regular > 0) {
+          for (let i = 1; i <= value.regular; i++) {
+            // eslint-disable-next-line no-unused-expressions
+            totalRegular += value.basePrice
+          }
+        }
+        if (value.xtralarge > 0) {
+          for (let i = 1; i <= value.xtralarge; i++) {
+            // eslint-disable-next-line no-unused-expressions
+            totalXtraLarge += value.basePrice + (value.basePrice * 20 / 100)
+          }
+        }
+        return total + totalLarge + totalRegular + totalXtraLarge
+      }, 0)
+      this.subTotal = subTotal
+    },
+    getTotalPerItem (productName) {
+      const getItem = JSON.parse(localStorage.getItem('cardData'))
+      const filter = getItem.filter((el) => el.productName === productName)
+      const totalItem = filter.reduce((total, value) => {
+        let totalLarge = 0
+        let totalRegular = 0
+        let totalXtraLarge = 0
+        if (value.large > 0) {
+          for (let i = 1; i <= value.large; i++) {
+            // eslint-disable-next-line no-unused-expressions
+            totalLarge += value.basePrice + (value.basePrice * 10 / 100)
+          }
+        }
+        if (value.regular > 0) {
+          for (let i = 1; i <= value.regular; i++) {
+            // eslint-disable-next-line no-unused-expressions
+            totalRegular += value.basePrice
+          }
+        }
+        if (value.xtralarge > 0) {
+          for (let i = 1; i <= value.xtralarge; i++) {
+            // eslint-disable-next-line no-unused-expressions
+            totalXtraLarge += value.basePrice + (value.basePrice * 20 / 100)
+          }
+        }
+        return total + totalLarge + totalRegular + totalXtraLarge
+      }, 0)
+      return totalItem
+    },
+    getTotalAmountInvoice () {
+      const totalAmount = this.taxAndFees + this.shipping + this.subTotal
+      this.totalAmountInvoice = totalAmount
+    },
+    ...mapActions(['getDataUserById']),
+    async getDataUser (idUser) {
+      await this.getDataUserById(idUser)
+        .then(result => {
+          this.userData = result
+        })
+    }
+  },
+  computed: {
+    getListOrder () {
+      return JSON.parse(localStorage.getItem('cardData'))
+    },
+    ...mapGetters(['getUserData'])
+  },
+  mounted () {
+    this.totalAmount()
+    this.getTotalAmountInvoice()
+    this.getDataUser(this.getUserData.id)
+  }
 }
 </script>
 
@@ -200,6 +260,7 @@ main {
   height:max-content;
   border-radius: 20px;
   padding:30px 30px 10px 30px;
+  /* overflow:auto; */
 }
 .card-address-details > * {
   font-family: Poppins;
@@ -251,6 +312,7 @@ main {
   padding-bottom:10px;
   border-bottom: 0.5px solid rgba(0,0,0,0.2);
 }
+
 .card-payment-details {
   background-color:#ffffff;
   height:max-content;
