@@ -111,7 +111,7 @@ const routes = [
         path: 'product-admin',
         name: 'ProductAdmin',
         component: ProductAdmin,
-        meta: { requiresAuth: true },
+        meta: { requiresAuth: true, requiresAdmin: true },
         children: [
           {
             path: 'favorite-product',
@@ -212,6 +212,21 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth && record.meta.requiresAdmin)) {
+    if (!store.getters.isLogin) {
+      next({
+        path: '/auth/login'
+      })
+    } else {
+      if (store.getters.isAdmin) {
+        next()
+      } else {
+        next({
+          path: '/home/product-customer/favorite-product'
+        })
+      }
+    }
+  }
   if (to.matched.some(record => record.meta.requiresAuth && record.meta.requiresOrder)) {
     if (!store.getters.isLogin) {
       next({

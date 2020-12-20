@@ -37,7 +37,7 @@
                                 <label class="form-label">Name :</label>
                                 <input type="text" v-model.trim="$v.name.$model" :class="{ 'is-invalid': validationStatus($v.name) }" class="form-control" placeholder="Type product name min. 50 characters">
                                 <div class="invalid-feedback" v-if="!$v.name.required">Field is required.</div>
-                                <div class="invalid-feedback" v-if="!$v.name.minLength">Minim 50 characters</div>
+                                <div class="invalid-feedback" v-if="!$v.name.minLength">Minim 20 characters</div>
                             </div>
                             <div class="mb-3 mt-5 form-group">
                                 <label class="form-label">Price :</label>
@@ -48,7 +48,7 @@
                                 <label class="form-label">Description :</label>
                                 <input type="text" v-model.trim="$v.description.$model" :class="{ 'is-invalid': validationStatus($v.description) }" class="form-control" placeholder="Describe your product min. 150 characters">
                                 <div class="invalid-feedback" v-if="!$v.description.required">Field is required.</div>
-                                <div class="invalid-feedback" v-if="!$v.description.minLength">Minim 150 characters</div>
+                                <div class="invalid-feedback" v-if="!$v.description.minLength">Minim 50 characters</div>
                             </div>
                             <div class="mb-3 mt-5 form-group">
                                 <label class="form-label">Category :</label>
@@ -96,9 +96,9 @@ export default {
     }
   },
   validations: {
-    name: { required, minLength: minLength(50) },
+    name: { required, minLength: minLength(20) },
     price: { required },
-    description: { required, minLength: minLength(150) },
+    description: { required, minLength: minLength(50) },
     category: { required }
   },
   methods: {

@@ -21,7 +21,8 @@ export default new Vuex.Store({
     removeProduct: [],
     updateProduct: [],
     pagination: null,
-    dataType: []
+    dataType: [],
+    roleId: null
   },
   plugins: [createPersistedState()],
   mutations: {
@@ -76,6 +77,9 @@ export default new Vuex.Store({
       state.dataType = null
       state.products = null
       state.removeProduct = null
+    },
+    SET_ROLE_ID (state, payload) {
+      state.roleId = payload
     }
   },
   actions: {
@@ -90,6 +94,7 @@ export default new Vuex.Store({
               if (!error) {
                 delete data.iat
                 delete data.exp
+                context.dispatch('getRoleId', data.userId)
                 context.dispatch('getDataUserById', data.userId)
                 context.commit('SET_USER_DATA', data)
               }
@@ -103,7 +108,7 @@ export default new Vuex.Store({
     logout (context) {
       localStorage.removeItem('accessToken')
       localStorage.removeItem('refreshToken')
-      localStorage.remove('cardData')
+      localStorage.removeItem('cardData')
       context.commit('REMOVE_TOKEN')
       context.commit('REMOVE_USER')
     },
@@ -128,6 +133,19 @@ export default new Vuex.Store({
             })
             router.push({ path: '/home/product-customer/favorite-product' })
             resolve(result)
+          })
+      })
+    },
+    getRoleId (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.get(`${process.env.VUE_APP_URL_API}/users/getroleid/${payload}`)
+          .then(result => {
+            console.log(result.data.result)
+            resolve(result.data.result.roleId)
+            context.commit('SET_ROLE_ID', result.data.result.roleId)
+          })
+          .catch(error => {
+            console.log(error)
           })
       })
     },
@@ -296,6 +314,13 @@ export default new Vuex.Store({
               showConfirmButton: false,
               timer: 1500
             })
+          } else if (error.response.data.err.message === 'Email or Password Wrong') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Email or Password incorrect',
+              showConfirmButton: false,
+              timer: 1500
+            })
           }
         } else if (error.response.data.status === 409) {
           if (error.response.data.err.message === 'Forbidden: Email already exists. ') {
@@ -348,6 +373,9 @@ export default new Vuex.Store({
     },
     getDataType (state) {
       return state.dataType
+    },
+    isAdmin (state) {
+      return state.roleId === 1
     }
   },
   modules: {
