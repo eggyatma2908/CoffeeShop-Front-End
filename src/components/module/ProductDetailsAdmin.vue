@@ -4,21 +4,25 @@
             <div class="col-lg-5">
                 <div class="box">
                     <div class="box1">
-                        <p class="text">Favorite & Promo ></p>
-                        <p class="text1">Cold Brew</p>
+                        <router-link to="/home/product-admin" class="text">Favorite & Promo</router-link>
+                        <p class="text1">> {{getProductId.productName}}</p>
                     </div>
-                    <img class="img" src="../../assets/coffee2.png" alt="image1">
-                    <p class="text2">COLD BREW</p>
-                    <p class="text3">IDR 30.000</p>
+                    <!-- <img class="img" src="../../assets/coffee2.png" alt="image1"> -->
+                    <div class="photo-product">
+                        {{  }}
+                        <img :src="getProductId.photoProduct ? getProductId.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" class="img" alt="image2">
+                    </div>
+                    <p class="text2">{{getProductId.productName}}</p>
+                    <p class="text3">IDR {{getProductId.price}}</p>
                     <button class="addcart" type="submit">Add to Cart</button>
-                    <button class="askstaff" type="submit">Ask a Staff</button>
-                    <button class="delete" type="submit">Delete Menu</button>
+                    <button class="askstaff" type="submit" @click.prevent="goPageEditProducts(getProductId.idProduct)">Edit Product</button>
+                    <button class="delete" type="submit" @click.prevent="deleteProduct">Delete Menu</button>
                 </div>
             </div>
             <div class="col-lg-7">
                 <div class="box2">
                     <p class="text4">Delivery only on <b>Monday to friday</b> at  <b>1 - 7 pm</b></p>
-                    <p class="text5">Cold brewing is a method of brewing that combines ground coffee and cool water and uses time instead of heat to extract the flavor. It is brewed in small batches and steeped for as long as 48 hours.</p>
+                    <p class="text5">{{getProductId.description}}</p>
                     <p class="text6">Choose a size</p>
                     <div class="box3">
                         <button class="size" type="submit">R</button>
@@ -35,7 +39,7 @@
                     </div>
                     <div class="box6">
                         <label class="settime" for="settime">Set time :</label>
-                        <input class="input1" type="text" placeholder="Enter the time your arrived">
+                        <input class="input1" type="time" placeholder="Enter the time your arrived">
                     </div>
                 </div>
                 <div class="box7">
@@ -47,9 +51,9 @@
                                 <p class="text9">x1 (Large)</p>
                                 <p class="text10">x1 (Regular)</p>
                             </div>
-                            <button class="minus" type="submit">-</button>
-                            <p class="text11">2</p>
-                            <button class="plus" type="submit">+</button>
+                            <button class="minus" type="submit" @click="minusCount">-</button>
+                            <p class="text11">{{count}}</p>
+                            <button class="plus" type="submit" @click="plusCount">+</button>
                         </div>
                     </div>
                     <button class="checkout">CHECKOUT</button>
@@ -60,12 +64,100 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+import Swal from 'sweetalert2'
 export default {
-  name: 'ProductDetailsAdmin'
+  name: 'ProductDetailsAdmin',
+  data () {
+    return {
+      count: 1
+    }
+  },
+  methods: {
+    plusCount () {
+      this.count = this.count + 1
+    },
+    minusCount () {
+      if (this.count > 0) {
+        this.count = this.count - 1
+      }
+    },
+    ...mapActions(['getProductDetailsById', 'removeProduct']),
+    getProductById () {
+      const id = this.$route.params.idProduct
+      const payload = {
+        id
+      }
+      this.getProductDetailsById(payload)
+        .then(res => {
+          console.log(res)
+        })
+      console.log('ini get product by id')
+    },
+    deleteProduct () {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const payload = {
+            id: this.$route.params.idProduct
+          }
+          this.removeProduct(payload)
+            .then(res => {
+              swalWithBootstrapButtons.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+              )
+            })
+          this.$router.push('/home/product-admin')
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Your imaginary file is safe :)',
+            'error'
+          )
+        }
+      })
+    },
+    goPageEditProducts (id) {
+      this.$router.push(`/home/edit-product-admin/${id}`)
+    }
+  },
+  computed: {
+    ...mapGetters(['getProductId'])
+  },
+  async mounted () {
+    await this.getProductDetailsById()
+  }
 }
 </script>
 
 <style scoped>
+.box7 {
+    margin-bottom: 80px;
+}
+.photo-product img{
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+}
 .row {
     background: #EDEDED;
 }
@@ -74,6 +166,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: max-content;
 }
 
 .box1 {
@@ -84,20 +177,37 @@ export default {
     margin-bottom: 60px;
 }
 
-.text1 {
-    margin-left: 5px;
+.text {
+    margin-right: 5px;
 
     font-family: Rubik;
     font-style: normal;
     font-weight: normal;
-    font-size: 17px;
+    font-size: 20px;
+    line-height: 24px;
+    text-decoration: none;
+
+    color: #4F5665;
+}
+
+.text1 {
+    margin-right: 5px;
+
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+    text-transform: capitalize;
 
     color: #6A4029;
 }
 
 .img {
-    width: 300px;
-    border-radius: 200px;
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    border-radius: 50%;
 }
 
 .text2 {
@@ -111,6 +221,7 @@ export default {
     font-style: normal;
     font-weight: 900;
     font-size: 60px;
+    text-transform: capitalize;
 
     color: #000000;
 }
@@ -467,7 +578,7 @@ export default {
     flex-direction: row;
     width: 480px;
 
-    margin-bottom: 121px;
+    margin-bottom: 190px;
 }
 
 .settime {
@@ -509,7 +620,6 @@ export default {
     justify-content: space-around;
     align-items: center;
     margin: 30px;
-
 }
 .img1 {
     width: 100px;

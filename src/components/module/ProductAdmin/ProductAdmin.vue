@@ -8,11 +8,11 @@
                     <div class="box">
                         <div class="box1">
                             <div class="coupon"></div>
-                            <div class="coupon1"><button class="edit"><img src="../../assets/pen.png" alt="image"></button></div>
-                            <div class="coupon2"><button class="edit1"><img src="../../assets/pen1.png" alt="image"></button></div>
+                            <div class="coupon1"><button class="edit"><img src="../../../assets/pen.png" alt="image"></button></div>
+                            <div class="coupon2"><button class="edit1"><img src="../../../assets/pen1.png" alt="image"></button></div>
                             <div class="box2">
-                                <button class="edit2"><img src="../../assets/pen.png" alt="image"></button>
-                                <img class="img" src="../../assets/food1.png" alt="image1">
+                                <button class="edit2"><img src="../../../assets/pen.png" alt="image"></button>
+                                <img class="img" src="../../../assets/food1.png" alt="image1">
                                 <p class="text2">Beef Spaghetti</p>
                                 <p class="text3">20% OFF</p>
                                 <p class="text4">Buy 1 Choco Oreo and get 20% off for Beef Spaghetti</p>
@@ -37,87 +37,14 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="menu">
-                        <div class="favoriteproduct"><router-link class="navbar1" :to="{path: '#'}">Favorite Product</router-link></div>
-                        <div class="coffee1"><router-link class="navbar2" :to="{path: '#'}">Coffee</router-link></div>
-                        <div class="noncoffee"><router-link class="navbar3" :to="{path: '#'}">Non Coffee</router-link></div>
-                        <div class="foods"><router-link class="navbar4" :to="{path: '#'}">Foods</router-link></div>
-                        <div class="addon"><router-link class="navbar5" :to="{path: '#'}">Add-on</router-link></div>
+                        <div class="favoriteproduct"><router-link class="navbar1" :to="{path: '/home/product-admin/favorite-product'}">Favorite Product</router-link></div>
+                        <div class="coffee1"><router-link class="navbar2" :to="{path: '/home/product-admin/coffee'}">Coffee</router-link></div>
+                        <div class="noncoffee"><router-link class="navbar3" :to="{path: '/home/product-admin/non-coffee'}">Non Coffee</router-link></div>
+                        <div class="foods"><router-link class="navbar4" :to="{path: '/home/product-admin/foods'}">Foods</router-link></div>
+                        <div class="addon"><router-link class="navbar5" :to="{path: '/home/product-admin/add-on'}">Add-on</router-link></div>
                     </div>
-                    <div class="box4">
-                        <div class="card">
-                            <img class="img1" src="../../assets/food2.png" alt="image2">
-                            <p class="productname">Veggie tomato mix</p>
-                            <p class="price">IDR 34.000</p>
-                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
-                        </div>
-                        <div class="card">
-                            <img class="img2" src="../../assets/food2.png" alt="image3">
-                            <p class="productname">Veggie tomato mix</p>
-                            <p class="price">IDR 34.000</p>
-                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
-                        </div>
-                        <div class="card">
-                            <img class="img3" src="../../assets/food2.png" alt="image4">
-                            <p class="productname">Veggie tomato mix</p>
-                            <p class="price">IDR 34.000</p>
-                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
-                        </div>
-                        <div class="card">
-                            <img class="img4" src="../../assets/food2.png" alt="image5">
-                            <p class="productname">Veggie tomato mix</p>
-                            <p class="price">IDR 34.000</p>
-                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
-                        </div>
-                        <div class="card">
-                            <img class="img5" src="../../assets/food2.png" alt="image6">
-                            <p class="productname">Veggie tomato mix</p>
-                            <p class="price">IDR 34.000</p>
-                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
-                        </div>
-                        <div class="card">
-                            <img class="img6" src="../../assets/food2.png" alt="image7">
-                            <p class="productname">Veggie tomato mix</p>
-                            <p class="price">IDR 34.000</p>
-                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
-                        </div>
-                        <div class="card">
-                            <img class="img7" src="../../assets/food2.png" alt="image8">
-                            <p class="productname">Veggie tomato mix</p>
-                            <p class="price">IDR 34.000</p>
-                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
-                        </div>
-                        <div class="card">
-                            <img class="img8" src="../../assets/food2.png" alt="image9">
-                            <p class="productname">Veggie tomato mix</p>
-                            <p class="price">IDR 34.000</p>
-                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
-                        </div>
-                        <div class="card">
-                            <img class="img9" src="../../assets/food2.png" alt="image10">
-                            <p class="productname">Veggie tomato mix</p>
-                            <p class="price">IDR 34.000</p>
-                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
-                        </div>
-                        <div class="card">
-                            <img class="img10" src="../../assets/food2.png" alt="image11">
-                            <p class="productname">Veggie tomato mix</p>
-                            <p class="price">IDR 34.000</p>
-                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
-                        </div>
-                        <div class="card">
-                            <img class="img11" src="../../assets/food2.png" alt="image12">
-                            <p class="productname">Veggie tomato mix</p>
-                            <p class="price">IDR 34.000</p>
-                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
-                        </div>
-                        <div class="card">
-                            <img class="img12" src="../../assets/food2.png" alt="image13">
-                            <p class="productname">Veggie tomato mix</p>
-                            <p class="price">IDR 34.000</p>
-                            <button class="edit3"><img src="../../assets/pen.png" alt=""></button>
-                        </div>
-                        <button class="addnewproduct">Add new product</button>
-                    </div>
+                    <router-view/>
+                    <button class="addnewproduct" @click="goPageAddNewProduct">Add new product</button>
                 </div>
             </div>
         </div>
@@ -126,7 +53,12 @@
 
 <script>
 export default {
-  name: 'ProductAdmin'
+  name: 'ProductAdmin',
+  methods: {
+    goPageAddNewProduct () {
+      this.$router.push('/home/new-product')
+    }
+  }
 }
 </script>
 
@@ -473,7 +405,7 @@ export default {
 
 .navbar1:focus {
     font-weight: bold;
-    background-image: url('../../assets/listbutton.png');
+    background-image: url('../../../assets/listbutton.png');
     background-repeat: no-repeat;
     background-position: center;
     color: #6A4029;
@@ -497,7 +429,7 @@ export default {
 
 .navbar2:focus {
     font-weight: bold;
-    background-image: url('../../assets/listbutton.png');
+    background-image: url('../../../assets/listbutton.png');
     background-repeat: no-repeat;
     background-position: center;
     color: #6A4029;
@@ -521,7 +453,7 @@ export default {
 
 .navbar3:focus {
     font-weight: bold;
-    background-image: url('../../assets/listbutton.png');
+    background-image: url('../../../assets/listbutton.png');
     background-repeat: no-repeat;
     background-position: center;
     color: #6A4029;
@@ -545,7 +477,7 @@ export default {
 
 .navbar4:focus {
     font-weight: bold;
-    background-image: url('../../assets/listbutton.png');
+    background-image: url('../../../assets/listbutton.png');
     background-repeat: no-repeat;
     background-position: center;
     color: #6A4029;
@@ -569,7 +501,7 @@ export default {
 
 .navbar5:focus {
     font-weight: bold;
-    background-image: url('../../assets/listbutton.png');
+    background-image: url('../../../assets/listbutton.png');
     background-repeat: no-repeat;
     background-position: center;
     color: #6A4029;
@@ -597,21 +529,6 @@ export default {
     background: #FFFFFF;
     box-shadow: 0px 30px 60px rgba(57, 57, 57, 0.1);
     border-radius: 30px;
-}
-
-.edit3 {
-    width: 30px;
-    height: 30px;
-
-    margin-left: 130px;
-
-    border: none;
-    border-radius: 20px;
-    background: #6A4029;
-}
-
-.edit3:focus {
-    outline: none;
 }
 
 .productname {
@@ -648,6 +565,7 @@ export default {
     height: 90px;
 
     margin-top: 70px;
+    margin-left: 70px;
 
     background: #6A4029;
     border: none;

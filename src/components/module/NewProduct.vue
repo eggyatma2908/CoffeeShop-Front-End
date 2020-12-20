@@ -4,8 +4,8 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="navigation-route">
-                            <p class="favorite-promo">Favorite & Promo</p>
-                            <p class="add-new-product">> Add new product</p>
+                            <router-link to="/home/product-admin/favorite-product" class="favorite-promo">Favorite & Promo</router-link>
+                            <p class="add-new-product"> > Add new product</p>
                         </div>
                         <div class="picture-product">
                             <img src="../../assets/camera.png" alt="camera">

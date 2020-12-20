@@ -47,7 +47,7 @@ footer {
 }
 
 .justify-content-around{
-    padding-top: 100px;
+    padding-top: 160px;
     padding-bottom: 100px;
 }
 
