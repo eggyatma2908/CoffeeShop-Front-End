@@ -17,7 +17,7 @@ export default new Vuex.Store({
     accessToken: null || localStorage.getItem('accessToken'),
     refreshToken: null || localStorage.getItem('refreshToken'),
     userData: '',
-    dataProdcut: ''
+    productData: []
   },
   plugins: [createPersistedState()],
   mutations: {
@@ -44,8 +44,8 @@ export default new Vuex.Store({
     SET_USER_DATA (state, payload) {
       state.userData = payload
     },
-    SET_DATA_PRODCUT (state, payload) {
-      state.dataProduct = payload
+    SET_DATA_PRODUCT (state, payload) {
+      state.productData = payload
     }
   },
   actions: {
@@ -152,11 +152,15 @@ export default new Vuex.Store({
     addNewProduct (context, payload) {
       return new Promise((resolve, reject) => {
         axios.post(`${process.env.VUE_APP_URL_API}/products`, payload.formData)
-          .then(res => {
-            resolve(res)
-          })
-          .catch(error => {
-            console.log(error)
+          .then(result => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Succeed',
+              text: 'Your personal information has been updated',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            resolve(result)
           })
       })
     },

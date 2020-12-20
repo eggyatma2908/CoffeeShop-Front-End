@@ -8,10 +8,15 @@
                             <p class="add-new-product">> Add new product</p>
                         </div>
                         <div class="picture-product">
-                            <img src="../../assets/camera.png" alt="camera">
+                            <div>
+                            <img id="update-photo" :src="previewImg" v-if="previewImg" alt="camera">
+                            </div>
                         </div>
                         <button class="btn btn-take-picture">Take a picture</button>
-                        <button class="btn btn-choose-gallery">Choose from gallery</button>
+                        <div class="btn btn-choose-gallery">
+                            <input class="" id="upload-image" type="file" accept="image/x-png/,image/gif,image/jpeg" v-on:change="upload"/>
+                            <label for="upload-image">Choose from gallery</label>
+                            </div>
                         <div class="delivery-hour">
                             <h6>Delivery Hour :</h6>
                             <form>
@@ -50,11 +55,11 @@
                                 <div class="invalid-feedback" v-if="!$v.description.required">Field is required.</div>
                                 <div class="invalid-feedback" v-if="!$v.description.minLength">Minim 150 characters</div>
                             </div>
-                            <div class="mb-3 mt-5 form-group">
+                            <!-- <div class="mb-3 mt-5 form-group">
                                 <label class="form-label">Category :</label>
                                 <input type="text" v-model.trim="$v.category.$model" :class="{ 'is-invalid': validationStatus($v.category) }" class="form-control" placeholder="Enter category">
                                 <div class="invalid-feedback" v-if="!$v.category.required">Field is required.</div>
-                            </div>
+                            </div> -->
 
                             <h6 class="text-input-product">Input product size :</h6>
                             <p>Click methods you want to use for this product</p>
@@ -83,7 +88,7 @@
                                 <button class="btn btn-dine-in">Dine in</button>
                                 <button class="btn btn-take-away">Take away</button>
                             </div>
-                            <button type="submit" class="btn btn-save" @click.prevent="save">Save Product</button>
+                            <button type="submit" class="btn btn-save" @click.prevent="addProduct">Save Product</button>
                             <button class="btn btn-cancel">Cancel</button>
                         </form>
                     </div>
@@ -95,38 +100,74 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
 import { mapActions } from 'vuex'
+import Swal from 'sweetalert2'
+import $ from 'jquery'
 export default {
   name: 'NewProduct',
   data () {
     return {
+      photoProduct: '',
       productName: '',
       price: '',
-      description: ''
+      description: '',
+      previewImg: ''
     }
   },
   validations: {
     productName: { required, minLength: minLength(0) },
     price: { required },
-    description: { required, minLength: minLength(0) },
-    category: { required }
+    description: { required, minLength: minLength(0) }
+    // category: { required }
   },
   methods: {
     validationStatus (validation) {
       return typeof validation !== 'undefined' ? validation.$error : false
+    },
+    ...mapActions(['addNewProduct']),
+    upload (event) {
+      const imagename = (event.target.files[0].name)
+      this.photoProduct = imagename
+      this.previewImg = URL.createObjectURL(event.target.files[0])
+    },
+    addProduct () {
+      this.$v.$touch()
+      if (!document.getElementById('upload-image').files[0]) {
+        return Swal.fire({
+          icon: 'error',
+          title: 'Photo Profile cannot empty',
+          text: 'please fill in your profile photo',
+          showConfirmButton: false
+        })
+      }
+      if (this.$v.$prndding || this.$v.$error) return
+      const form = new FormData()
+      form.append('photoProduct', document.getElementById('upload-image').files[0])
+      form.append('productName', this.productName)
+      form.append('price', this.price)
+      form.append('description', this.description)
+      const payload = {
+        formData: form
+      }
+      this.addNewProduct(payload)
+    },
+    onInputUploadChange () {
+      const self = this
+      $('#upload-image').change(function () {
+        self.readImgUrlAndPreview(this)
+      })
+    },
+    readImgUrlAndPreview (input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader()
+        reader.onload = function (e) {
+          $('#update-photo').attr('src', e.target.result)
+        }
+        reader.readAsDataURL(input.files[0])
+      }
     }
   },
-  ...mapActions(['addNewProduct']),
-  save () {
-    this.$v.$touch()
-    if (this.$v.$pendding || this.$v.$error) return
-    const form = new FormData()
-    form.append(this.productName)
-    form.append(this.price)
-    form.append(this.description)
-    const payload = {
-      formData: form
-    }
-    this.addNewProduct(payload)
+  mounted () {
+    this.onInputUploadChange()
   }
 }
 </script>
@@ -162,11 +203,16 @@ main {
     background: rgba(186, 186, 186, 0.35);
     border-radius: 50%;
     margin-left: 50px;
+    background-image: url('../../assets/camera.png');
+    background-repeat: no-repeat;
+    background-position: 100px
 }
 
-.picture-product img {
-    padding-left: 110px;
-    padding-top: 100px;
+img {
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
 }
 
 button {
@@ -184,7 +230,12 @@ button.btn-take-picture {
     color: #FFFFFF;
 }
 
-button.btn-choose-gallery {
+.btn-choose-gallery {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px;
     background: #FFBA33;
     border-radius: 20px;
     width: 391px;
@@ -193,6 +244,11 @@ button.btn-choose-gallery {
     font-size: 25px;
     line-height: 30px;
     color: #6A4029;
+}
+
+input#upload-image {
+    position: absolute;
+    opacity: 0;
 }
 
 .delivery-hour h6 {
