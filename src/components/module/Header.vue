@@ -7,8 +7,8 @@
                     <p class="text">Coffeshop</p>
                 </div>
                 <div class="box1">
-                    <a class="home" href="#">Home</a>
-                    <a class="product" href="#">Product</a>
+                    <a class="home">Home</a>
+                    <a class="product" @click="toProduct">Product</a>
                     <a class="cart" href="#">Your Cart</a>
                     <a class="history" href="#">History</a>
                 </div>
@@ -28,7 +28,15 @@
 
 <script>
 export default {
-  name: 'Header'
+  name: 'Header',
+  methods: {
+    toHome () {
+      this.$router.push({ path: '/home' })
+    },
+    toProduct () {
+      this.$router.push({ path: '/home/product-customer/favorite-product' })
+    }
+  }
 }
 </script>
 
@@ -90,6 +98,7 @@ body {
 
 .home {
     margin-right: 41px;
+    cursor: pointer;
 }
 
 .home:hover {
@@ -108,6 +117,8 @@ body {
 
 .product {
     margin-right: 41px;
+    cursor: pointer;
+
 }
 
 .product:hover {
@@ -126,6 +137,7 @@ body {
 
 .cart {
     margin-right: 41px;
+    cursor: pointer;
 }
 
 .cart:hover {
@@ -141,7 +153,9 @@ body {
 
     color: #6A4029;
 }
-
+.history {
+    cursor: pointer;
+}
 .history:hover {
     text-decoration: none;
 }

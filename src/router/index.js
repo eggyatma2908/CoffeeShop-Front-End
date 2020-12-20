@@ -36,6 +36,7 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home,
+    redirect: ProductCustomer,
     children: [
       {
         path: 'chat',
@@ -59,6 +60,7 @@ const routes = [
         name: 'ProductCustomer',
         component: ProductCustomer,
         meta: { requiresAuth: true },
+        redirect: FavoriteProduct,
         children: [
           {
             path: 'favorite-product',
