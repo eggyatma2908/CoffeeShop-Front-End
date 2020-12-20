@@ -13,20 +13,14 @@
                             <img id="update-photo" :src="getProductId.photoProduct" alt="user profile">
                             <div class="edit-image">
                                <input id="input-upload-image" type="file" accept="image/x-png/,image/gif,image/jpeg"/>
-                               <label for="input-upload-image"><img src="../../assets/edit.png" alt="edit" class="icon-edit"></label>
+                               <label for="input-upload-image">
+                                   <img src="../../assets/edit.png" alt="edit" class="icon-edit">
+                                </label>
+                                <button class="box3" @click.prevent="deleteProduct">
+                                    <img class="img1" src="../../assets/trash.png" alt="image2">
+                                </button>
                             </div>
                         </div>
-                        <!-- <img id="update-photo" src="../../assets/coffee3.png" alt="photo product" class="img">
-                            <div class="edit-image">
-                                <input id="input-upload-image" type="file" accept="image/x-png/,image/gif,image/jpeg"/>
-
-                               <label for="input-upload-image"><img src="../../assets/trash.png" alt="edit" class="img1 icon-edit"></label>
-
-                            </div> -->
-                        <!-- <img class="img" src="../../assets/coffee3.png" alt="image1">
-                        <button class="box3">
-                            <img class="img1" src="../../assets/trash.png" alt="image2">
-                        </button> -->
                     </div>
                     <p class="text3">Delivery only on <b>Monday to friday</b> at  <b>1 - 7 pm</b></p>
                 </div>
@@ -39,20 +33,20 @@
                         <textarea class="productdetail" v-model="description" type="text" placeholder="Enter details"></textarea>
                     </div>
                 </div>
-                <!-- <div class="box6">
+                <div class="box6">
                     <select>
                         <option disabled selected>Select Size</option>
                         <option>R</option>
                         <option>L</option>
                         <option>XL</option>
                     </select>
-                    <select v-model="selected">
+                    <select>
                         <option disabled selected>Select Delivery Methods</option>
                         <option>Home delivery</option>
                         <option>Dine In</option>
                         <option>Take away</option>
                     </select>
-                </div> -->
+                </div>
                 <div class="box7">
                     <div class="box8">
                         <button class="plus" type="submit" @click="plusCount">+</button>
@@ -91,7 +85,7 @@ export default {
         this.stock = this.stock - 1
       }
     },
-    ...mapActions(['getProductDetailsById', 'updateProducts']),
+    ...mapActions(['getProductDetailsById', 'updateProducts', 'removeProduct']),
     getProductById () {
       const id = this.$route.params.idProduct
       const payload = {
@@ -146,6 +140,48 @@ export default {
         }
         reader.readAsDataURL(input.files[0])
       }
+    },
+    deleteProduct () {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const payload = {
+            id: this.$route.params.idProduct
+          }
+          this.removeProduct(payload)
+            .then(res => {
+              swalWithBootstrapButtons.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+              )
+            })
+          this.$router.push('/home/product-admin')
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Your imaginary file is safe :)',
+            'error'
+          )
+        }
+      })
     }
   },
   computed: {
@@ -160,12 +196,23 @@ export default {
 </script>
 
 <style scoped>
+.text {
+    margin-right: 5px;
+
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 24px;
+    text-decoration: none;
+
+    color: #4F5665;
+}
+
 .box-image img {
-    width: 200px;
-    height: 200px;
+    width: 400px;
+    height: 400px;
     object-fit: cover;
-    margin-top: 20%;
-    margin-left: 5%;
 }
 
 .edit-image {
@@ -174,8 +221,13 @@ export default {
     border-radius: 50%;
     background: #6A4029;
     position: absolute;
-    top: 20px;
+    top: -10px;
     left: 420px;
+}
+
+.edit-image .icon-edit {
+    position: absolute;
+    top: 19px;
 }
 
 .edit-image img {
@@ -224,6 +276,7 @@ export default {
     font-weight: bold;
     font-size: 20px;
     line-height: 24px;
+    text-transform: capitalize;
 
     color: #6A4029;
 }
@@ -234,6 +287,7 @@ export default {
     font-weight: bold;
     font-size: 20px;
     line-height: 24px;
+    text-transform: capitalize;
 
     color: #6A4029;
 }
@@ -247,10 +301,10 @@ export default {
 
 .box3 {
     position: absolute;
-    width: 55px;
-    height: 55px;
-    right: 26px;
-    top: 23px;
+    width: 60px;
+    height: 60px;
+    right: 3px;
+    top: 80px;
 
     background: #FFFFFF;
     border-radius: 30px;
@@ -260,6 +314,12 @@ export default {
 
 .box3:focus {
     outline: none;
+}
+
+.box3 img {
+    position: absolute;
+    left: 11px;
+    top: 9px;
 }
 
 .text3 {
@@ -475,6 +535,7 @@ select {
     background: #6A4029;
     border: none;
     border-radius: 10px;
+    margin-bottom: 90px;
 }
 
 .editproduct:focus {

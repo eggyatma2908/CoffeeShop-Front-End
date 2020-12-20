@@ -565,6 +565,7 @@ export default {
     height: 90px;
 
     margin-top: 70px;
+    margin-left: 70px;
 
     background: #6A4029;
     border: none;

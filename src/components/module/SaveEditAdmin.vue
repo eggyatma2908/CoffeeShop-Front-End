@@ -9,10 +9,18 @@
                         <p class="text2"> > Edit Product</p>
                     </div>
                     <div class="box2">
-                        <img class="img" :src="getProductId.photoProduct" alt="image1">
-                        <button class="box3" type="submit">
-                            <img class="img1" src="../../assets/trash.png" alt="image2">
-                        </button>
+                        <div class="box-image">
+                            <img id="update-photo" :src="getProductId.photoProduct" alt="user profile">
+                            <div class="edit-image">
+                               <input id="input-upload-image" type="file" accept="image/x-png/,image/gif,image/jpeg"/>
+                               <label for="input-upload-image">
+                                   <img src="../../assets/edit.png" alt="edit" class="icon-edit">
+                                </label>
+                                <button class="box3" @click.prevent="deleteProduct">
+                                    <img class="img1" src="../../assets/trash.png" alt="image2">
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <p class="text3">Delivery only on <b>Monday to friday</b> at  <b>1 - 7 pm</b></p>
                 </div>
@@ -25,7 +33,7 @@
                         <label class="productdetail">{{getProductId.description}}</label>
                     </div>
                 </div>
-                <!-- <div class="box6">
+                <div class="box6">
                     <select>
                         <option disabled selected>Select Size</option>
                         <option>R</option>
@@ -38,7 +46,7 @@
                         <option>Door delivery</option>
                         <option>Pick up</option>
                     </select>
-                </div> -->
+                </div>
                 <div class="box7">
                     <div class="box8">
                         <button class="plus" type="submit" @click="plusCount">+</button>
@@ -55,6 +63,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'SaveEditAdmin',
@@ -67,7 +76,7 @@ export default {
         this.stock = this.stock - 1
       }
     },
-    ...mapActions(['getProductDetailsById']),
+    ...mapActions(['getProductDetailsById', 'removeProduct']),
     getProductById () {
       const id = this.$route.params.idProduct
       const payload = {
@@ -75,26 +84,49 @@ export default {
       }
       console.log('hasil update ', this.getProductDetailsById(payload))
       this.getProductDetailsById(payload)
+    },
+    deleteProduct () {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const payload = {
+            id: this.$route.params.idProduct
+          }
+          this.removeProduct(payload)
+            .then(res => {
+              swalWithBootstrapButtons.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+              )
+            })
+          this.$router.push('/home/product-admin')
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Your imaginary file is safe :)',
+            'error'
+          )
+        }
+      })
     }
-    // deleteImage () {
-    //   Swal.fire({
-    //     title: 'Are you sure?',
-    //     text: "You won't be able to revert this!",
-    //     icon: 'warning',
-    //     showCancelButton: true,
-    //     confirmButtonColor: '#3085d6',
-    //     cancelButtonColor: '#d33',
-    //     confirmButtonText: 'Delete'
-    //   }).then((result) => {
-    //     if (result.isConfirmed) {
-    //       Swal.fire(
-    //         'Deleted!',
-    //         'Your file has been deleted.',
-    //         'success'
-    //       )
-    //     }
-    //   })
-    // },
   },
   computed: {
     ...mapGetters(['getProductId'])
@@ -106,6 +138,39 @@ export default {
 </script>
 
 <style scoped>
+.box-image img {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+}
+
+.edit-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #6A4029;
+    position: absolute;
+    top: -10px;
+    left: 420px;
+}
+
+.edit-image .icon-edit {
+    position: absolute;
+    top: 19px;
+}
+
+.edit-image img {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top: 12px;
+    left: 15px;
+}
+
+#input-upload-image {
+  display:none;
+}
+
 .box2 .img {
     width: 400px;
     height: 400px;
@@ -136,6 +201,7 @@ export default {
     font-weight: normal;
     font-size: 20px;
     line-height: 24px;
+    text-decoration: none;
 
     color: #4F5665;
 }
@@ -148,6 +214,7 @@ export default {
     font-weight: bold;
     font-size: 20px;
     line-height: 24px;
+    text-transform: capitalize;
 
     color: #6A4029;
 }
@@ -158,6 +225,7 @@ export default {
     font-weight: bold;
     font-size: 20px;
     line-height: 24px;
+    text-transform: capitalize;
 
     color: #6A4029;
 }
@@ -171,10 +239,10 @@ export default {
 
 .box3 {
     position: absolute;
-    width: 55px;
-    height: 55px;
-    right: 26px;
-    top: 23px;
+    width: 60px;
+    height: 60px;
+    right: 3px;
+    top: 80px;
 
     background: #FFFFFF;
     border-radius: 30px;
@@ -184,6 +252,12 @@ export default {
 
 .box3:focus {
     outline: none;
+}
+
+.box3 img {
+    position: absolute;
+    left: 11px;
+    top: 9px;
 }
 
 .text3 {
@@ -373,9 +447,9 @@ select {
     font-weight: bold;
     font-size: 25px;
 
-    color: #6A4029;
+    color: #FFFFFF;
 
-    background: #FFBA33;
+    background: #C4C4C4;
     box-shadow: 0px 6px 20px rgba(255, 186, 51, 0.29);
     border: none;
     border-radius: 10px;
@@ -399,6 +473,7 @@ select {
     background: #C4C4C4;
     border: none;
     border-radius: 10px;
+    margin-bottom: 90px;
 }
 
 .savechange:focus {

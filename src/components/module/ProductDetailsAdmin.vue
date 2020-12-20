@@ -95,21 +95,46 @@ export default {
       console.log('ini get product by id')
     },
     deleteProduct () {
-      console.log('ini action remove')
-      //   const id = this.$route.params.idProduct
-      const payload = {
-        id: this.$route.params.idProduct
-      }
-      this.removeProduct(payload)
-        .then(res => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success delete menu',
-            showConfirmButton: false,
-            timer: 5000
-          })
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const payload = {
+            id: this.$route.params.idProduct
+          }
+          this.removeProduct(payload)
+            .then(res => {
+              swalWithBootstrapButtons.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+              )
+            })
           this.$router.push('/home/product-admin')
-        })
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Your imaginary file is safe :)',
+            'error'
+          )
+        }
+      })
     },
     goPageEditProducts (id) {
       this.$router.push(`/home/edit-product-admin/${id}`)
@@ -125,6 +150,14 @@ export default {
 </script>
 
 <style scoped>
+.box7 {
+    margin-bottom: 80px;
+}
+.photo-product img{
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+}
 .row {
     background: #EDEDED;
 }
@@ -133,6 +166,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: max-content;
 }
 
 .box1 {
@@ -143,13 +177,28 @@ export default {
     margin-bottom: 60px;
 }
 
-.text1 {
-    margin-left: 5px;
+.text {
+    margin-right: 5px;
 
     font-family: Rubik;
     font-style: normal;
     font-weight: normal;
-    font-size: 17px;
+    font-size: 20px;
+    line-height: 24px;
+    text-decoration: none;
+
+    color: #4F5665;
+}
+
+.text1 {
+    margin-right: 5px;
+
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+    text-transform: capitalize;
 
     color: #6A4029;
 }
@@ -172,6 +221,7 @@ export default {
     font-style: normal;
     font-weight: 900;
     font-size: 60px;
+    text-transform: capitalize;
 
     color: #000000;
 }
@@ -528,7 +578,7 @@ export default {
     flex-direction: row;
     width: 480px;
 
-    margin-bottom: 121px;
+    margin-bottom: 190px;
 }
 
 .settime {
@@ -570,7 +620,6 @@ export default {
     justify-content: space-around;
     align-items: center;
     margin: 30px;
-
 }
 .img1 {
     width: 100px;
