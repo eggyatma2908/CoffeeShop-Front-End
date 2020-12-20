@@ -19,7 +19,9 @@ export default new Vuex.Store({
     cartData: [],
     products: [],
     removeProduct: [],
-    updateProduct: []
+    updateProduct: [],
+    pagination: null,
+    dataType: []
   },
   plugins: [createPersistedState()],
   mutations: {
@@ -45,6 +47,9 @@ export default new Vuex.Store({
     REMOVE_PRODUCT (state, payload) {
       state.removeProduct = payload
     },
+    PRODUCT_PAGINATION (state, payload) {
+      state.pagination = payload
+    },
     REMOVE_TOKEN (state) {
       state.accessToken = null
       state.refreshToken = null
@@ -55,16 +60,22 @@ export default new Vuex.Store({
     SET_CARD_DATA (state, payload) {
       state.cartData = [payload]
     },
+    SET_DATA_TYPE (state, payload) {
+      state.dataType = payload
+    },
+    SET_PAGINATION (state, payload) {
+      state.pagination = payload
+    },
     REMOVE_CART_DATA (state, payload) {
       state.cartData = []
     },
     REMOVE_USER (state) {
       state.user = null
       state.userData = null
-      state.products = ''
-    },
-    REMOVE_CARD_DATA_LOCAL () {
-      localStorage.removeItem('cardData')
+      state.pagination = null
+      state.dataType = null
+      state.products = null
+      state.removeProduct = null
     }
   },
   actions: {
@@ -120,11 +131,15 @@ export default new Vuex.Store({
           })
       })
     },
-    getProductCoffee (context, payload) {
+    getProductCoffee (context, noPage = 1) {
       return new Promise((resolve, reject) => {
-        axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=coffee&limit=12`)
-          .then(results => {
-            resolve(results.data.result)
+        console.log('halo')
+        axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=coffee&page=${noPage}&limit=9`)
+          .then(res => {
+            console.log(res.data.result.products)
+            context.commit('SET_DATA_TYPE', res.data.result.products)
+            context.commit('SET_PAGINATION', res.data.result.pagination)
+            resolve(res.data.result)
           })
           .catch(error => {
             console.log(error)
@@ -134,8 +149,9 @@ export default new Vuex.Store({
     getProductFoods (context, payload) {
       return new Promise((resolve, reject) => {
         axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=food&limit=12`)
-          .then(results => {
-            resolve(results.data.result)
+          .then(res => {
+            context.commit('SET_DATA_TYPE', res.data.result.products)
+            resolve(res.data.result)
           })
           .catch(error => {
             console.log(error)
@@ -324,8 +340,16 @@ export default new Vuex.Store({
     getProductId (state) {
       return state.products
     },
+<<<<<<< HEAD
     getCartLocalStorage () {
       return JSON.parse(localStorage.getItem('cardData')) !== null
+=======
+    getPagination (state) {
+      return state.pagination
+    },
+    getDataType (state) {
+      return state.dataType
+>>>>>>> origin/pagination
     }
   },
   modules: {

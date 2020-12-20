@@ -1,6 +1,7 @@
 <template>
+<div>
   <div class="box4">
-      <div v-for="coffee in dataCoffee" :key="coffee.idProduct" class="card" @click="toProductDetails(coffee.idProduct)">
+      <div v-for="coffee in getDataType" :key="coffee.idProduct" class="card" @click="toProductDetails(coffee.idProduct)">
           <div class="photo-product">
              <img :src="coffee.photoProduct ? coffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
           </div>
@@ -8,10 +9,18 @@
           <p class="price">{{ coffee.price }}</p>
       </div>
   </div>
+  <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
+                <li v-for="noPage in getPagination.totalPage" :key="noPage" :class="[getPagination.currentPage == noPage ? 'active' : '']" class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(noPage)">{{noPage}}</a></li>
+                <li class="page-item" :class="[getPagination.currentPage == getPagination.totalPage ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) + 1)">Next</a></li>
+            </ul>
+        </nav>
+  </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Coffee',
   data () {
@@ -21,21 +30,28 @@ export default {
   },
   methods: {
     ...mapActions(['getProductCoffee']),
-    async handleGetProductCoffee () {
-      const result = await this.getProductCoffee()
-      this.dataCoffee = result.products
-    },
+    // async handleGetProductCoffee () {
+    //   const result = await this.getProductCoffee()
+    //   this.dataCoffee = result.products
+    // },
     toProductDetails (idProduct) {
       this.$router.push({ path: '/home/product-details/' + idProduct, query: { type: 'coffee' } })
     }
   },
-  async mounted () {
-    await this.handleGetProductCoffee()
+  mounted () {
+    this.getProductCoffee()
+  },
+  computed: {
+    ...mapGetters(['getPagination', 'getDataType'])
   }
 }
 </script>
 
 <style scoped>
+nav {
+    margin-top: 100px;
+    margin-left: 130px;
+}
 .text {
     width: 174px;
     height: 30px;

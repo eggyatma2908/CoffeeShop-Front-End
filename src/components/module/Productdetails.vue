@@ -248,9 +248,16 @@ export default {
 		cursor:pointer;
 }
 
-.img {
+/* .img {
     width: 300px;
     border-radius: 200px;
+} */
+
+.img {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+    border-radius: 50%;
 }
 
 .text2 {

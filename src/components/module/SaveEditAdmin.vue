@@ -4,7 +4,7 @@
             <div class="col-lg-6">
                 <div class="box">
                     <div class="box1">
-                        <router-link to="/home/product-admin" class="text">Favorite & Promo</router-link>
+                        <router-link to="/home/product-admin/favorite-product" class="text">Favorite & Promo</router-link>
                         <p class="text1"> > {{getProductId.productName}}</p>
                         <p class="text2"> > Edit Product</p>
                     </div>
