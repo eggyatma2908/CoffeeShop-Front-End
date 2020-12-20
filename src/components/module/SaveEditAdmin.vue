@@ -4,8 +4,8 @@
             <div class="col-lg-6">
                 <div class="box">
                     <div class="box1">
-                        <p class="text">Favorite & Promo</p>
-                        <p class="text1"> > Cold Brew</p>
+                        <router-link to="/home/product-admin" class="text">Favorite & Promo</router-link>
+                        <p class="text1"> > {{getProductId.productName}}</p>
                         <p class="text2"> > Edit Product</p>
                     </div>
                     <div class="box2">
@@ -20,9 +20,9 @@
             <div class="col-lg-6">
                 <div class="box4">
                     <div class="box5">
-                        <input class="productname" type="text" placeholder="Enter product name" value="COLD BREW">
-                        <input class="price" type="text" placeholder="Enter price" value="IDR 30.000">
-                        <textarea class="productdetail" type="text" placeholder="Enter details" value="">Cold brewing is a method of brewing that combines ground coffee and cool water and uses time instead of heat to extract the flavor. It is brewed in small batches and steeped for as long as 48 hours.</textarea>
+                        <input class="productname" type="text" v-model="getProductId.productName" placeholder="Enter product name" value="COLD BREW">
+                        <input class="price" type="text" v-model="getProductId.price" placeholder="Enter price" value="IDR 30.000">
+                        <textarea class="productdetail" type="text" v-model="getProductId.description" placeholder="Enter details" value=""></textarea>
                     </div>
                 </div>
                 <div class="box6">
@@ -42,7 +42,7 @@
                 <div class="box7">
                     <div class="box8">
                         <button class="plus" type="submit" @click="plusCount">+</button>
-                        <p class="text4">{{count}}</p>
+                        <p class="text4">{{stock}}</p>
                         <button class="minus" type="submit" @click="minusCount">-</button>
                     </div>
                     <button class="addcart" type="submit">Add to Cart</button>
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 
@@ -61,17 +62,29 @@ export default {
   name: 'SaveEditAdmin',
   data () {
     return {
-      count: 1
+      stock: 1,
+      productName: '',
+      price: 0,
+      description: ''
     }
   },
   methods: {
     plusCount () {
-      this.count = this.count + 1
+      this.stock = this.stock + 1
     },
     minusCount () {
-      if (this.count > 0) {
-        this.count = this.count - 1
+      if (this.stock > 0) {
+        this.stock = this.stock - 1
       }
+    },
+    ...mapActions(['getProductDetailsById']),
+    getProductById () {
+      const id = this.$route.params.idProduct
+      const payload = {
+        id
+      }
+      console.log(this.getProductDetailsById(payload))
+      this.getProductDetailsById(payload)
     },
     deleteImage () {
       Swal.fire({
@@ -91,6 +104,12 @@ export default {
           )
         }
       })
+    },
+    computed: {
+      ...mapGetters(['getProductId'])
+    },
+    async mounted () {
+      await this.getProductDetailsById()
     }
   }
 }

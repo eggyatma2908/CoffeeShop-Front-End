@@ -11,7 +11,7 @@ import Chat from '@/components/module/Chat'
 import EditProductAdmin from '@/components/module/EditProductAdmin.vue'
 import ProductCustomer from '../components/module/ProductCustomer/ProductCustomer.vue'
 import ProductDetails from '../components/module/ProductDetails.vue'
-import ProductAdmin from '../components/module/ProductAdmin.vue'
+import ProductAdmin from '../components/module/ProductAdmin/ProductAdmin.vue'
 import ProductDetailsAdmin from '../components/module/ProductDetailsAdmin.vue'
 import UserProfile from '../views/profile/UserProfile.vue'
 import store from '../store/index'
@@ -23,6 +23,12 @@ import NonCoffee from '../components/module/ProductCustomer/components/NonCoffee
 import Foods from '../components/module/ProductCustomer/components/Foods.vue'
 import Coffee from '../components/module/ProductCustomer/components/Coffee.vue'
 import AddOn from '../components/module/ProductCustomer/components/AddOn.vue'
+import FavoriteProductAdmin from '../components/module/ProductAdmin/components/FavoriteProductAdmin.vue'
+import NonCoffeeAdmin from '../components/module/ProductAdmin/components/NonCoffeeAdmin.vue'
+import FoodsAdmin from '../components/module/ProductAdmin/components/FoodsAdmin.vue'
+import CoffeeAdmin from '../components/module/ProductAdmin/components/CoffeeAdmin.vue'
+import AddOnAdmin from '../components/module/ProductAdmin/components/AddOnAdmin.vue'
+import SaveEditAdmin from '../components/module/SaveEditAdmin.vue'
 
 Vue.use(VueRouter)
 
@@ -44,9 +50,14 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
-        path: 'edit-product-admin',
+        path: 'edit-product-admin/:idProduct',
         name: 'EditProductAdmin',
         component: EditProductAdmin
+      },
+      {
+        path: 'save-product',
+        name: 'SaveEditAdmin',
+        component: SaveEditAdmin
       },
       {
         path: 'history',
@@ -91,7 +102,34 @@ const routes = [
         path: 'product-admin',
         name: 'ProductAdmin',
         component: ProductAdmin,
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true },
+        children: [
+          {
+            path: 'favorite-product',
+            name: 'FavoriteProductAdmin',
+            component: FavoriteProductAdmin
+          },
+          {
+            path: 'non-coffee',
+            name: 'NonCoffeeAdmin',
+            component: NonCoffeeAdmin
+          },
+          {
+            path: 'coffee',
+            name: 'CoffeeAdmin',
+            component: CoffeeAdmin
+          },
+          {
+            path: 'foods',
+            name: 'FoodsAdmin',
+            component: FoodsAdmin
+          },
+          {
+            path: 'add-on',
+            name: 'AddOnAdmin',
+            component: AddOnAdmin
+          }
+        ]
       },
       {
         path: 'product-details/:idProduct',
@@ -100,7 +138,7 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
-        path: 'product-details-admin',
+        path: 'product-details-admin/:idProduct',
         name: 'ProductDetailsAdmin',
         component: ProductDetailsAdmin,
         meta: { requiresAuth: true }

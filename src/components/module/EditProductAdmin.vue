@@ -4,15 +4,23 @@
             <div class="col-lg-6">
                 <div class="box">
                     <div class="box1">
-                        <p class="text">Favorite & Promo</p>
-                        <p class="text1"> > Cold Brew</p>
+                        <router-link to="/home/product-admin" class="text">Favorite & Promo</router-link>
+                        <p class="text1"> > {{getProductId.productName}}</p>
                         <p class="text2"> > Edit Product</p>
                     </div>
                     <div class="box2">
-                        <img class="img" src="../../assets/coffee3.png" alt="image1">
+                        <img id="update-photo" src="../../assets/coffee3.png" alt="photo product" class="img">
+                            <div class="edit-image">
+                               <button class="box3">
+                               <label for="input-upload-image"><img src="../../assets/trash.png" alt="edit" class="img1 icon-edit">
+                                    <input id="input-upload-image" type="file" accept="image/x-png/,image/gif,image/jpeg"/>
+                               </label>
+                               </button>
+                            </div>
+                        <!-- <img class="img" src="../../assets/coffee3.png" alt="image1">
                         <button class="box3">
                             <img class="img1" src="../../assets/trash.png" alt="image2">
-                        </button>
+                        </button> -->
                     </div>
                     <p class="text3">Delivery only on <b>Monday to friday</b> at  <b>1 - 7 pm</b></p>
                 </div>
@@ -20,9 +28,9 @@
             <div class="col-lg-6">
                 <div class="box4">
                     <div class="box5">
-                        <input class="productname" type="text" placeholder="Enter product name" value="COLD BREW">
-                        <input class="price" type="text" placeholder="Enter price" value="IDR 30.000">
-                        <textarea class="productdetail" type="text" placeholder="Enter details" value="">Cold brewing is a method of brewing that combines ground coffee and cool water and uses time instead of heat to extract the flavor. It is brewed in small batches and steeped for as long as 48 hours.</textarea>
+                        <input class="productname" v-model="productName" type="text" placeholder="Enter product name">
+                        <input class="price" v-model="price" type="text" placeholder="Enter price" value="IDR 30.000">
+                        <textarea class="productdetail" v-model="description" type="text" placeholder="Enter details"></textarea>
                     </div>
                 </div>
                 <div class="box6">
@@ -32,44 +40,97 @@
                         <option>L</option>
                         <option>XL</option>
                     </select>
-                    <select>
+                    <select v-model="selected">
                         <option disabled selected>Select Delivery Methods</option>
-                        <option>Dine in</option>
-                        <option>Door delivery</option>
-                        <option>Pick up</option>
+                        <option>Home delivery</option>
+                        <option>Dine In</option>
+                        <option>Take away</option>
                     </select>
                 </div>
                 <div class="box7">
                     <div class="box8">
                         <button class="plus" type="submit" @click="plusCount">+</button>
-                        <p class="text4">{{count}}</p>
+                        <p class="text4">{{stock}}</p>
                         <button class="minus" type="submit" @click="minusCount">-</button>
                     </div>
                     <button class="addcart" type="submit">Add to Cart</button>
                 </div>
-                <button class="editproduct" type="submit">Edit Product</button>
+                <button class="editproduct" type="submit" @click.prevent="updateProduct">Save Change</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+import Swal from 'sweetalert2'
 export default {
   name: 'EditProductAdmin',
   data () {
     return {
-      count: 1
+      stock: 1,
+      productName: '',
+      price: 0,
+      description: '',
+      discountPercent: 0,
+      idTypeProduct: 0,
+      photoProduct: [],
+      selected: ''
     }
   },
   methods: {
     plusCount () {
-      this.count = this.count + 1
+      this.stock = this.stock + 1
     },
     minusCount () {
       if (this.count > 0) {
-        this.count = this.count - 1
+        this.stock = this.stock - 1
       }
+    },
+    ...mapActions(['getProductDetailsById', 'updateProducts']),
+    getProductById () {
+      const id = this.$route.params.idProduct
+      const payload = {
+        id
+      }
+      console.log(this.getProductDetailsById(payload))
+      this.getProductDetailsById(payload)
+    },
+    updateProduct () {
+      if (!document.getElementById('input-upload-image').files[0]) {
+        return Swal.fire({
+          icon: 'error',
+          title: 'Photo Product cannot empty',
+          text: 'please fill in your Product photo',
+          showConfirmButton: false
+        })
+      }
+      const payload = new FormData()
+      payload.append('firstName', this.firstName)
+      payload.append('photoProduct', document.getElementById('input-upload-image').files[0])
+      payload.append('productName', this.productName)
+      payload.append('price', this.price)
+      payload.append('description', this.description)
+      payload.append('stock', this.stock)
+      payload.append('discountPercent', this.discountPercent)
+      payload.append('idTypeProduct', this.idTypeProduct)
+      payload.append('homeDelivery', this.homeDelivery)
+      payload.append('dineIn', this.dineIn)
+      payload.append('takeAway', this.takeAway)
+      console.log('update')
+      this.updateProducts(payload)
+        .then(res => {
+          console.log('hasil update ', res)
+        //   this.$router.push(`/home/save-product/${id}`)
+        })
     }
+  },
+  computed: {
+    ...mapGetters(['getProductId'])
+  },
+  mounted () {
+    this.getProductDetailsById()
+    this.updateProducts()
   }
 }
 </script>

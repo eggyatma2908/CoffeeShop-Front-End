@@ -13,10 +13,12 @@ export default new Vuex.Store({
   state: {
     password: '',
     user: {},
-    userRegister: [],
     accessToken: null || localStorage.getItem('accessToken'),
     refreshToken: null || localStorage.getItem('refreshToken'),
-    userData: ''
+    userData: '',
+    products: [],
+    removeProduct: [],
+    updateProduct: []
   },
   plugins: [createPersistedState()],
   mutations: {
@@ -33,8 +35,14 @@ export default new Vuex.Store({
       state.accessToken = payload.accessToken
       state.refreshToken = payload.refreshToken
     },
-    SET_REGISTER (state, payload) {
-      state.userRegister = payload
+    SET_PRODUCT (state, payload) {
+      state.products = payload
+    },
+    UPDATE_PRODUCT (state, payload) {
+      state.updateProduct = payload
+    },
+    REMOVE_PRODUCT (state, payload) {
+      state.removeProduct = payload
     },
     REMOVE_TOKEN (state) {
       state.accessToken = null
@@ -132,11 +140,59 @@ export default new Vuex.Store({
           })
       })
     },
-    getProductDetailsById (payload) {
+    // getProductDetailsById (context, payload) {
+    //   return new Promise((resolve, reject) => {
+    //     axios.get(`${process.env.VUE_APP_URL_API}/products/${router.currentRoute.query.idProduct}`)
+    //       .then(results => {
+    //         console.log('data id product ', results.data.result)
+    //         context.commit('SET_PRODUCT', results.data.result)
+    //         resolve(results)
+    //       })
+    //       .catch(error => {
+    //         console.log(error)
+    //       })
+    //   })
+    // },
+    getProductDetailsById (context, payload) {
+      console.log('bismillah')
       return new Promise((resolve, reject) => {
-        axios.get(`${process.env.VUE_APP_URL_API}/products/${payload.id}`)
+        axios.get(`${process.env.VUE_APP_URL_API}/products/${router.currentRoute.params.idProduct}`)
           .then(results => {
+            console.log('isi api ', results.data.result)
+            context.commit('SET_PRODUCT', results.data.result)
             resolve(results.data.result)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+    },
+    removeProduct (context, payload) {
+      return new Promise((resolve, reject) => {
+        console.log('ini action remove di file store')
+        axios.delete(`${process.env.VUE_APP_URL_API}/products/${router.currentRoute.params.idProduct}`)
+          .then((results) => {
+            context.commit('REMOVE_PRODUCT', payload)
+            resolve(results)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+    },
+    updateProducts (context, payload) {
+      console.log('api update product')
+      return new Promise((resolve, reject) => {
+        axios.patch(`${process.env.VUE_APP_URL_API}/products/${router.currentRoute.params.idProduct}`, payload)
+          .then(results => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Succeed',
+              text: 'product has been updated',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            resolve(results)
           })
           .catch(error => {
             console.log(error)
@@ -220,6 +276,15 @@ export default new Vuex.Store({
             showConfirmButton: false,
             timer: 1500
           })
+        } else if (error.response.data.status === 400) {
+          if (error.response.data.err.message === 'Id product cannot be empty') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Product not found',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }
         }
         return Promise.reject(error)
       })
@@ -231,6 +296,9 @@ export default new Vuex.Store({
     },
     getUserData (state) {
       return state.userData
+    },
+    getProductId (state) {
+      return state.products
     }
   },
   modules: {
