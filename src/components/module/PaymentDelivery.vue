@@ -88,16 +88,41 @@
             </div>
           </div>
         </div>
-      <button class="btn-confirm mt-5">Confirm and Pay</button>
+    <!-- Button trigger modal -->
+      <button class="btn-confirm mt-5" data-toggle="modal" data-target="#exampleModalCenter">Confirm and Pay</button>
       </div>
     </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <CheckOut :data="dataPayment"/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
   </main>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import CheckOut from '../base/CheckOut'
 export default {
   name: 'PaymentDelivery',
+  components: {
+    CheckOut
+  },
   data () {
     return {
       listOrder: '',
@@ -105,6 +130,7 @@ export default {
       taxAndFees: 2000,
       shipping: 12000,
       totalAmountInvoice: 0,
+      convertToFormatIDR: 0,
       userData: null
     }
   },
@@ -175,18 +201,32 @@ export default {
         .then(result => {
           this.userData = result
         })
+    },
+    convertToRupiah (angka) {
+      var rupiah = ''
+      var angkarev = angka.toString().split('').reverse().join('')
+      for (var i = 0; i < angkarev.length; i++) if (i % 3 === 0) rupiah += angkarev.substr(i, 3) + '.'
+      this.convertToFormatIDR = rupiah.split('', rupiah.length - 1).reverse().join('')
     }
   },
   computed: {
     getListOrder () {
       return JSON.parse(localStorage.getItem('cardData'))
     },
-    ...mapGetters(['getUserData'])
+    ...mapGetters(['getUserData']),
+    dataPayment () {
+      return {
+        amount: this.totalAmountInvoice,
+        amountIDR: this.convertToFormatIDR,
+        description: JSON.parse(localStorage.getItem('cardData'))
+      }
+    }
   },
   mounted () {
     this.totalAmount()
     this.getTotalAmountInvoice()
     this.getDataUser(this.getUserData.id)
+    this.convertToRupiah(this.totalAmountInvoice)
   }
 }
 </script>
@@ -309,6 +349,7 @@ main {
   border-bottom: 0.5px solid rgba(0,0,0,0.2);
 }
 .delivery-to {
+  overflow:hidden;
   padding-bottom:10px;
   border-bottom: 0.5px solid rgba(0,0,0,0.2);
 }

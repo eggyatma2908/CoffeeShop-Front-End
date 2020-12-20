@@ -7,7 +7,7 @@ import store from './store'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
+import 'bootstrap/dist/js/bootstrap.min.js'
 Vue.use(Vuelidate)
 Vue.config.productionTip = false
 
