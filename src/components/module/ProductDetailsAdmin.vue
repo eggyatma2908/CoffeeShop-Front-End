@@ -4,42 +4,44 @@
             <div class="col-lg-5">
                 <div class="box">
                     <div class="box1">
-                        <router-link to="/home/product-admin" class="text">Favorite & Promo</router-link>
+                        <router-link to="/home/product-admin/favorite-product" class="text">Favorite & Promo</router-link>
                         <p class="text1">> {{getProductId.productName}}</p>
                     </div>
-                    <!-- <img class="img" src="../../assets/coffee2.png" alt="image1"> -->
-                    <div class="photo-product">
-                        {{  }}
-                        <img :src="getProductId.photoProduct ? getProductId.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" class="img" alt="image2">
-                    </div>
+                    <img :src="getProductId.photoProduct" class="img" alt="image2">
                     <p class="text2">{{getProductId.productName}}</p>
                     <p class="text3">IDR {{getProductId.price}}</p>
-                    <button class="addcart" type="submit">Add to Cart</button>
+                    <button class="addcart" type="submit" @click="addCardData">Add to Cart</button>
                     <button class="askstaff" type="submit" @click.prevent="goPageEditProducts(getProductId.idProduct)">Edit Product</button>
                     <button class="delete" type="submit" @click.prevent="deleteProduct">Delete Menu</button>
                 </div>
             </div>
             <div class="col-lg-7">
                 <div class="box2">
-                    <p class="text4">Delivery only on <b>Monday to friday</b> at  <b>1 - 7 pm</b></p>
+                    <p class="text4">Delivery only on <b>Monday to friday</b> at  <b> {{getProductId.deliveryHourStart}} - {{getProductId.deliveryHourEnd}} pm</b></p>
                     <p class="text5">{{getProductId.description}}</p>
                     <p class="text6">Choose a size</p>
                     <div class="box3">
-                        <button class="size" type="submit">R</button>
-                        <button class="size1" type="submit">L</button>
-                        <button class="size2" type="submit">XL</button>
+                        <input class="size" id="btn-choose-size-r" value="R" v-model="inputChooseSize" type="radio" name="size">
+						<label for="btn-choose-size-r">R</label>
+                        <input class="size" id="btn-choose-size-l" value="L" v-model="inputChooseSize" type="radio" name="size">
+						<label for="btn-choose-size-l">L</label>
+                        <input class="size" id="btn-choose-size-xl" value="XL" v-model="inputChooseSize" type="radio" name="size">
+						<label for="btn-choose-size-xl">XL</label>
                     </div>
                 </div>
                 <div class="box4">
                     <p class="text7">Choose Delivery Methods</p>
                     <div class="box5">
-                        <button class="dinein" type="submit">Dine in</button>
-                        <button class="doordelivery" type="submit">Door Delivery</button>
-                        <button class="pickup" type="submit">Pick up</button>
+                        <input type="radio" v-model="chooseDelivery" value="dinein" id="dine-in-option" name="delivery">
+                        <label for="dine-in-option" class="dinein">Dine In</label>
+                        <input type="radio" v-model="chooseDelivery" value="doordelivery" id="door-delivery-option" name="delivery">
+                        <label for="door-delivery-option" class="doordelivery">Door Delivery</label>
+                        <input type="radio" v-model="chooseDelivery" value="pickup" id="pick-up-delivery-option" name="delivery">
+                        <label for="pick-up-delivery-option" class="pickup">Pick Up</label>
                     </div>
                     <div class="box6">
                         <label class="settime" for="settime">Set time :</label>
-                        <input class="input1" type="time" placeholder="Enter the time your arrived">
+                        <input type="time" v-model="timeDeliverd" class="input1" min="09:00" max="18:00" required>
                     </div>
                 </div>
                 <div class="box7">
@@ -47,16 +49,17 @@
                         <div class="box9">
                             <img class="img1" src="../../assets/coffee2.png" alt="image2">
                             <div class="box10">
-                                <p class="text8">COLD BREW</p>
-                                <p class="text9">x1 (Large)</p>
-                                <p class="text10">x1 (Regular)</p>
+                                <p class="text8">{{getProductId.productName}}</p>
+                                <p class="text10" v-if="listOrder.regular > 0">x{{ listOrder.regular }} (Regular)</p>
+                                <p class="text9" v-if="listOrder.large > 0">x{{ listOrder.large }} (Large)</p>
+                                <p class="text10" v-if="listOrder.xtralarge > 0">x{{ listOrder.xtralarge }} (XtraLarge)</p>
                             </div>
-                            <button class="minus" type="submit" @click="minusCount">-</button>
-                            <p class="text11">{{count}}</p>
-                            <button class="plus" type="submit" @click="plusCount">+</button>
+                            <button class="minus" type="submit" @click="decreaseTotalOrder">-</button>
+                            <p class="text11">{{ totalOrder }}</p>
+                            <button class="plus" type="submit" @click="increaseTotalOrder">+</button>
                         </div>
                     </div>
-                    <button class="checkout">CHECKOUT</button>
+                    <button class="checkout" @click="toCheckOut">CHECKOUT</button>
                 </div>
             </div>
         </div>
@@ -64,13 +67,25 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Swal from 'sweetalert2'
 export default {
   name: 'ProductDetailsAdmin',
   data () {
     return {
-      count: 1
+      productDetails: '',
+      inputChooseSize: '',
+      chooseDelivery: '',
+      totalOrder: 0,
+      timeDeliverd: '',
+      listOrder: {
+        idProduct: '',
+        productName: '',
+        regular: 0,
+        large: 0,
+        xtralarge: 0,
+        basePrice: 0
+      }
     }
   },
   methods: {
@@ -124,7 +139,7 @@ export default {
                 'success'
               )
             })
-          this.$router.push('/home/product-admin')
+          this.$router.push('/home/product-admin/favorite-product')
         } else if (
           result.dismiss === Swal.DismissReason.cancel
         ) {
@@ -138,21 +153,110 @@ export default {
     },
     goPageEditProducts (id) {
       this.$router.push(`/home/edit-product-admin/${id}`)
+    },
+    checkChooseSizeButton () {
+      console.log(document.getElementById('btn-choose-size-r'))
+    },
+    increaseTotalOrder () {
+      if (!this.inputChooseSize || !this.chooseDelivery || !this.timeDeliverd) {
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Sorry field input required',
+          showConfirmButton: false,
+          timer: 1000
+        })
+      }
+      if (this.inputChooseSize === 'L') {
+        this.increaseLarge.large++
+      }
+      if (this.inputChooseSize === 'R') {
+        this.increaseLarge.regular++
+      }
+      if (this.inputChooseSize === 'XL') {
+        this.increaseLarge.xtralarge++
+      }
+      this.totalOrder++
+    },
+    decreaseTotalOrder () {
+      if (this.totalOrder > 0) {
+        if (this.inputChooseSize === 'L') {
+          this.increaseLarge.large--
+        }
+        if (this.inputChooseSize === 'R') {
+          this.increaseLarge.regular--
+        }
+        if (this.inputChooseSize === 'XL') {
+          this.increaseLarge.xtralarge--
+        }
+        this.totalOrder--
+      }
+    },
+    ...mapMutations(['SET_CARD_DATA', 'REMOVE_CART_DATA']),
+    addCardData () {
+      this.listOrder.productName = this.productDetails.productName
+      this.listOrder.basePrice = this.productDetails.price
+      this.listOrder.idProduct = this.$route.params.idProduct
+      this.listOrder.photoProduct = this.productDetails.photoProduct
+      const cardData = JSON.parse(localStorage.getItem('cardData'))
+      if (cardData) {
+        if (cardData.length > 0) {
+          if (cardData.find((value) => value.productName === this.productDetails.productName)) {
+            console.log(cardData)
+            const cardDataCopy = cardData.map(item => {
+              console.log(item)
+              if (item.productName === this.productDetails.productName) {
+                const newItem = Object.assign({}, item)
+                newItem.regular += this.increaseLarge.regular
+                newItem.large += this.increaseLarge.large
+                newItem.xtralarge += this.increaseLarge.xtralarge
+                return newItem
+              }
+              return item
+            })
+            localStorage.setItem('cardData', JSON.stringify(cardDataCopy))
+            this.alertAddCartSucceed()
+            return
+          }
+          const payload2 = [
+            ...cardData,
+            this.listOrder
+          ]
+          localStorage.setItem('cardData', JSON.stringify(payload2))
+          this.alertAddCartSucceed()
+        }
+      } else {
+        const payload = [this.listOrder]
+        localStorage.setItem('cardData', JSON.stringify(payload))
+        this.alertAddCartSucceed()
+      }
+    },
+    toCheckOut () {
+      this.$router.push({ path: '/home/payment-delivery' })
+    },
+    alertAddCartSucceed () {
+      Swal.fire({
+        icon: 'success',
+        title: 'product has been added to the cart',
+        showConfirmButton: false,
+        timer: 1000
+      })
     }
   },
   computed: {
-    ...mapGetters(['getProductId'])
+    ...mapGetters(['getProductId']),
+    increaseLarge () {
+      return this.listOrder
+    }
   },
-  async mounted () {
-    await this.getProductDetailsById()
+  mounted () {
+    this.getProductDetailsById()
+    this.checkChooseSizeButton()
   }
 }
 </script>
 
 <style scoped>
-.box7 {
-    margin-bottom: 80px;
-}
 .photo-product img{
     width: 400px;
     height: 400px;
@@ -204,8 +308,8 @@ export default {
 }
 
 .img {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     object-fit: contain;
     border-radius: 50%;
 }
@@ -359,6 +463,39 @@ export default {
     justify-content: space-around;
     width: 60%;
 }
+.box3 input[type="radio"] {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}
+.box3 label {
+    width: 70px;
+		height:70px;
+    background: #FFBA33;
+    border: none;
+    border-radius: 50%;
+		text-align:center;
+		padding:10px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+
+    color: #000000;
+}
+.box3 label:hover {
+  background-color: rgba(231, 170, 54, 0.52);
+}
+
+.box3 input[type="radio"]:focus + label {
+    border: 2px dashed #444;
+}
+
+.box3 input[type="radio"]:checked + label {
+    background-color: rgba(231, 170, 54, 0.52);
+    border: 3px solid #6A4029;
+		color:#6A4029;
+}
 
 .size {
     width: 70px;
@@ -425,7 +562,7 @@ export default {
     flex-direction: column;
     align-items: center;
 
-    margin-left: -150px;
+    margin-left: -300px;
     margin-top: 45px;
 }
 
@@ -436,6 +573,32 @@ export default {
     font-size: 20px;
 
     color: #000000;
+}
+
+.box5 input[type="radio"]{
+     opacity: 0;
+  position: fixed;
+  width: 0;
+}
+.box5 label:hover {
+    background-color: rgba(231, 170, 54, 0.52);
+    border: 3px solid #6A4029;
+    color:#6A4029;
+}
+
+.box5 input[type="radio"]:focus + label {
+    border: 2px dashed #444;
+}
+
+.box5 input[type="radio"]:checked + label {
+    background: #6A4029;
+    border: 3px solid #6A4029;
+    color:white;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 24px;
 }
 
 .box5 {
@@ -455,7 +618,8 @@ export default {
     border: 1px solid rgba(186, 186, 186, 0.35);
     box-sizing: border-box;
     border-radius: 10px;
-
+    padding:10px;
+    text-align:center;
     font-family: Poppins;
     font-style: normal;
     font-weight: normal;
@@ -497,7 +661,8 @@ export default {
     border: 1px solid rgba(186, 186, 186, 0.35);
     box-sizing: border-box;
     border-radius: 10px;
-
+    padding:10px;
+    text-align:center;
     font-family: Poppins;
     font-style: normal;
     font-weight: normal;
@@ -539,7 +704,8 @@ export default {
     border: 1px solid rgba(186, 186, 186, 0.35);
     box-sizing: border-box;
     border-radius: 10px;
-
+    padding:10px;
+    text-align:center;
     font-family: Poppins;
     font-style: normal;
     font-weight: normal;

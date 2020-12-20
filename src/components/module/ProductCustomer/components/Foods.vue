@@ -1,6 +1,6 @@
 <template>
   <div class="box4">
-      <div v-for="food in dataFoods" :key="food.idProduct" @click="toProductDetails(food.idProduct)" class="card">
+      <div v-for="food in getDataType" :key="food.idProduct" @click="toProductDetails(food.idProduct)" class="card">
           <div class="photo-product">
              <img :src="food.photoProduct" alt="image2">
           </div>
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Food',
   data () {
@@ -21,16 +21,19 @@ export default {
   },
   methods: {
     ...mapActions(['getProductFoods']),
-    async handleGetProductFoods () {
-      const result = await this.getProductFoods()
-      this.dataFoods = result.products
-    },
+    // async handleGetProductFoods () {
+    //   const result = await this.getProductFoods()
+    //   this.dataFoods = result.products
+    // },
     toProductDetails (idProduct) {
       this.$router.push({ path: '/home/product-details/' + idProduct, query: { type: 'food' } })
     }
   },
   async mounted () {
-    await this.handleGetProductFoods()
+    await this.getProductFoods()
+  },
+  computed: {
+    ...mapGetters(['getDataType'])
   }
 }
 </script>
