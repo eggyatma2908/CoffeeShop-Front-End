@@ -91,7 +91,6 @@ export default {
       const payload = {
         id
       }
-      console.log(this.getProductDetailsById(payload))
       this.getProductDetailsById(payload)
     },
     updateProduct (idProduct) {
@@ -114,7 +113,6 @@ export default {
       form.append('homeDelivery', this.getProductId.homeDelivery)
       form.append('dineIn', this.getProductId.dineIn)
       form.append('takeAway', this.getProductId.takeAway)
-      console.log('udah isi update')
       const id = this.$route.params.idProduct
       const payload = {
         id,
@@ -122,7 +120,6 @@ export default {
       }
       this.updateProducts(payload)
         .then(res => {
-          console.log(res)
           this.$router.push(`/home/save-product/${idProduct}`)
         })
     },

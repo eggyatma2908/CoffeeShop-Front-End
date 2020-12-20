@@ -61,6 +61,10 @@ export default new Vuex.Store({
     REMOVE_USER (state) {
       state.user = null
       state.userData = null
+      state.products = ''
+    },
+    REMOVE_CARD_DATA_LOCAL () {
+      localStorage.removeItem('cardData')
     }
   },
   actions: {
@@ -88,6 +92,7 @@ export default new Vuex.Store({
     logout (context) {
       localStorage.removeItem('accessToken')
       localStorage.removeItem('refreshToken')
+      localStorage.remove('cardData')
       context.commit('REMOVE_TOKEN')
       context.commit('REMOVE_USER')
     },
@@ -318,6 +323,9 @@ export default new Vuex.Store({
     },
     getProductId (state) {
       return state.products
+    },
+    getCartLocalStorage () {
+      return JSON.parse(localStorage.getItem('cardData')) !== null
     }
   },
   modules: {

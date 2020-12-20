@@ -53,12 +53,14 @@ const routes = [
       {
         path: 'edit-product-admin/:idProduct',
         name: 'EditProductAdmin',
-        component: EditProductAdmin
+        component: EditProductAdmin,
+        meta: { requiresAuth: true }
       },
       {
         path: 'save-product/:idProduct',
         name: 'SaveEditAdmin',
-        component: SaveEditAdmin
+        component: SaveEditAdmin,
+        meta: { requiresAuth: true }
       },
       {
         path: 'history',
@@ -71,32 +73,37 @@ const routes = [
         name: 'ProductCustomer',
         component: ProductCustomer,
         meta: { requiresAuth: true },
-        redirect: FavoriteProduct,
+        redirect: '/home/product-customer/favorite-product',
         children: [
           {
             path: 'favorite-product',
             name: 'FavoriteProduct',
-            component: FavoriteProduct
+            component: FavoriteProduct,
+            meta: { requiresAuth: true }
           },
           {
             path: 'non-coffee',
             name: 'NonCoffee',
-            component: NonCoffee
+            component: NonCoffee,
+            meta: { requiresAuth: true }
           },
           {
             path: 'coffee',
             name: 'Coffee',
-            component: Coffee
+            component: Coffee,
+            meta: { requiresAuth: true }
           },
           {
             path: 'foods',
             name: 'Foods',
-            component: Foods
+            component: Foods,
+            meta: { requiresAuth: true }
           },
           {
             path: 'add-on',
             name: 'AddOn',
-            component: AddOn
+            component: AddOn,
+            meta: { requiresAuth: true }
           }
         ]
       },
@@ -149,7 +156,7 @@ const routes = [
         path: 'payment-delivery',
         name: 'PaymentDelivery',
         component: PaymentDelivery,
-        meta: { requiresAuth: true }
+        meta: { requiresAuth: true, requiresOrder: true }
       },
       {
         path: 'room-chat',
@@ -160,7 +167,8 @@ const routes = [
       {
         path: 'new-product',
         name: 'NewProduct',
-        component: NewProduct
+        component: NewProduct,
+        meta: { requiresAuth: true }
       }
     ]
   },
@@ -204,6 +212,21 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth && record.meta.requiresOrder)) {
+    if (!store.getters.isLogin) {
+      next({
+        path: '/auth/login'
+      })
+    } else {
+      if (store.getters.getCartLocalStorage) {
+        next()
+      } else {
+        next({
+          path: '/home/product-customer/favorite-product'
+        })
+      }
+    }
+  }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.getters.isLogin) {
       next({
@@ -212,7 +235,8 @@ router.beforeEach((to, from, next) => {
     } else {
       next()
     }
-  } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+  }
+  if (to.matched.some(record => record.meta.requiresVisitor)) {
     if (store.getters.isLogin) {
       next({
         path: '/profile/user-profile'
@@ -220,9 +244,9 @@ router.beforeEach((to, from, next) => {
     } else {
       next()
     }
-  } else {
-    next()
   }
+  // else
+  next()
 })
 
 export default router

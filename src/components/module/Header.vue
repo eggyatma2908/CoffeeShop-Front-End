@@ -19,8 +19,8 @@
                         <img class="img4" src="../../assets/ellipse.png" alt="image4">
                         <p class="text1">1</p>
                     </div>
-                    <div class="photo-profile">
-                      <img @click="toProfile" :src="getUserData.photoProfile" alt="image5">
+                    <div class="user-profile">
+                      <img @click="toProfile" :src="this.getUserData.photoProfile" alt="image5">
                     </div>
                 </div>
             </div>
@@ -53,7 +53,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getUserData'])
+    ...mapGetters(['getUserData']),
+    foto () {
+      return this.getUserData.photoProfile !== '' ? this.getUserData : '../../assets/user-avatar.png'
+    }
   }
 }
 </script>
@@ -239,12 +242,12 @@ body {
     height: 30px;
     cursor:pointer;
 }
-.photo-profile {
+.user-profile {
     width: 40px;
     height: 40px;
     cursor:pointer;
 }
-.photo-profile img{
+.user-profile img{
     width: 100%;
     height: 100%;
     object-fit:cover;

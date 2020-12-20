@@ -66,21 +66,21 @@
           </div>
           <div class="card-payment-details m-0 bold-500">
             <div class="payment-option pb-3">
-            <input type="radio" name="checkout-option">
+            <input type="radio" v-model="paymentMethod" value="Card" name="checkout-option">
             <div class="icon-radio-mail position-icon d-inline-block">
               <img src="../../assets/mail.png" alt="">
             </div>
             <p class="d-inline-block ml-3">Card</p>
             </div>
             <div class="payment-option pb-3">
-            <input type="radio" name="checkout-option">
+            <input type="radio" v-model="paymentMethod" value="Bank Account" name="checkout-option">
             <div class="icon-radio-bank position-icon d-inline-block">
               <img src="../../assets/Vector (1).png" alt="">
             </div>
             <p class="d-inline-block ml-3">Bank Account</p>
             </div>
             <div class="payment-option pb-3">
-            <input type="radio" name="checkout-option">
+            <input type="radio" v-model="paymentMethod" value="COD" name="checkout-option">
             <div class="icon-radio-deliver position-icon d-inline-block">
               <img src="../../assets/fast-delivery 3.png" alt="">
             </div>
@@ -97,17 +97,13 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Pay Now</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <CheckOut :data="dataPayment"/>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
@@ -131,7 +127,8 @@ export default {
       shipping: 12000,
       totalAmountInvoice: 0,
       convertToFormatIDR: 0,
-      userData: null
+      userData: null,
+      paymentMethod: null
     }
   },
   methods: {
@@ -218,7 +215,9 @@ export default {
       return {
         amount: this.totalAmountInvoice,
         amountIDR: this.convertToFormatIDR,
-        description: JSON.parse(localStorage.getItem('cardData'))
+        description: JSON.parse(localStorage.getItem('cardData')),
+        sender: this.getUserData.username,
+        paymentMethod: this.paymentMethod
       }
     }
   },

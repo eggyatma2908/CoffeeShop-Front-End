@@ -144,6 +144,15 @@ export default {
     },
     ...mapMutations(['SET_CARD_DATA', 'REMOVE_CART_DATA']),
     addCardData () {
+      if (!this.inputChooseSize || !this.chooseDelivery || !this.timeDeliverd) {
+        return Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Sorry field input required',
+          showConfirmButton: false,
+          timer: 1000
+        })
+      }
       this.listOrder.productName = this.productDetails.productName
       this.listOrder.basePrice = this.productDetails.price
       this.listOrder.idProduct = this.$route.params.idProduct

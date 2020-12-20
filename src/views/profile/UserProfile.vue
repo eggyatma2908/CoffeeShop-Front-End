@@ -220,6 +220,7 @@ export default {
   },
   mounted () {
     this.onInputUploadChange()
+    console.log(this.getUserData.photoProfile)
   },
   computed: {
     ...mapGetters(['getUserData'])
