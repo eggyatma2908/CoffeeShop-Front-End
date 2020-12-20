@@ -4,8 +4,8 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="navigation-route">
-                            <p class="favorite-promo">Favorite & Promo</p>
-                            <p class="add-new-product">> Add new product</p>
+                            <p class="favorite-promo" style="margin-right: 5px;">Favorite & Promo </p>
+                            <p class="add-new-product"> > Add new product</p>
                         </div>
                         <div class="picture-product">
                             <div>
@@ -21,10 +21,12 @@
                             <h6>Delivery Hour :</h6>
                             <form>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Select start hour" onfocus="(this.type='time')">
+                                   <label class="settime" for="settime"></label>
+                                    <input id="settime" type="time" v-model="deliveryHourStart" style="outline:none;" class="input1" min="09:00" max="18:00" v-on:change="setTime" placeholder="Select start hour" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Select end hour" onfocus="(this.type='time')">
+                                    <label class="settime" for="settime1"></label>
+                                    <input id="settime1" type="time" v-model="deliveryHourEnd" style="outline:none;" class="input1" min="09:00" max="18:00" v-on:change="setTime1" required>
                                 </div>
                             </form>
                         </div>
@@ -52,11 +54,6 @@
                                 <div class="invalid-feedback" v-if="!$v.description.required">Field is required.</div>
                                 <div class="invalid-feedback" v-if="!$v.description.minLength">Minim 150 characters</div>
                             </div>
-                            <!-- <div class="mb-3 mt-5 form-group">
-                                <label class="form-label">Category :</label>
-                                <input type="text" v-model.trim="$v.category.$model" :class="{ 'is-invalid': validationStatus($v.category) }" class="form-control" placeholder="Enter category">
-                                <div class="invalid-feedback" v-if="!$v.category.required">Field is required.</div>
-                            </div> -->
                             <form id="selectcategory" onsubmit="return false">
                             <select id="category" v-on:change="addCategory">
                                 <option disabled selected>Category</option>
@@ -68,33 +65,43 @@
                             </form>
                             <h6 class="text-input-product">Input product size :</h6>
                             <p>Click methods you want to use for this product</p>
-                            <div class="product-size">
-                                <div class="size">
-                                    <input type="radio" class="radiobtn" value="r">R
-                                </div>
-                                <div class="size">
-                                    <input type="radio" class="radiobtn" value="l">L
-                                </div>
-                                <div class="size">
-                                    <input type="radio" class="radiobtn" value="xl">XL
-                                </div>
-                                <div class="weight">
-                                    <input type="radio" class="radiobtn1" value="250">250 gr
-                                </div>
-                                <div class="weight">
-                                    <input type="radio" class="radiobtn1" value="300">300 gr
-                                </div>
-                                <div class="weight">
-                                    <input type="radio" class="radiobtn1" value="500">500 gr
-                                </div>
+                            <div class="box3">
+                                <input class="size" id="btn-choose-size-r" value="R" v-model="inputChooseSize" type="checkbox" name="size">
+                                                        <label for="btn-choose-size-r">R</label>
+                                <input class="size" id="btn-choose-size-l" value="L" v-model="inputChooseSize" type="checkbox" name="size">
+                                                        <label for="btn-choose-size-l">L</label>
+                                <input class="size" id="btn-choose-size-xl" value="XL" v-model="inputChooseSize" type="checkbox" name="size">
+                                                        <label for="btn-choose-size-xl">XL</label>
+
+                                <input class="size" id="btn-choose-size-r" value="200" v-model="inputChooseSize" type="checkbox" name="size">
+                                                        <label class="weight" for="btn-choose-size-r">200 gr</label>
+                                <input class="size" id="btn-choose-size-l" value="300" v-model="inputChooseSize" type="checkbox" name="size">
+                                                        <label class="weight" for="btn-choose-size-l">300 gr</label>
+                                <input class="size" id="btn-choose-size-xl" value="500" v-model="inputChooseSize" type="checkbox" name="size">
+                                                        <label class="weight" for="btn-choose-size-xl">500 gr</label>
                             </div>
 
                             <h6 class="text-input-delivery">Input delivery methods :</h6>
                             <p class="methods">Click methods you want to use for this product</p>
-                            <div class="delivery-methods">
-                                <button class="btn btn-home-delivery">Home Delivery</button>
-                                <button class="btn btn-dine-in">Dine in</button>
-                                <button class="btn btn-take-away">Take away</button>
+                            <div class="box4">
+                                <div>
+                                    <label>
+                                        <input id="checkbox1" type="checkbox" v-on:change="addHomeDelivery" value="1">
+                                        <span>Home Delivery</span>
+                                     </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input id="checkbox2" type="checkbox" class="btn btn-dine-in" v-on:change="addDineIn" value="1">
+                                        <span>Dine in</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input id="checkbox3" type="checkbox" class="btn btn-take-away" v-on:change="addTakeAway" value="1">
+                                        <span>Take away</span>
+                                    </label>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-save" @click.prevent="addProduct">Save Product</button>
                             <button class="btn btn-cancel">Cancel</button>
@@ -123,13 +130,16 @@ export default {
       idTypeProduct: '',
       homeDelivery: '',
       dineIn: '',
-      takeAway: ''
+      takeAway: '',
+      deliveryHourStart: '',
+      deliveryHourEnd: '',
+      inputChooseSize: ''
     }
   },
   validations: {
-    productName: { required, minLength: minLength(0) },
+    productName: { required, minLength: minLength(50) },
     price: { required },
-    description: { required, minLength: minLength(0) },
+    description: { required, minLength: minLength(150) },
     stock: { required, minLength: minLength(0) },
     idTypeProduct: { required, minLength: minLength(0) }
   },
@@ -142,6 +152,26 @@ export default {
     addCategory (event) {
       const categoryId = document.getElementById('selectcategory').category.value
       this.idTypeProduct = categoryId
+    },
+    addHomeDelivery (event) {
+      const valueHomeDelivery = (document.querySelector('.btn-home-delivery:checked').value)
+      this.homeDelivery = valueHomeDelivery
+    },
+    addDineIn (event) {
+      const valueDineIn = (document.querySelector('.btn-dine-in:checked').value)
+      this.dineIn = valueDineIn
+    },
+    addTakeAway (event) {
+      const valueTakeAway = (document.querySelector('.btn-take-away:checked').value)
+      this.takeAway = valueTakeAway
+    },
+    setTime (event) {
+      const valueTime = document.getElementById('settime').value
+      this.deliveryHourStart = valueTime
+    },
+    setTime1 (event) {
+      const valueTime = document.getElementById('settime').value
+      this.deliveryHourEnd = valueTime
     },
     upload (event) {
       const imagename = (event.target.files[0].name)
@@ -166,6 +196,11 @@ export default {
       form.append('stock', this.stock)
       form.append('description', this.description)
       form.append('idTypeProduct', this.idTypeProduct)
+      form.append('homeDelivery', this.homeDelivery)
+      form.append('dineIn', this.dineIn)
+      form.append('takeAway', this.takeAway)
+      form.append('deliveryHourStart', this.deliveryHourStart)
+      form.append('deliveryHourEnd', this.deliveryHourEnd)
       const payload = {
         formData: form
       }
@@ -195,6 +230,44 @@ export default {
 </script>
 
 <style scoped>
+.box4 {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 50px;
+}
+
+.box4 div label {
+    cursor: pointer;
+}
+
+.box4 div label input[type="checkbox"] {
+    display: none;
+}
+
+.box4 div label span {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+
+    color: #4F5665;
+    padding: 25px 30px;
+
+    background: rgba(186, 186, 186, 0.35);
+    border-radius: 20px;
+}
+
+.box4 div label span:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.box4 div label input[type="checkbox"]:checked ~ span {
+    background: #FFBA33;
+}
+
 main {
     background: #FFFFFF;
     max-height: max-content;
@@ -330,6 +403,7 @@ input#upload-image {
     font-size: 20px;
 
     color: #9F9F9F;
+    outline: none;
 }
 
 form .form-label {
@@ -416,6 +490,7 @@ select {
     -moz-appearance: none;
     appearance: none;
     background: url('../../assets/arrow.png') 96% / 10% no-repeat #FFFFFF;
+    outline:none;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -464,6 +539,62 @@ form .delivery-methods {
     justify-content: space-between;
 }
 
+.box3 {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.box3 input[type="checkbox"] {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}
+
+.box3 label {
+    width: 70px;
+	height:70px;
+    background: #FFBA33;
+    border: none;
+    border-radius: 50%;
+	text-align:center;
+	padding:10px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+
+    color: #000000;
+}
+
+.box3 label:hover {
+  background-color: rgba(231, 170, 54, 0.52);
+}
+
+.box3 input[type="checkbox"]:focus + label {
+    border: 2px dashed #444;
+}
+
+.box3 input[type="checkbox"]:checked + label {
+    background-color: rgba(231, 170, 54, 0.52);
+    border: 3px solid #6A4029;
+	color:#6A4029;
+}
+
+h6.text-input-delivery {
+    width: 302px;
+    height: 30px;
+
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 30px;
+
+    color: #6A4029;
+}
+
 .size {
     position: relative;
 
@@ -485,121 +616,16 @@ form .delivery-methods {
     color: #000000;
 }
 
-.weight {
-    position: relative;
-
-    margin-top: 50px;
-
-    width: 70px;
-    height: 70px;
-
-    background: rgba(186, 186, 186, 0.35);
-    border-radius: 50%;
-    margin-left: 20px;
-    padding: 10px;
-
-    font-weight: bold;
-    font-size: 30px;
-    line-height: 45px;
-    text-align: center;
-
-    color: #000000;
-}
-
-.radiobtn {
-    position:absolute;
-    top: 0px;
-    right: 0px;
-    width: 70px;
-    height: 70px;
-    background: rgba(186, 186, 186, 0.35);
-    border-radius: 50%;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.radiobtn1 {
-    position:absolute;
-    top: 0px;
-    right: 0px;
-    width: 70px;
-    height: 70px;
-    background: rgba(186, 186, 186, 0.35);
-    border-radius: 50%;
-    opacity: 0;
-    cursor: pointer;
-
-    width: 29px;
-    height: 46px;
-    left: 1003px;
-    top: 893px;
-
+label.weight {
     font-family: Poppins;
     font-style: normal;
     font-weight: bold;
-    font-size: 15px;
-
-    color: #4F5665;
-}
-
-form .btn-250-gr,
-form .btn-300-gr,
-form .btn-500-gr {
-    position: relative;
-    width: 70px;
-    height: 70px;
-    background: rgba(186, 186, 186, 0.35);
-    border-radius: 50%;
-}
-
-form .btn-250-gr:checked,
-form .btn-300-gr:checked,
-form .btn-500-gr:checked {
-    background-color: #FFBA33;
-}
-
-form .btn-250-gr,
-form .btn-300-gr,
-form .btn-500-gr {
-    font-weight: bold;
-    font-size: 15px;
+    font-size: 20px;
     line-height: 22px;
     text-align: center;
 
+    background-color: rgba(186, 186, 186, 0.35);
     color: #4F5665;
-}
-
-form .text-input-delivery {
-    font-weight: bold;
-    font-size: 25px;
-    line-height: 30px;
-    color: #6A4029;
-    padding-top: 80px;
-}
-
-form p.methods {
-    font-size: 20px;
-    line-height: 24px;
-    color: #9F9F9F;
-}
-
-form .btn-home-delivery,
-form .btn-dine-in,
-form .btn-take-away {
-    width: 170px;
-    height: 72px;
-    background: rgba(186, 186, 186, 0.35);
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 24px;
-    color: #6A4029;
-}
-
-form .btn-home-delivery:focus,
-form .btn-dine-in:focus,
-form .btn-take-away:focus {
-    background: #FFBA33;
 }
 
 form .btn-save {
