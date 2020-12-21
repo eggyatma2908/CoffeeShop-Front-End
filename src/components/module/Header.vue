@@ -75,10 +75,6 @@ body {
     box-sizing: border-box;
 }
 
-.box0 {
-    margin: 50px;
-}
-
 .box {
     display: flex;
 }
