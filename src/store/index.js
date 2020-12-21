@@ -22,7 +22,8 @@ export default new Vuex.Store({
     updateProduct: [],
     pagination: null,
     dataType: [],
-    roleId: null
+    roleId: null,
+    productData: []
   },
   plugins: [createPersistedState()],
   mutations: {
@@ -80,6 +81,9 @@ export default new Vuex.Store({
     },
     SET_ROLE_ID (state, payload) {
       state.roleId = payload
+    },
+    SET_DATA_PRODUCT (state, payload) {
+      state.productData = payload
     }
   },
   actions: {
@@ -89,6 +93,7 @@ export default new Vuex.Store({
         axios.post(`${process.env.VUE_APP_URL_API}/users/login`, payload)
           .then(res => {
             const result = res.data.result
+            console.log(result)
             localStorage.setItem('accessToken', result.accessToken)
             localStorage.setItem('refreshToken', result.refreshToken)
             jwt.verify(result.accessToken, process.env.VUE_APP_ACCESS_TOKEN_KEY, (error, data) => {
@@ -227,6 +232,13 @@ export default new Vuex.Store({
           .then(results => {
             console.log('masuk ini ke get')
             context.commit('SET_USER_DATA', results.data.result)
+          })
+      })
+    },
+    getAllProduct () {
+      return new Promise((resolve, reject) => {
+        axios.get(`${process.env.VUE_APP_URL_API}/products/`)
+          .then(results => {
             resolve(results.data.result)
           })
           .catch(error => {
@@ -257,6 +269,21 @@ export default new Vuex.Store({
           })
           .catch(error => {
             console.log(error.response)
+          })
+      })
+    },
+    addNewProduct (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.post(`${process.env.VUE_APP_URL_API}/products`, payload.formData)
+          .then(result => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Succeed',
+              text: 'Your personal information has been updated',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            resolve(result)
           })
       })
     },
