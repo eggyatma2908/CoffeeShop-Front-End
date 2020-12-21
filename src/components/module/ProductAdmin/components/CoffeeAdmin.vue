@@ -1,5 +1,8 @@
 <template>
 <div>
+    <div class="button-sort">
+        <button @click="sortTable"><i class="fas fa-sort-alpha-up"></i></button>
+    </div>
   <div class="box4">
       <div v-on:click="goPageDetailsProducts(coffee.idProduct)" v-for="coffee in getDataType" :key="coffee.idProduct" class="card">
           <div class="photo-product">
@@ -26,7 +29,8 @@ export default {
   name: 'CoffeeAdmin',
   data () {
     return {
-      dataCoffee: ''
+      dataCoffee: '',
+      sort: true
     }
   },
   methods: {
@@ -43,6 +47,18 @@ export default {
     //   id = this.$router.params.idProduct
       this.$router.push(`/home/product-details-admin/${id}`)
     //   this.$router.push({ path: '/home/product-details/:idProduct', query: { idProduct: id } })
+    },
+    sortTable () {
+      if (this.sort) {
+        this.getDataType.sort((a, b) => a.productName > b.productName ? 1 : -1)
+        this.sort = false
+      } else {
+        this.sort = true
+        this.getDataType.sort((a, b) => a.productName < b.productName ? 1 : -1)
+      }
+    },
+    sortHighest () {
+      this.getDataType.sort((a, b) => a.name < b.name ? 1 : -1)
     }
   },
   mounted () {
@@ -55,6 +71,18 @@ export default {
 </script>
 
 <style scoped>
+.button-sort {
+    width: 80px;
+    height: 40px;
+    font-size: 30px;
+    display: flex;
+}
+.button-sort button {
+    margin-left: 10px;
+    border: none;
+    background: #6A4029;
+    outline: none;
+}
 nav {
     margin-top: 100px;
     margin-left: 130px;
@@ -292,6 +320,7 @@ nav {
     font-weight: 900;
     font-size: 22px;
     line-height: 101.34%;
+    text-transform: capitalize;
 
     text-align: center;
 
