@@ -85,6 +85,7 @@ export default new Vuex.Store({
   actions: {
     login (context, payload) {
       return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
         axios.post(`${process.env.VUE_APP_URL_API}/users/login`, payload)
           .then(res => {
             const result = res.data.result
@@ -96,7 +97,6 @@ export default new Vuex.Store({
                 delete data.exp
                 context.dispatch('getRoleId', data.userId)
                 context.dispatch('getDataUserById', data.userId)
-                context.commit('SET_USER_DATA', data)
               }
             })
             context.commit('SET_USER', result)
@@ -114,6 +114,7 @@ export default new Vuex.Store({
     },
     register (context, payload) {
       return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
         axios.post(`${process.env.VUE_APP_URL_API}/users/register`, payload)
           .then(res => {
             resolve(res)
@@ -122,6 +123,7 @@ export default new Vuex.Store({
     },
     updateUserProfile (context, payload) {
       return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
         axios.patch(`${process.env.VUE_APP_URL_API}/users/profile/${payload.userId}`, payload.formData)
           .then(result => {
             Swal.fire({
@@ -138,6 +140,7 @@ export default new Vuex.Store({
     },
     getRoleId (context, payload) {
       return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_URL_API}/users/getroleid/${payload}`)
           .then(result => {
             console.log(result.data.result)
@@ -151,7 +154,7 @@ export default new Vuex.Store({
     },
     getProductCoffee (context, noPage = 1) {
       return new Promise((resolve, reject) => {
-        console.log('halo')
+        context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=coffee&page=${noPage}&limit=9`)
           .then(res => {
             console.log(res.data.result.products)
@@ -166,6 +169,7 @@ export default new Vuex.Store({
     },
     getProductFoods (context, payload) {
       return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=food&limit=12`)
           .then(res => {
             context.commit('SET_DATA_TYPE', res.data.result.products)
@@ -176,8 +180,9 @@ export default new Vuex.Store({
           })
       })
     },
-    getProductNonCoffee () {
+    getProductNonCoffee (context) {
       return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=non-coffee &limit=12`)
           .then(results => {
             resolve(results.data.result)
@@ -187,8 +192,9 @@ export default new Vuex.Store({
           })
       })
     },
-    getProductAddOn () {
+    getProductAddOn (context) {
       return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=add-on&limit=12`)
           .then(results => {
             resolve(results.data.result)
@@ -200,6 +206,7 @@ export default new Vuex.Store({
     },
     getProductDetailsById (context, payload) {
       return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_URL_API}/products/${router.currentRoute.params.idProduct}`)
           .then(results => {
             console.log('isi api ', results.data.result)
@@ -213,16 +220,23 @@ export default new Vuex.Store({
     },
     getDataUserById (context, payload) {
       return new Promise((resolve, reject) => {
-        axios.get(`${process.env.VUE_APP_URL_API}/users/${payload}`)
+        context.dispatch('interceptorRequest')
+        axios.get(`${process.env.VUE_APP_URL_API}/users/${payload}`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
+        })
           .then(results => {
+            console.log('masuk ini ke get')
             context.commit('SET_USER_DATA', results.data.result)
             resolve(results.data.result)
+          })
+          .catch(error => {
+            console.log(error)
           })
       })
     },
     removeProduct (context, payload) {
       return new Promise((resolve, reject) => {
-        console.log('ini action remove di file store')
+        context.dispatch('interceptorRequest')
         axios.delete(`${process.env.VUE_APP_URL_API}/products/${router.currentRoute.params.idProduct}`)
           .then((results) => {
             context.commit('REMOVE_PRODUCT', payload)
@@ -234,9 +248,8 @@ export default new Vuex.Store({
       })
     },
     updateProducts (context, payload) {
-      console.log('api update product')
       return new Promise((resolve, reject) => {
-        console.log('otw update')
+        context.dispatch('interceptorRequest')
         axios.patch(`${process.env.VUE_APP_URL_API}/products/${payload.id}`, payload.formData)
           .then(results => {
             console.log('hasil result', results)

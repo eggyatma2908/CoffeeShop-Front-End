@@ -180,7 +180,7 @@ export default {
       form.append('firstName', this.firstName)
       form.append('lastName', this.lastName)
       form.append('bornDate', this.bornDate)
-      console.log(this.bornDate)
+      console.log(form)
       form.append('gender', this.gender)
       const userId = this.getUserData.id
       const payload = {
