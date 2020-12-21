@@ -156,7 +156,7 @@ const routes = [
         path: 'payment-delivery',
         name: 'PaymentDelivery',
         component: PaymentDelivery,
-        meta: { requiresAuth: true, requiresOrder: true }
+        meta: { requiresAuth: true }
       },
       {
         path: 'room-chat',
@@ -219,21 +219,6 @@ router.beforeEach((to, from, next) => {
       })
     } else {
       if (store.getters.isAdmin) {
-        next()
-      } else {
-        next({
-          path: '/home/product-customer/favorite-product'
-        })
-      }
-    }
-  }
-  if (to.matched.some(record => record.meta.requiresAuth && record.meta.requiresOrder)) {
-    if (!store.getters.isLogin) {
-      next({
-        path: '/auth/login'
-      })
-    } else {
-      if (store.getters.getCartLocalStorage) {
         next()
       } else {
         next({

@@ -91,7 +91,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         context.dispatch('interceptorRequest')
         axios.post(`${process.env.VUE_APP_URL_API}/users/login`, payload)
-          .then(res => {
+          .then((res) => {
             const result = res.data.result
             console.log(result)
             localStorage.setItem('accessToken', result.accessToken)
@@ -262,7 +262,9 @@ export default new Vuex.Store({
     updateProducts (context, payload) {
       return new Promise((resolve, reject) => {
         context.dispatch('interceptorRequest')
-        axios.patch(`${process.env.VUE_APP_URL_API}/products/${payload.id}`, payload.formData)
+        axios.patch(`${process.env.VUE_APP_URL_API}/products/${payload.id}`, payload.formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
           .then(results => {
             console.log('hasil result', results)
             resolve(results)

@@ -71,7 +71,7 @@ export default {
             showConfirmButton: false,
             timer: 1500
           })
-          this.$router.push('/profile/user-profile')
+          this.$router.push('/home/product-customer')
         })
     },
     goPageRegister () {

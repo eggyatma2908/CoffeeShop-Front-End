@@ -13,8 +13,8 @@
                                <label for="input-upload-image"><img src="../../assets/edit.png" alt="edit" class="icon-edit"></label>
                             </div>
                         </div>
-                        <h6 class="user-name">Zulaikha</h6>
-                        <h6 class="user-email">zulaikha17@gmail.com</h6>
+                        <h6 class="user-name">{{ this.getUserData.username ? this.getUserData.username : 'username has not been added ' }}</h6>
+                        <h6 class="user-email">{{ this.getUserData.email ? this.getUserData.email : 'email has not been added' }}</h6>
                         <h6 class="total-order">Has been ordered 15 products</h6>
                     </div>
                     <div class="col-lg-8 box-contact">
@@ -156,6 +156,10 @@ export default {
     validationStatus (validation) {
       return typeof validation !== 'undefined' ? validation.$error : false
     },
+    convertDate (dateString) {
+      var p = dateString.split(/\D/g)
+      return [p[0], p[1], p[2]].join('-')
+    },
     dateObject () {
       return this.bornDate ? new Date(this.date) : null
     },
@@ -172,7 +176,8 @@ export default {
       if (this.$v.$prndding || this.$v.$error) return
 
       const form = new FormData()
-      form.append('photoProfile', document.getElementById('input-upload-image').files[0])
+      const image = document.getElementById('input-upload-image').files[0]
+      form.append('photoProfile', image)
       form.append('email', this.email)
       form.append('phoneNumber', this.mobileNumber)
       form.append('address', this.deliveryAddress)
@@ -180,7 +185,6 @@ export default {
       form.append('firstName', this.firstName)
       form.append('lastName', this.lastName)
       form.append('bornDate', this.bornDate)
-      console.log(form)
       form.append('gender', this.gender)
       const userId = this.getUserData.id
       const payload = {
@@ -220,7 +224,14 @@ export default {
   },
   mounted () {
     this.onInputUploadChange()
-    console.log(this.getUserData.photoProfile)
+    this.email = this.getUserData.email
+    this.mobileNumber = this.getUserData.phoneNumber
+    this.deliveryAddress = this.getUserData.address
+    this.displayName = this.getUserData.username
+    this.firstName = this.getUserData.firstName
+    this.lastName = this.getUserData.lastName
+    this.bornDate = this.convertDate(this.getUserData.bornDate)
+    this.gender = this.getUserData.gender
   },
   computed: {
     ...mapGetters(['getUserData'])
@@ -288,7 +299,7 @@ h6.text-main {
     line-height: 50px;
     text-align: center;
     margin-top: 10px;
-
+    text-transform: capitalize;
     color: #000000;
 }
 
