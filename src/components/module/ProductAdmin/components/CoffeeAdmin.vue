@@ -1,21 +1,21 @@
 <template>
 <div>
-  <div class="box4">
-      <div v-on:click="goPageDetailsProducts(coffee.idProduct)" v-for="coffee in getDataType" :key="coffee.idProduct" class="card">
-          <div class="photo-product">
-             <img :src="coffee.photoProduct ? coffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
-          </div>
-          <p class="productname">{{ coffee.productName }}</p>
-          <p class="price">{{ coffee.price }}</p>
-          <button class="edit3" @click="goPageEditProducts(coffee.idProduct)"><img src="../../../../assets/pen.png" alt=""></button>
-      </div>
-  </div>
-  <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
-                <li v-for="noPage in getPagination.totalPage" :key="noPage" :class="[getPagination.currentPage == noPage ? 'active' : '']" class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(noPage)">{{noPage}}</a></li>
-                <li class="page-item" :class="[getPagination.currentPage == getPagination.totalPage ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) + 1)">Next</a></li>
-            </ul>
+    <div class="box4">
+        <div v-on:click="goPageDetailsProducts(coffee.idProduct)" v-for="coffee in getDataType" :key="coffee.idProduct" class="card">
+            <div class="photo-product">
+                <img :src="coffee.photoProduct ? coffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
+            </div>
+            <p class="productname">{{ coffee.productName }}</p>
+            <p class="price">{{ coffee.price }}</p>
+            <button class="edit3" @click="goPageEditProducts(coffee.idProduct)"><img src="../../../../assets/pen.png" alt=""></button>
+        </div>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
+            <li v-for="noPage in getPagination.totalPage" :key="noPage" :class="[getPagination.currentPage == noPage ? 'active' : '']" class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(noPage)">{{noPage}}</a></li>
+            <li class="page-item" :class="[getPagination.currentPage == getPagination.totalPage ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) + 1)">Next</a></li>
+        </ul>
     </nav>
 </div>
 </template>

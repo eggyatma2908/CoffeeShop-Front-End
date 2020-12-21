@@ -7,7 +7,7 @@
       <div class="history mx-auto mt-5 container-fluid p-0">
         <div class="row">
           <div class="col-4 row-gap">
-            <div class="card-history p-0">
+            <div class="card-history p-0" id="x">
               <div class="row">
                 <div class="col-4 p-2">
                   <div class="card-image mx-auto">
@@ -28,8 +28,8 @@
                     <div class="delete-action">
                       <img @click="deleteHistory" src="../../assets/trash.png" alt="">
                     </div>
-                    <div class="cancel-action">
-                      <img src="../../assets/x.png" alt="">
+                    <div class="cancel-action" id="cancel">
+                      <img @click="cancelAction" src="../../assets/x.png" alt="">
                     </div>
                   </div>
                 </div>
@@ -90,6 +90,12 @@ export default {
             'success'
           )
         }
+      })
+    },
+    cancelAction () {
+      document.getElementById('cancel').addEventListener('click', function () {
+        document.getElementById('x').style.display = 'none'
+        document.getElementById('cancel').style.display = 'none'
       })
     }
   },
@@ -182,14 +188,15 @@ main {
   width:50px;
   height:50px;
   border-radius:50%;
-  background-color:#6A4029;
+  background-color:#FFFFFF;
   position: relative;
   bottom:35px;
-  right:70px;
+  right:75px;
 }
 .delete-action img {
-  margin:14px 0 5px 17px;
+  margin:14px 0 5px 13px;
   cursor: pointer;
+  border-color:#FFFFFF;
 }
 .cancel-action {
   width:50px;
@@ -197,11 +204,11 @@ main {
   border-radius:50%;
   background-color:#FFBA33;
   position: relative;
-  bottom:82px;
+  bottom:84px;
   right:20px;
 }
 .cancel-action img {
-  margin:14px 0 5px 17px;
+  margin:18px 0 5px 17px;
   cursor: pointer;
 }
 </style>

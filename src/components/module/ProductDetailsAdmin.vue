@@ -118,11 +118,13 @@ export default {
         buttonsStyling: false
       })
 
-      swalWithBootstrapButtons.fire({
+      Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
+        confirmButtonColor: '#6A4029',
+        cancelButtonColor: '#FFBA33',
         confirmButtonText: 'Yes, delete it!',
         cancelButtonText: 'No, cancel!',
         reverseButtons: true
@@ -133,7 +135,7 @@ export default {
           }
           this.removeProduct(payload)
             .then(res => {
-              swalWithBootstrapButtons.fire(
+              Swal.fire(
                 'Deleted!',
                 'Your file has been deleted.',
                 'success'

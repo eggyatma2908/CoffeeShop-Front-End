@@ -1,21 +1,21 @@
 <template>
 <div>
-  <div class="box4">
-      <div v-for="coffee in getDataType" :key="coffee.idProduct" class="card" @click="toProductDetails(coffee.idProduct)">
-          <div class="photo-product">
-             <img :src="coffee.photoProduct ? coffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
-          </div>
-          <p class="productname">{{ coffee.productName }}</p>
-          <p class="price">{{ coffee.price }}</p>
-      </div>
-  </div>
-  <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
-                <li v-for="noPage in getPagination.totalPage" :key="noPage" :class="[getPagination.currentPage == noPage ? 'active' : '']" class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(noPage)">{{noPage}}</a></li>
-                <li class="page-item" :class="[getPagination.currentPage == getPagination.totalPage ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) + 1)">Next</a></li>
-            </ul>
-        </nav>
+    <div class="box4">
+        <div v-for="coffee in getDataType" :key="coffee.idProduct" class="card" @click="toProductDetails(coffee.idProduct)">
+            <div class="photo-product">
+                <img :src="coffee.photoProduct ? coffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
+            </div>
+            <p class="productname">{{ coffee.productName }}</p>
+            <p class="price">{{ coffee.price }}</p>
+        </div>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
+            <li v-for="noPage in getPagination.totalPage" :key="noPage" :class="[getPagination.currentPage == noPage ? 'active' : '']" class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(noPage)">{{noPage}}</a></li>
+            <li class="page-item" :class="[getPagination.currentPage == getPagination.totalPage ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) + 1)">Next</a></li>
+        </ul>
+    </nav>
   </div>
 </template>
 
@@ -50,8 +50,36 @@ export default {
 <style scoped>
 nav {
     margin-top: 100px;
-    margin-left: 130px;
 }
+
+nav .pagination > .active > a {
+    background-color: #6A4029;
+    color: #FFFFFF;
+    border: none;
+    font-weight: bold;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: #5a5a5a;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+nav .page-item {
+    width: 500px;
+    margin-left: 40px;
+}
+
+nav .page-item a {
+    color: #000000;
+    border: 1px solid #4F5665;
+    border-radius: 10px;
+}
+
 .text {
     width: 174px;
     height: 30px;
