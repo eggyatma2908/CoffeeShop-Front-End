@@ -40,7 +40,7 @@
                         <form>
                             <div class="mb-3 mt-5 form-group">
                                 <label class="form-label">Name :</label>
-                                <input type="text" v-model.trim="$v.productName.$model" :class="{ 'is-invalid': validationStatus($v.productName) }" class="productname" placeholder="Type product name min. 50 characters">
+                                <input type="text" v-model.trim="$v.productName.$model" :class="{ 'is-invalid': validationStatus($v.productName) }" class="productname" placeholder="Type product name min. 20 characters">
                                 <div class="invalid-feedback" v-if="!$v.productName.required">Field is required.</div>
                                 <div class="invalid-feedback" v-if="!$v.productName.minLength">Minim 50 characters</div>
                             </div>
@@ -138,9 +138,9 @@ export default {
     }
   },
   validations: {
-    productName: { required, minLength: minLength(50) },
+    productName: { required, minLength: minLength(20) },
     price: { required },
-    description: { required, minLength: minLength(150) },
+    description: { required, minLength: minLength(50) },
     stock: { required, minLength: minLength(0) },
     idTypeProduct: { required, minLength: minLength(0) }
   },
