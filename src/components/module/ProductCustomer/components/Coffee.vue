@@ -9,8 +9,8 @@
           <p class="price">{{ coffee.price }}</p>
       </div>
   </div>
-  <nav aria-label="Page navigation example">
-            <ul class="pagination">
+  <nav class="d-flex" aria-label="Page navigation example" >
+            <ul class="pagination mx-auto">
                 <li class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
                 <li v-for="noPage in getPagination.totalPage" :key="noPage" :class="[getPagination.currentPage == noPage ? 'active' : '']" class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(noPage)">{{noPage}}</a></li>
                 <li class="page-item" :class="[getPagination.currentPage == getPagination.totalPage ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) + 1)">Next</a></li>

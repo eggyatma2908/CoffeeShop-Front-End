@@ -67,9 +67,7 @@ export default {
       })
     },
     cardHistoryWhenReleaseClick () {
-      const self = this
       $('.card-history').mouseup(function () {
-        console.log(self.longClick)
         clearInterval(this.timeOut)
       })
     },

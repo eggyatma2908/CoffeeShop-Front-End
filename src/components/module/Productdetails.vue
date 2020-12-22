@@ -94,7 +94,6 @@ export default {
   methods: {
     ...mapActions(['getProductDetailsById']),
     async handleGetProductDetailsById () {
-      console.log(this.$route.params.idProduct)
       const payload = {
         id: this.$route.params.idProduct
       }

@@ -68,8 +68,7 @@ export default {
             timer: 3000
           })
           router.push({ path: '/home/product-customer/favorite-product' })
-        }).catch(function (error) {
-          console.log(error)
+        }).catch(function () {
           return Swal.fire({
             icon: 'error',
             title: 'Error',
