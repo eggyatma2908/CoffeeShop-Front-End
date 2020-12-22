@@ -29,7 +29,7 @@ import FoodsAdmin from '../components/module/ProductAdmin/components/FoodsAdmin.
 import CoffeeAdmin from '../components/module/ProductAdmin/components/CoffeeAdmin.vue'
 import AddOnAdmin from '../components/module/ProductAdmin/components/AddOnAdmin.vue'
 import SaveEditAdmin from '../components/module/SaveEditAdmin.vue'
-import EmailVerification from '../components/module/VerifyEmail/EmailVerification.vue'
+import EmailVerification from '../views/email/EmailVerification.vue'
 
 Vue.use(VueRouter)
 
