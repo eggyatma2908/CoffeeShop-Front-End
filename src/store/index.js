@@ -226,6 +226,7 @@ export default new Vuex.Store({
     getDataUserById (context, payload) {
       return new Promise((resolve, reject) => {
         context.dispatch('interceptorRequest')
+        console.log(payload)
         axios.get(`${process.env.VUE_APP_URL_API}/users/${payload}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
         })

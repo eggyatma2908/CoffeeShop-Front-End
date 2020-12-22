@@ -114,6 +114,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import CheckOut from '../base/CheckOut'
+import Swal from 'sweetalert2'
 export default {
   name: 'PaymentDelivery',
   components: {
@@ -222,10 +223,22 @@ export default {
     }
   },
   mounted () {
-    this.totalAmount()
-    this.getTotalAmountInvoice()
     this.getDataUser(this.getUserData.id)
-    this.convertToRupiah(this.totalAmountInvoice)
+    if (this.getListOrder) {
+      this.totalAmount()
+      this.getTotalAmountInvoice()
+      this.convertToRupiah(this.totalAmountInvoice)
+    } else {
+      Swal.fire({
+        title: 'your cart is still empty',
+        text: 'You dont have any items in your cart, lets go shopping!!',
+        imageUrl: 'https://media.giphy.com/media/CIJsP7PsWvZM4/giphy.gif',
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: 'Custom image',
+        confirmButtonText: '<a style="text-decoration:none;color:white;" href="/home/product-customer">Lets go shopping</a>'
+      })
+    }
   }
 }
 </script>

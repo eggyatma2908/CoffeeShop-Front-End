@@ -104,7 +104,7 @@
                     <div class="col-lg-3 edit-change">
                         <h6 class="text-save-change">Do you want to save the change?</h6>
                         <button type="submit" @click="handleUpdateUserProfile" class="btn btn-save">Save Change</button>
-                        <button type="submit" class="btn btn-cancel">Cancel</button>
+                        <button type="submit" class="btn btn-cancel" @click="goBack">Cancel</button>
                         <button type="submit" class="btn btn-edit-password">Edit Password<img src="../../assets/arrow-right.png" alt=""></button>
                         <button type="submit" @click.prevent="handleLogout" class="btn btn-logout">Log out<img src="../../assets/arrow-right.png" alt=""></button>
                     </div>
@@ -157,6 +157,7 @@ export default {
       return typeof validation !== 'undefined' ? validation.$error : false
     },
     convertDate (dateString) {
+      console.log(dateString)
       var p = dateString.split(/\D/g)
       return [p[0], p[1], p[2]].join('-')
     },
@@ -220,18 +221,28 @@ export default {
           })
           this.$router.push('/auth/login')
         })
+    },
+    assignInputField () {
+      const { email, phoneNumber, address, username, firstName, lastName, bornDate, gender } = this.getUserData
+      if (email || phoneNumber || address || username || firstName || lastName || bornDate || gender) {
+        this.email = this.getUserData.email
+        this.mobileNumber = this.getUserData.phoneNumber
+        this.deliveryAddress = this.getUserData.address
+        this.displayName = this.getUserData.username
+        this.firstName = this.getUserData.firstName
+        this.lastName = this.getUserData.lastName
+        this.bornDate = this.convertDate(this.getUserData.bornDate)
+        console.log(bornDate)
+        this.gender = this.getUserData.gender
+      }
+    },
+    goBack () {
+      this.$router.go(-1)
     }
   },
   mounted () {
     this.onInputUploadChange()
-    this.email = this.getUserData.email
-    this.mobileNumber = this.getUserData.phoneNumber
-    this.deliveryAddress = this.getUserData.address
-    this.displayName = this.getUserData.username
-    this.firstName = this.getUserData.firstName
-    this.lastName = this.getUserData.lastName
-    this.bornDate = this.convertDate(this.getUserData.bornDate)
-    this.gender = this.getUserData.gender
+    this.assignInputField()
   },
   computed: {
     ...mapGetters(['getUserData'])

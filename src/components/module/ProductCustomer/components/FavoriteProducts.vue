@@ -69,13 +69,13 @@ export default {
   name: 'Favorite-Product',
   methods: {
     ...mapActions(['getDataUserById']),
-    fetchUserData () {
+    async fetchUserData () {
       const id = this.getUserData.id
-      this.getDataUserById(id)
+      await this.getDataUserById(id)
     }
   },
-  mounted () {
-    this.fetchUserData()
+  async mounted () {
+    await this.fetchUserData()
   },
   computed: {
     ...mapGetters(['getUserData'])
