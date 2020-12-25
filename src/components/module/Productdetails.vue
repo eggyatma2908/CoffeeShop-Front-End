@@ -103,9 +103,6 @@ export default {
     backToType () {
       this.$router.go(-1)
     },
-    checkChooseSizeButton () {
-      console.log(document.getElementById('btn-choose-size-r'))
-    },
     increaseTotalOrder () {
       if (!this.inputChooseSize || !this.chooseDelivery || !this.timeDeliverd) {
         return Swal.fire({
@@ -156,13 +153,12 @@ export default {
       this.listOrder.basePrice = this.productDetails.price
       this.listOrder.idProduct = this.$route.params.idProduct
       this.listOrder.photoProduct = this.productDetails.photoProduct
+      localStorage.setItem('deliveryMethod', this.chooseDelivery)
       const cardData = JSON.parse(localStorage.getItem('cardData'))
       if (cardData) {
         if (cardData.length > 0) {
           if (cardData.find((value) => value.productName === this.productDetails.productName)) {
-            console.log(cardData)
             const cardDataCopy = cardData.map(item => {
-              console.log(item)
               if (item.productName === this.productDetails.productName) {
                 const newItem = Object.assign({}, item)
                 newItem.regular += this.increaseLarge.regular
@@ -203,7 +199,6 @@ export default {
   },
   async mounted () {
     await this.handleGetProductDetailsById()
-    this.checkChooseSizeButton()
   },
   computed: {
     increaseLarge () {

@@ -18,11 +18,12 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import router from '../../router/index.js'
 import { StripeElements } from 'vue-stripe-checkout'
+import { mapActions } from 'vuex'
 export default {
   components: {
     StripeElements
   },
-  props: ['data'],
+  props: ['data', 'dataCart'],
   data: () => ({
     loading: false,
     amount: 1000,
@@ -56,19 +57,36 @@ export default {
       }
       this.sendTokenToServer(this.charge)
     },
+    ...mapActions(['addCart', 'addItemsOrder']),
     sendTokenToServer (charge) {
+      const self = this
       return axios.post(`${process.env.VUE_APP_URL_API}/purchase`, charge)
-        .then(function (data) {
-          localStorage.removeItem('cardData')
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'payment successful ',
-            showConfirmButton: false,
-            timer: 3000
-          })
+        .then(function () {
+          console.log(self.dataCart)
+          self.addCart(self.dataCart)
+            .then(() => {
+              self.handleaddItemsOrder()
+                .then(() => {
+                  localStorage.removeItem('cardData')
+                  localStorage.removeItem('deliveryMethod')
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'payment successful ',
+                    showConfirmButton: false,
+                    timer: 3000
+                  })
+                })
+                .catch(() => {
+
+                })
+            })
+            .catch(() => {
+
+            })
           router.push({ path: '/home/product-customer/favorite-product' })
-        }).catch(function () {
+        }).catch(function (error) {
+          console.log(error)
           return Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -80,6 +98,18 @@ export default {
       // Send to charge to your backend server to be processed
       // Documentation here: https://stripe.com/docs/api/charges/create
     }
+  },
+  handleaddItemsOrder () {
+    const itemsOrder = JSON.parse(localStorage.getItem('cardData'))
+    console.log(itemsOrder)
+    var output = itemsOrder.map(function (obj) {
+      return Object.keys(obj).sort().map(function (key) {
+        return obj[key]
+      })
+    })
+    console.log('dibawah ini output')
+    console.log(output)
+    this.addItemsOrder(output)
   }
 }
 </script>

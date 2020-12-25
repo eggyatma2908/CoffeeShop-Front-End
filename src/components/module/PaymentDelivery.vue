@@ -103,7 +103,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <CheckOut :data="dataPayment"/>
+        <CheckOut :data="dataPayment" :dataCart="dataCart"/>
       </div>
     </div>
   </div>
@@ -220,6 +220,15 @@ export default {
         sender: this.getUserData.username,
         paymentMethod: this.paymentMethod
       }
+    },
+    dataCart () {
+      return {
+        userId: this.getUserData.id,
+        payTotal: this.totalAmountInvoice,
+        paymentMethod: this.paymentMethod,
+        deliveryMethod: localStorage.getItem('deliveryMethod'),
+        status: 'success'
+      }
     }
   },
   mounted () {
@@ -239,6 +248,9 @@ export default {
         confirmButtonText: '<a style="text-decoration:none;color:white;" href="/home/product-customer">Lets go shopping</a>'
       })
     }
+    console.log('dibawah data cart')
+    console.log(this.dataCart)
+    console.log(this.getListOrder)
   }
 }
 </script>

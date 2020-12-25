@@ -185,6 +185,30 @@ export default new Vuex.Store({
           })
       })
     },
+    addCart (context, payload) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        axios.post(`${process.env.VUE_APP_URL_API}/cart`, payload)
+          .then(result => {
+            resolve(result)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+    },
+    addItemsOrder (context, payload) {
+      return new Promise((resolve, reject) => {
+        context.dispatch('interceptorRequest')
+        axios.post(`${process.env.VUE_APP_URL_API}/order`, payload)
+          .then(result => {
+            resolve(result)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+    },
     getProductNonCoffee (context) {
       return new Promise((resolve, reject) => {
         context.dispatch('interceptorRequest')
