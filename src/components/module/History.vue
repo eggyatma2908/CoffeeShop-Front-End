@@ -6,27 +6,27 @@
       </div>
       <div class="history mx-auto mt-5 container-fluid p-0">
         <div class="row">
-          <div class="col-4 row-gap">
+          <div class="col-4 row-gap"  v-for="(order, index) in data.orderHistory" :key="index">
             <div class="card-history p-0">
               <div class="row">
                 <div class="col-4 p-2">
                   <div class="card-image mx-auto">
-                    <img src="../../assets/image-card-history.png" alt="">
+                    <img :src="order.photoProduct" alt="">
                   </div>
                 </div>
                 <div class="col-7 p-0">
                   <div class="card-product-detail p-2">
-                    <p class="card-title-product">Veggie tomato mix</p>
-                    <p class="card-product-price">IDR 34.000</p>
-                    <p class="card-status-product">Delivered</p>
+                    <p class="card-title-product">{{ order.productName }}</p>
+                    <p class="card-product-price">{{ order.basePrice }}</p>
+                    <p class="card-status-product">{{ order.deliveryStatus }}</p>
                   </div>
                   <div>
                   </div>
                 </div>
                 <div class="col-1 p-0">
-                  <div class="actions" alt="key">
-                    <div class="delete-action">
-                      <img @click="deleteHistory" src="../../assets/trash.png" alt="">
+                  <div class="actions" alt="key" v-if="order.deliveryStatus === 'delivered'">
+                    <div class="delete-action" @click="handleDeleteProduct(order.id)">
+                      <img src="../../assets/trash.png" alt="">
                     </div>
                     <div class="cancel-action">
                       <img src="../../assets/x.png" alt="">
@@ -44,26 +44,46 @@
 <script>
 import Swal from 'sweetalert2'
 import $ from 'jquery'
+import { mapActions } from 'vuex'
 
 export default {
   data () {
     return {
       timeOut: 0,
-      longClick: 1
+      longClick: 1,
+      data: {
+        orderHistory: []
+      }
     }
   },
   methods: {
+    ...mapActions(['getAllOrderHistory', 'deleteProduct']),
+    async handleGetAllOrderHistory () {
+      try {
+        const result = await this.getAllOrderHistory()
+        this.data.orderHistory = result
+        console.log('result', result)
+      } catch (error) {
+        console.log('error', error)
+      }
+    },
+    async handleDeleteProduct (id) {
+      try {
+        const result = await this.deleteProduct(id)
+        console.log('result', result)
+        this.handleGetAllOrderHistory()
+      } catch (error) {
+        console.log('error', error)
+      }
+    },
     cardHistoryOnClick () {
-      const self = this
-      $('.card-history').mousedown(function () {
-        this.timeOut = setInterval(() => {
-          self.longClick++
-          if (self.longClick >= 1) {
-            this.style.opacity = '70%'
-            $('[alt="key"]').css('display', 'block')
-            self.longClick = 0
-          }
-        }, 500)
+      $(document).on('click', '.card-history', function () {
+        $(this).find('.actions').css('display', 'block')
+      })
+      $(document).on('click', '.cancel-action', function (e) {
+        e.stopPropagation()
+        $(this).parent().css('display', 'none')
+        console.log('$(this).parent(dawd)', $(this).parent('.actions'))
       })
     },
     cardHistoryWhenReleaseClick () {
@@ -92,7 +112,8 @@ export default {
     }
   },
   mounted () {
-    this.cardHistoryWhenReleaseClick()
+    this.cardHistoryOnClick()
+    this.handleGetAllOrderHistory()
   }
 }
 </script>

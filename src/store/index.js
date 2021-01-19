@@ -314,6 +314,28 @@ export default new Vuex.Store({
           })
       })
     },
+    deleteProduct (context, payload) {
+      return new Promise((resolve, reject) => {
+        axios.delete(`${process.env.VUE_APP_URL_API}/history/delete/${payload}`)
+          .then((result) => {
+            resolve(result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    getAllOrderHistory ({ dispatch }) {
+      return new Promise((resolve, reject) => {
+        dispatch('interceptorRequest')
+        axios.get(`${process.env.VUE_APP_URL_API}/history`)
+          .then((result) => {
+            console.log('result', result)
+            resolve(result.data.result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
     interceptorRequest (context) {
       axios.interceptors.request.use(function (config) {
         config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`
