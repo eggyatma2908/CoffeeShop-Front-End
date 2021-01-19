@@ -20,7 +20,7 @@
                         <p class="text1">1</p>
                     </div>
                     <div class="user-profile">
-                      <img @click="toProfile" :src="this.getUserData.photoProfile" alt="image5">
+                      <img @click="toProfile" :src="getUserData.photoProfile" alt="image5">
                     </div>
                 </div>
             </div>

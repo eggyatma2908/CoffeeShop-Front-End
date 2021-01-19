@@ -174,11 +174,10 @@ export default {
           showConfirmButton: false
         })
       }
-      if (this.$v.$prndding || this.$v.$error) return
+      if (this.$v.$pendding || this.$v.$error) return
 
       const form = new FormData()
-      const image = document.getElementById('input-upload-image').files[0]
-      form.append('photoProfile', image)
+      form.append('photoProfile', document.getElementById('input-upload-image').files[0])
       form.append('email', this.email)
       form.append('phoneNumber', this.mobileNumber)
       form.append('address', this.deliveryAddress)
