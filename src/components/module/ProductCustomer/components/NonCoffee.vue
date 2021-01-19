@@ -1,41 +1,107 @@
 <template>
-  <div class="box4">
-      <div v-for="nonCoffee in dataNonCoffee" :key="nonCoffee.idProduct" @click="toProductDetails(nonCoffee.idProduct)" class="card">
-          <div class="photo-product">
-             <img :src="nonCoffee.photoProduct ? nonCoffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
-          </div>
-          <p class="productname">{{ nonCoffee.productName }}</p>
-          <p class="price">{{ nonCoffee.price }}</p>
-      </div>
-  </div>
+<div>
+    <div class="search-box">
+        <span><i class="fas fa-search"></i></span>
+        <input type="text" v-model="search" @keyup.enter="searchProduct" class="search" placeholder="Search name product">
+    </div>
+    <div v-if="!search" class="box4">
+        <div v-for="nonCoffee in dataNonCoffee" :key="nonCoffee.idProduct" @click="toProductDetails(nonCoffee.idProduct)" class="card">
+            <div class="photo-product">
+                <img :src="nonCoffee.photoProduct ? nonCoffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
+            </div>
+            <p class="productname">{{ nonCoffee.productName }}</p>
+            <p class="price">{{ nonCoffee.price }}</p>
+        </div>
+    </div>
+
+    <div v-if="search" class="box4">
+        <div v-for="nonCoffee in searchName" :key="nonCoffee.idProduct" @click="toProductDetails(nonCoffee.idProduct)" class="card">
+            <div class="photo-product">
+                <img :src="nonCoffee.photoProduct ? nonCoffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
+            </div>
+            <p class="productname">{{ nonCoffee.productName }}</p>
+            <p class="price">{{ nonCoffee.price }}</p>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-lg justify-content-center">
+            <li class="page-item"><a class="page-link" href="#" @click.prevent="getProductNonCoffee(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
+            <li v-for="noPage in getPagination.totalPage" :key="noPage" :class="[getPagination.currentPage == noPage ? 'active' : '']" class="page-item"><a class="page-link" href="#" @click.prevent="getProductNonCoffee(noPage)">{{noPage}}</a></li>
+            <li class="page-item" :class="[getPagination.currentPage == getPagination.totalPage ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductNonCoffee(parseInt(getPagination.currentPage) + 1)">Next</a></li>
+        </ul>
+    </nav>
+</div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Non-Coffee',
   data () {
     return {
-      dataNonCoffee: ''
+      dataNonCoffee: '',
+      search: '',
+      searchName: ''
     }
   },
   methods: {
-    ...mapActions(['getProductNonCoffee']),
+    ...mapActions(['getProductNonCoffee', 'getProductName']),
     async handleGetGetProductNonCoffee () {
       const result = await this.getProductNonCoffee()
       this.dataNonCoffee = result.products
     },
     toProductDetails (idProduct) {
       this.$router.push({ path: '/home/product-details/' + idProduct, query: { type: 'non coffee' } })
+    },
+    async searchProduct () {
+      this.searchName = await this.getProductName(this.search)
     }
   },
-  async mounted () {
-    await this.handleGetGetProductNonCoffee()
+  watch: {
+    search (newSearch, oldSearch) {
+      console.log('New search is', newSearch)
+      console.log('Old search is', oldSearch)
+      this.searchProduct()
+    }
+  },
+  mounted () {
+    this.handleGetGetProductNonCoffee()
+    this.searchProduct()
+  },
+  computed: {
+    ...mapGetters(['getPagination'])
   }
 }
 </script>
 
 <style scoped>
+.search-box {
+    position: relative;
+}
+
+.search-box input {
+    width: 550px;
+    height: 54px;
+    background: rgba(58, 61, 66, 0.1);
+    border-radius: 12px;
+    border: none;
+    margin-top: 3%;
+    margin-left: 82px;
+    padding-left: 45px;
+}
+
+.search-box input:focus {
+    outline: none;
+}
+
+.search-box span {
+    color: #A9A9A9;
+    margin-left: 5%;
+    position: absolute;
+    top: 50%;
+}
+
 .text {
     width: 174px;
     height: 30px;

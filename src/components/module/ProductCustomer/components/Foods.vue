@@ -1,13 +1,37 @@
 <template>
-  <div class="box4">
-      <div v-for="food in getDataType" :key="food.idProduct" @click="toProductDetails(food.idProduct)" class="card">
-          <div class="photo-product">
-             <img :src="food.photoProduct" alt="image2">
-          </div>
-          <p class="productname">{{ food.productName }}</p>
-          <p class="price">{{ food.price }}</p>
-      </div>
-  </div>
+<div>
+    <div class="search-box">
+        <span><i class="fas fa-search"></i></span>
+        <input type="text" v-model="search" @keyup.enter="searchProduct" class="search" placeholder="Search name product">
+    </div>
+    <div v-if="!search" class="box4">
+        <div v-for="food in getDataType" :key="food.idProduct" @click="toProductDetails(food.idProduct)" class="card">
+            <div class="photo-product">
+                <img :src="food.photoProduct" alt="image2">
+            </div>
+            <p class="productname">{{ food.productName }}</p>
+            <p class="price">{{ food.price }}</p>
+        </div>
+    </div>
+
+    <div v-if="search" class="box4">
+        <div v-for="food in searchName" :key="food.idProduct" @click="toProductDetails(food.idProduct)" class="card">
+            <div class="photo-product">
+                <img :src="food.photoProduct" alt="image2">
+            </div>
+            <p class="productname">{{ food.productName }}</p>
+            <p class="price">{{ food.price }}</p>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-lg justify-content-center">
+            <li class="page-item"><a class="page-link" href="#" @click.prevent="getProductFoods(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
+            <li v-for="noPage in getPagination.totalPage" :key="noPage" :class="[getPagination.currentPage == noPage ? 'active' : '']" class="page-item"><a class="page-link" href="#" @click.prevent="getProductFoods(noPage)">{{noPage}}</a></li>
+            <li class="page-item" :class="[getPagination.currentPage == getPagination.totalPage ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductFoods(parseInt(getPagination.currentPage) + 1)">Next</a></li>
+        </ul>
+    </nav>
+</div>
 </template>
 
 <script>
@@ -16,29 +40,68 @@ export default {
   name: 'Food',
   data () {
     return {
-      dataFoods: ''
+      dataFoods: '',
+      search: '',
+      searchName: ''
     }
   },
   methods: {
-    ...mapActions(['getProductFoods']),
+    ...mapActions(['getProductFoods', 'getProductName']),
     // async handleGetProductFoods () {
     //   const result = await this.getProductFoods()
     //   this.dataFoods = result.products
     // },
     toProductDetails (idProduct) {
       this.$router.push({ path: '/home/product-details/' + idProduct, query: { type: 'food' } })
+    },
+    async searchProduct () {
+      this.searchName = await this.getProductName(this.search)
     }
   },
-  async mounted () {
-    await this.getProductFoods()
+  watch: {
+    search (newSearch, oldSearch) {
+      console.log('New search is', newSearch)
+      console.log('Old search is', oldSearch)
+      this.searchProduct()
+    }
+  },
+  mounted () {
+    this.getProductFoods()
+    this.searchProduct()
   },
   computed: {
-    ...mapGetters(['getDataType'])
+    ...mapGetters(['getPagination', 'getDataType'])
   }
 }
 </script>
 
 <style scoped>
+.search-box {
+    position: relative;
+}
+
+.search-box input {
+    width: 550px;
+    height: 54px;
+    background: rgba(58, 61, 66, 0.1);
+    border-radius: 12px;
+    border: none;
+    margin-top: 3%;
+    margin-left: 82px;
+    padding-left: 45px;
+}
+
+.search-box input:focus {
+    outline: none;
+}
+
+.search-box span {
+    color: #A9A9A9;
+    margin-left: 5%;
+    position: absolute;
+    top: 50%;
+}
+
 .text {
     width: 174px;
     height: 30px;

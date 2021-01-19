@@ -13,7 +13,6 @@
                     <a class="history" @click="toHistory">History</a>
                 </div>
                 <div class="box2">
-                    <img class="img2" src="../../assets/search.png" alt="image2">
                     <div class="box3">
                         <img class="img3" @click="toChat" src="../../assets/chat.png" alt="image3">
                         <img class="img4" src="../../assets/ellipse.png" alt="image4">

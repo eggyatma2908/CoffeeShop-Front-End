@@ -1,21 +1,34 @@
 <template>
 <div>
-  <div class="box4">
-      <div v-on:click="goPageDetailsProducts(coffee.idProduct)" v-for="coffee in getDataType" :key="coffee.idProduct" class="card">
-          <div class="photo-product">
-             <img :src="coffee.photoProduct ? coffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
-          </div>
-          <p class="productname">{{ coffee.productName }}</p>
-          <p class="price">{{ coffee.price }}</p>
-          <button class="edit3" @click="goPageEditProducts(coffee.idProduct)"><img src="../../../../assets/pen.png" alt=""></button>
-      </div>
-  </div>
-  <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
-                <li v-for="noPage in getPagination.totalPage" :key="noPage" :class="[getPagination.currentPage == noPage ? 'active' : '']" class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(noPage)">{{noPage}}</a></li>
-                <li class="page-item" :class="[getPagination.currentPage == getPagination.totalPage ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) + 1)">Next</a></li>
-            </ul>
+    <div class="search-box">
+        <span><i class="fas fa-search"></i></span>
+        <input type="text" v-model="search" @keyup.enter="searchProduct" class="search" placeholder="Search name product">
+    </div>
+    <div v-if="!search" class="box4">
+        <div v-for="coffee in getDataType" :key="coffee.idProduct" class="card" @click="toProductDetails(coffee.idProduct)">
+            <div class="photo-product">
+                <img :src="coffee.photoProduct ? coffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
+            </div>
+            <p class="productName">{{ coffee.productName }}</p>
+            <p class="price">{{ coffee.price }}</p>
+        </div>
+    </div>
+
+    <div v-if="search" class="box4">
+        <div v-for="coffee in searchName" :key="coffee.idProduct" class="card" @click="toProductDetails(coffee.idProduct)">
+            <div class="photo-product">
+                <img :src="coffee.photoProduct ? coffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
+            </div>
+            <p class="productname">{{ coffee.productName }}</p>
+            <p class="price">{{ coffee.price }}</p>
+        </div>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
+            <li v-for="noPage in getPagination.totalPage" :key="noPage" :class="[getPagination.currentPage == noPage ? 'active' : '']" class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(noPage)">{{noPage}}</a></li>
+            <li class="page-item" :class="[getPagination.currentPage == getPagination.totalPage ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) + 1)">Next</a></li>
+        </ul>
     </nav>
 </div>
 </template>
@@ -26,27 +39,34 @@ export default {
   name: 'CoffeeAdmin',
   data () {
     return {
-      dataCoffee: ''
+      dataCoffee: '',
+      search: '',
+      searchName: ''
     }
   },
   methods: {
-    ...mapActions(['getProductCoffee']),
+    ...mapActions(['getProductCoffee', 'getProductName']),
     // async handleGetProductCoffee () {
     //   const result = await this.getProductCoffee()
     //   this.dataCoffee = result.products
-    //   console.log(this.dataCoffee)
     // },
-    goPageEditProducts (id) {
-      this.$router.push(`/home/edit-product-admin/${id}`)
+    async searchProduct () {
+      this.searchName = await this.getProductName(this.search)
     },
-    goPageDetailsProducts (id) {
-    //   id = this.$router.params.idProduct
-      this.$router.push(`/home/product-details-admin/${id}`)
-    //   this.$router.push({ path: '/home/product-details/:idProduct', query: { idProduct: id } })
+    toProductDetails (idProduct) {
+      this.$router.push({ path: '/home/product-details/' + idProduct, query: { type: 'coffee' } })
+    }
+  },
+  watch: {
+    search (newSearch, oldSearch) {
+      console.log('New search is', newSearch)
+      console.log('Old search is', oldSearch)
+      this.searchProduct()
     }
   },
   mounted () {
     this.getProductCoffee()
+    this.searchProduct()
   },
   computed: {
     ...mapGetters(['getPagination', 'getDataType'])
@@ -55,6 +75,32 @@ export default {
 </script>
 
 <style scoped>
+.search-box {
+    position: relative;
+}
+
+.search-box input {
+    width: 550px;
+    height: 54px;
+    background: rgba(58, 61, 66, 0.1);
+    border-radius: 12px;
+    border: none;
+    margin-top: 3%;
+    margin-left: 82px;
+    padding-left: 45px;
+}
+
+.search-box input:focus {
+    outline: none;
+}
+
+.search-box span {
+    color: #A9A9A9;
+    margin-left: 5%;
+    position: absolute;
+    top: 50%;
+}
+
 nav {
     margin-top: 100px;
     margin-left: 130px;

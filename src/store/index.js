@@ -23,7 +23,8 @@ export default new Vuex.Store({
     pagination: null,
     dataType: [],
     roleId: null,
-    productData: []
+    productData: [],
+    searchProduct: []
   },
   plugins: [createPersistedState()],
   mutations: {
@@ -42,6 +43,9 @@ export default new Vuex.Store({
     },
     SET_PRODUCT (state, payload) {
       state.products = payload
+    },
+    SET_SEARCH_PRODUCT (state, payload) {
+      state.searchProduct = payload
     },
     UPDATE_PRODUCT (state, payload) {
       state.updateProduct = payload
@@ -162,7 +166,8 @@ export default new Vuex.Store({
         context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=coffee&page=${noPage}&limit=9`)
           .then(res => {
-            console.log(res.data.result.products)
+            console.log('product', res.data.result.products)
+            console.log('pagination', res.data.result.pagination)
             context.commit('SET_DATA_TYPE', res.data.result.products)
             context.commit('SET_PAGINATION', res.data.result.pagination)
             resolve(res.data.result)
@@ -172,12 +177,13 @@ export default new Vuex.Store({
           })
       })
     },
-    getProductFoods (context, payload) {
+    getProductFoods (context, noPage = 1) {
       return new Promise((resolve, reject) => {
         context.dispatch('interceptorRequest')
-        axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=food&limit=12`)
+        axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=food&page=${noPage}&limit=9`)
           .then(res => {
             context.commit('SET_DATA_TYPE', res.data.result.products)
+            context.commit('SET_PAGINATION', res.data.result.pagination)
             resolve(res.data.result)
           })
           .catch(error => {
@@ -185,11 +191,13 @@ export default new Vuex.Store({
           })
       })
     },
-    getProductNonCoffee (context) {
+    getProductNonCoffee (context, noPage = 1) {
       return new Promise((resolve, reject) => {
         context.dispatch('interceptorRequest')
-        axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=non-coffee &limit=12`)
+        axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=non-coffee&page=${noPage}&limit=9`)
           .then(results => {
+            console.log('pagination', results.data.result.pagination)
+            context.commit('SET_PAGINATION', results.data.result.pagination)
             resolve(results.data.result)
           })
           .catch(error => {
@@ -197,11 +205,14 @@ export default new Vuex.Store({
           })
       })
     },
-    getProductAddOn (context) {
+    getProductAddOn (context, noPage = 1) {
       return new Promise((resolve, reject) => {
         context.dispatch('interceptorRequest')
-        axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=add-on&limit=12`)
+        axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=add-on&page=${noPage}&limit=9`)
           .then(results => {
+            console.log(results.data.result)
+            console.log('pagination', results.data.result.pagination)
+            context.commit('SET_PAGINATION', results.data.result.pagination)
             resolve(results.data.result)
           })
           .catch(error => {
@@ -235,14 +246,16 @@ export default new Vuex.Store({
           })
       })
     },
-    getAllProduct () {
+    getProductName (context, payload) {
       return new Promise((resolve, reject) => {
-        axios.get(`${process.env.VUE_APP_URL_API}/products/`)
+        axios.get(`${process.env.VUE_APP_URL_API}/products?productName=${payload}&limit=30`)
           .then(results => {
-            resolve(results.data.result)
+            const res = results.data.result.products
+            context.commit('SET_SEARCH_PRODUCT', res)
+            resolve(res)
           })
-          .catch(error => {
-            console.log(error)
+          .catch(err => {
+            console.log(err)
           })
       })
     },
@@ -404,6 +417,9 @@ export default new Vuex.Store({
     },
     getProductId (state) {
       return state.products
+    },
+    getAll (state) {
+      return state.searchProduct
     },
     getCartLocalStorage () {
       return JSON.parse(localStorage.getItem('cardData')) !== null
