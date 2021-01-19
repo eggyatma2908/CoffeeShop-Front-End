@@ -40,12 +40,8 @@ export default {
   data () {
     return {
       dataCoffee: '',
-<<<<<<< HEAD
-      sort: true
-=======
       search: '',
       searchName: ''
->>>>>>> origin/search
     }
   },
   methods: {
@@ -57,24 +53,6 @@ export default {
     async searchProduct () {
       this.searchName = await this.getProductName(this.search)
     },
-<<<<<<< HEAD
-    goPageDetailsProducts (id) {
-    //   id = this.$router.params.idProduct
-      this.$router.push(`/home/product-details-admin/${id}`)
-    //   this.$router.push({ path: '/home/product-details/:idProduct', query: { idProduct: id } })
-    },
-    sortTable () {
-      if (this.sort) {
-        this.getDataType.sort((a, b) => a.productName > b.productName ? 1 : -1)
-        this.sort = false
-      } else {
-        this.sort = true
-        this.getDataType.sort((a, b) => a.productName < b.productName ? 1 : -1)
-      }
-    },
-    sortHighest () {
-      this.getDataType.sort((a, b) => a.name < b.name ? 1 : -1)
-=======
     toProductDetails (idProduct) {
       this.$router.push({ path: '/home/product-details/' + idProduct, query: { type: 'coffee' } })
     }
@@ -84,7 +62,6 @@ export default {
       console.log('New search is', newSearch)
       console.log('Old search is', oldSearch)
       this.searchProduct()
->>>>>>> origin/search
     }
   },
   mounted () {
@@ -98,20 +75,6 @@ export default {
 </script>
 
 <style scoped>
-<<<<<<< HEAD
-.button-sort {
-    width: 80px;
-    height: 40px;
-    font-size: 30px;
-    display: flex;
-}
-.button-sort button {
-    margin-left: 10px;
-    border: none;
-    background: #6A4029;
-    outline: none;
-}
-=======
 .search-box {
     position: relative;
 }
@@ -138,7 +101,6 @@ export default {
     top: 50%;
 }
 
->>>>>>> origin/search
 nav {
     margin-top: 100px;
     margin-left: 130px;
