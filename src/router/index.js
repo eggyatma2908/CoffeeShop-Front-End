@@ -30,6 +30,7 @@ import CoffeeAdmin from '../components/module/ProductAdmin/components/CoffeeAdmi
 import AddOnAdmin from '../components/module/ProductAdmin/components/AddOnAdmin.vue'
 import SaveEditAdmin from '../components/module/SaveEditAdmin.vue'
 import EmailVerification from '../views/email/EmailVerification.vue'
+import ManageOrder from '../components/module/admin/ManageOrder/ManageOrder.vue'
 
 Vue.use(VueRouter)
 
@@ -209,6 +210,12 @@ const routes = [
     name: 'UserProfile',
     component: UserProfile,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/manageorder',
+    name: 'ManageOrder',
+    component: ManageOrder,
+    meta: { requiresAdmin: true }
   }
 ]
 
@@ -232,6 +239,24 @@ router.beforeEach((to, from, next) => {
           path: '/home/product-customer/favorite-product'
         })
       }
+    }
+  }
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.getters.isLogin) {
+      next({
+        path: '/auth/login'
+      })
+    } else {
+      next()
+    }
+  }
+  if (to.matched.some(record => record.meta.requiresAdmin)) {
+    if (!store.getters.isAdmin) {
+      next({
+        path: '/auth/login'
+      })
+    } else {
+      next()
     }
   }
   if (to.matched.some(record => record.meta.requiresAuth)) {

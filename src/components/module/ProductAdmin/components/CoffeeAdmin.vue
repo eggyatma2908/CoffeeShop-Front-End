@@ -13,7 +13,7 @@
           <button class="edit3" @click="goPageEditProducts(coffee.idProduct)"><img src="../../../../assets/pen.png" alt=""></button>
       </div>
   </div>
-  <nav aria-label="Page navigation example">
+  <nav aria-label="Page navigation example" v-if="getPagination">
             <ul class="pagination">
                 <li class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
                 <li v-for="noPage in getPagination.totalPage" :key="noPage" :class="[getPagination.currentPage == noPage ? 'active' : '']" class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(noPage)">{{noPage}}</a></li>
@@ -61,8 +61,8 @@ export default {
       this.getDataType.sort((a, b) => a.name < b.name ? 1 : -1)
     }
   },
-  mounted () {
-    this.getProductCoffee()
+  async mounted () {
+    await this.getProductCoffee()
   },
   computed: {
     ...mapGetters(['getPagination', 'getDataType'])

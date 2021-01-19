@@ -9,8 +9,9 @@
                 <div class="box1">
                     <a class="home">Home</a>
                     <a class="product" @click="toProduct">Product</a>
-                    <a class="cart" @click="toCart">Your Cart</a>
-                    <a class="history" @click="toHistory">History</a>
+                    <a class="cart" @click="toCart" v-if="!isAdmin">Your Cart</a>
+                    <a class="history" @click="toHistory" v-if="!isAdmin">History</a>
+                    <a class="history" @click="toHistory" v-if="isAdmin">Manage Order</a>
                 </div>
                 <div class="box2">
                     <img class="img2" src="../../assets/search.png" alt="image2">
@@ -53,7 +54,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getUserData']),
+    ...mapGetters(['getUserData', 'isAdmin']),
     foto () {
       return this.getUserData.photoProfile !== '' ? this.getUserData : '../../assets/user-avatar.png'
     }
