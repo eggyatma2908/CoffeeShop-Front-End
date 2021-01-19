@@ -66,6 +66,10 @@ export default {
     emailVerification () {
       return axios.patch(`${process.env.VUE_APP_URL_API}/emailVerification/emailverification`, {
         email: `${this.$route.params.email}`
+      }, {
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        }
       })
         .then(res => {
           console.log(res, 'halo')
@@ -85,6 +89,7 @@ export default {
         }
       })
         .then(() => {
+          console.log('udah ada')
         })
         .catch(() => {
           alert('Forbidden: Your account has been verified before')

@@ -92,7 +92,6 @@ export default {
     }
   },
   mounted () {
-    this.cardHistoryOnClick()
     this.cardHistoryWhenReleaseClick()
   }
 }

@@ -62,10 +62,21 @@ export default {
       const self = this
       return axios.post(`${process.env.VUE_APP_URL_API}/purchase`, charge)
         .then(function () {
-          console.log(self.dataCart)
-          self.addCart(self.dataCart)
+          console.log(localStorage.getItem('cardData'))
+          console.log('self.dataCart', self.dataCart)
+          const idCart = self.$uuid.v4()
+          const dataCart = {
+            ...self.dataCart,
+            id: idCart
+          }
+          self.addCart(dataCart)
             .then(() => {
-              self.handleaddItemsOrder()
+              console.log('res addcart')
+              const dataOrder = {
+                cartId: idCart,
+                item: JSON.parse(localStorage.getItem('cardData'))
+              }
+              self.addItemsOrder(dataOrder)
                 .then(() => {
                   localStorage.removeItem('cardData')
                   localStorage.removeItem('deliveryMethod')
@@ -100,6 +111,7 @@ export default {
     }
   },
   handleaddItemsOrder () {
+    console.log('halo')
     const itemsOrder = JSON.parse(localStorage.getItem('cardData'))
     console.log(itemsOrder)
     var output = itemsOrder.map(function (obj) {
