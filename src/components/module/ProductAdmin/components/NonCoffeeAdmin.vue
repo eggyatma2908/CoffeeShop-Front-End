@@ -1,15 +1,33 @@
 <template>
-  <div class="box4">
-      <div v-on:click="goPageDetailsProducts(nonCoffee.idProduct)" v-for="nonCoffee in dataNonCoffee" :key="nonCoffee.idProduct" class="card">
-          <div class="photo-product">
-              {{  }}
-             <img :src="nonCoffee.photoProduct ? nonCoffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
-          </div>
-          <p class="productname">{{ nonCoffee.productName }}</p>
-          <p class="price">{{ nonCoffee.price }}</p>
-          <button class="edit3" @click="goPageEditProducts(nonCoffee.idProduct)"><img src="../../../../assets/pen.png" alt=""></button>
-      </div>
-  </div>
+<div>
+    <div class="search-box">
+        <span><i class="fas fa-search"></i></span>
+        <input type="text" v-model="search" @keyup.enter="searchProduct" class="search" placeholder="Search name product">
+    </div>
+    <div v-if="!search" class="box4">
+        <div v-on:click="goPageDetailsProducts(nonCoffee.idProduct)" v-for="nonCoffee in dataNonCoffee" :key="nonCoffee.idProduct" class="card">
+            <div class="photo-product">
+                {{  }}
+                <img :src="nonCoffee.photoProduct ? nonCoffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
+            </div>
+            <p class="productname">{{ nonCoffee.productName }}</p>
+            <p class="price">{{ nonCoffee.price }}</p>
+            <button class="edit3" @click="goPageEditProducts(nonCoffee.idProduct)"><img src="../../../../assets/pen.png" alt=""></button>
+        </div>
+    </div>
+
+    <div v-if="search" class="box4">
+        <div v-on:click="goPageDetailsProducts(nonCoffee.idProduct)" v-for="nonCoffee in searchName" :key="nonCoffee.idProduct" class="card">
+            <div class="photo-product">
+                {{  }}
+                <img :src="nonCoffee.photoProduct ? nonCoffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
+            </div>
+            <p class="productname">{{ nonCoffee.productName }}</p>
+            <p class="price">{{ nonCoffee.price }}</p>
+            <button class="edit3" @click="goPageEditProducts(nonCoffee.idProduct)"><img src="../../../../assets/pen.png" alt=""></button>
+        </div>
+    </div>
+</div>
 </template>
 
 <script>
@@ -18,7 +36,9 @@ export default {
   name: 'NonCoffeeAdmin',
   data () {
     return {
-      dataNonCoffee: ''
+      dataNonCoffee: '',
+      search: '',
+      searchName: ''
     }
   },
   methods: {
@@ -32,18 +52,53 @@ export default {
       this.$router.push(`/home/edit-product-admin/${id}`)
     },
     goPageDetailsProducts (id) {
-    //   id = this.$router.params.idProduct
       this.$router.push(`/home/product-details-admin/${id}`)
-    //   this.$router.push({ path: '/home/product-details/:idProduct', query: { idProduct: id } })
+    },
+    async searchProduct () {
+      this.searchName = await this.getProductName(this.search)
     }
   },
-  async mounted () {
-    await this.handleGetGetProductNonCoffee()
+  watch: {
+    search (newSearch, oldSearch) {
+      console.log('New search is', newSearch)
+      console.log('Old search is', oldSearch)
+      this.searchProduct()
+    }
+  },
+  mounted () {
+    this.handleGetGetProductNonCoffee()
+    this.searchProduct()
   }
 }
 </script>
 
 <style scoped>
+.search-box {
+    position: relative;
+}
+
+.search-box input {
+    width: 550px;
+    height: 54px;
+    background: rgba(58, 61, 66, 0.1);
+    border-radius: 12px;
+    border: none;
+    margin-top: 3%;
+    margin-left: 82px;
+    padding-left: 45px;
+}
+
+.search-box input:focus {
+    outline: none;
+}
+
+.search-box span {
+    color: #A9A9A9;
+    margin-left: 5%;
+    position: absolute;
+    top: 50%;
+}
+
 .edit3 {
     width: 30px;
     height: 30px;
