@@ -5,18 +5,18 @@
       <div class="card-order p-5 col-5 p-0">
           <p class="card-order-title">Order Summary</p>
           <div class="card-order-list mt-5">
-            <div class="order-list row mt-3" v-for="listOrder in getListOrder" :key="listOrder.idProduct">
+            <div class="order-list row mt-3">
               <div class="card-order-photo col-3">
-                <img :src="listOrder.photoProduct" />
+                <img/>
               </div>
               <div class="order-details col-6">
-                <p>{{ listOrder.productName }}</p>
-                <p>x {{listOrder.regular + listOrder.large + listOrder.xtralarge }}</p>
-                <p>{{ listOrder.regular !== 0 ? 'Regular' : '' }} {{ listOrder.large !== 0 ? 'Large' : '' }} {{ listOrder.xtralarge !== 0 ? 'XtraLarge' : '' }}</p>
+                <p>qwe</p>
+                <p>xqwe</p>
+                <p>qwe</p>
               </div>
               <div class="order-price col-3">
                 <p>
-                  {{ getTotalPerItem(listOrder.productName) }}
+                 qwe
                 </p>
               </div>
             </div>
@@ -26,25 +26,25 @@
               <p class="bold-500">SUB TOTAL </p>
             </div>
             <div class="col-6">
-              <p class="price-amount">IDR {{ subTotal }}</p>
+              <p class="price-amount">IDRqwe</p>
             </div>
             <div class="col-6">
               <p class="bold-500">TAX & FEES</p>
             </div>
             <div class="col-6">
-            <p class="price-amount">IDR {{ taxAndFees }}</p>
+            <p class="price-amount">IDR qwe</p>
             </div>
             <div class="col-6">
               <p class="bold-500">SHIPPING</p>
             </div>
             <div class="col-6">
-              <p class="price-amount">IDR {{ shipping }}</p>
+              <p class="price-amount">IDR qwe</p>
             </div>
             <div class="col-6">
               <p class="total">TOTAL </p>
             </div>
             <div class="col-6">
-              <p class="total">IDR {{ totalAmountInvoice }}</p>
+              <p class="total">IDR qwe</p>
             </div>
           </div>
       </div>
@@ -55,9 +55,9 @@
             <p class="action-edit m-2">edit</p>
           </div>
           <div class="card-address-details m-0 bold-500">
-            <p class="delivery-name"><span class="bold-700">Delivery</span> <span class="bold-500">to {{ getUserData.firstName + ' ' + getUserData.lastName }}</span></p>
-            <p class="delivery-to">{{ getUserData.address }}</p>
-            <p class="delivery-number">{{ getUserData.phoneNumber }}</p>
+            <p class="delivery-name"><span class="bold-700">Delivery</span> <span class="bold-500">to qweqwe</span></p>
+            <p class="delivery-to">qwe</p>
+            <p class="delivery-number">qwe</p>
           </div>
         </div>
         <div class="payment-method mt-5">
@@ -66,23 +66,23 @@
           </div>
           <div class="card-payment-details m-0 bold-500">
             <div class="payment-option pb-3">
-            <input type="radio" v-model="paymentMethod" value="Card" name="checkout-option">
+            <input type="radio" value="Card" name="checkout-option">
             <div class="icon-radio-mail position-icon d-inline-block">
-              <img src="../../assets/mail.png" alt="">
+              <img src="../../../../assets/mail.png" alt="">
             </div>
             <p class="d-inline-block ml-3">Card</p>
             </div>
             <div class="payment-option pb-3">
-            <input type="radio" v-model="paymentMethod" value="Bank Account" name="checkout-option">
+            <input type="radio" value="Bank Account" name="checkout-option">
             <div class="icon-radio-bank position-icon d-inline-block">
-              <img src="../../assets/Vector (1).png" alt="">
+              <img src="../../../../assets/Vector (1).png" alt="">
             </div>
             <p class="d-inline-block ml-3">Bank Account</p>
             </div>
             <div class="payment-option pb-3">
-            <input type="radio" v-model="paymentMethod" value="COD" name="checkout-option">
+            <input type="radio"  value="COD" name="checkout-option">
             <div class="icon-radio-deliver position-icon d-inline-block">
-              <img src="../../assets/fast-delivery 3.png" alt="">
+              <img src="../../../../assets/fast-delivery 3.png" alt="">
             </div>
             <p class="d-inline-block ml-3">Cash on delivery</p>
             </div>
@@ -103,7 +103,6 @@
         </button>
       </div>
       <div class="modal-body">
-        <CheckOut :data="dataPayment" :dataCart="dataCart"/>
       </div>
     </div>
   </div>
@@ -113,13 +112,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import CheckOut from '../base/CheckOut'
-import Swal from 'sweetalert2'
+// import Swal from 'sweetalert2'
 export default {
   name: 'PaymentDelivery',
-  components: {
-    CheckOut
-  },
   data () {
     return {
       listOrder: '',
@@ -237,16 +232,6 @@ export default {
       this.totalAmount()
       this.getTotalAmountInvoice()
       this.convertToRupiah(this.totalAmountInvoice)
-    } else {
-      Swal.fire({
-        title: 'your cart is still empty',
-        text: 'You dont have any items in your cart, lets go shopping!!',
-        imageUrl: 'https://media.giphy.com/media/CIJsP7PsWvZM4/giphy.gif',
-        imageWidth: 400,
-        imageHeight: 200,
-        imageAlt: 'Custom image',
-        confirmButtonText: '<a style="text-decoration:none;color:white;" href="/home/product-customer">Lets go shopping</a>'
-      })
     }
     console.log('dibawah data cart')
     console.log(this.dataCart)
@@ -259,7 +244,7 @@ export default {
 main {
   padding: 80px;
   height: max-content;
-  background: url("../../assets/nathan-dumlao-zTZRZV86GhE-unsplash 1.png");
+  background: url("../../../../assets/nathan-dumlao-zTZRZV86GhE-unsplash 1.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
