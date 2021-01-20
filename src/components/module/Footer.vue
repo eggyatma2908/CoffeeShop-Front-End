@@ -1,15 +1,17 @@
 <template>
     <footer>
-        <div class="d-flex justify-content-around box4">
+        <div class="box4">
             <div class="box5">
                 <div class="box6">
                     <img class="img3" src="../../assets/coffee.png" alt="Image5">
                     <p class="text7">Coffe Shop</p>
                 </div>
                 <p class="text8">Coffee Shop is a store that sells some good meals, and especially coffee. We provide high quality beans</p>
-                <a href="#"><img class="facebook" src="../../assets/facebook.png" alt="image6"></a>
-                <a href="#"><img class="twitter" src="../../assets/twitter.png" alt="image7"></a>
-                <a href="#"><img class="instagram" src="../../assets/instagram.png" alt="image8"></a>
+                <div class="socialmedia">
+                    <a href="#"><img class="facebook" src="../../assets/facebook.png" alt="image6"></a>
+                    <a href="#"><img class="twitter" src="../../assets/twitter.png" alt="image7"></a>
+                    <a href="#"><img class="instagram" src="../../assets/instagram.png" alt="image8"></a>
+                </div>
                 <p class="text9">@2020CoffeStore</p>
             </div>
             <div class="box7">
@@ -46,9 +48,12 @@ footer {
     background: #F8F8F8;
 }
 
-.justify-content-around{
+.box4{
     padding-top: 160px;
     padding-bottom: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 footer .side-left {
@@ -90,6 +95,10 @@ footer .side-left .icon-social-media {
 footer .side-left .copyright {
     padding-top: 181px;
     background: #F8F8F8;
+}
+
+.box5 a{
+    margin: 0
 }
 
 .box6 {
@@ -137,16 +146,8 @@ footer .side-left .copyright {
     color: #4F5665;
 }
 
-.facebook {
-    margin-right: 20px
-}
-
-.twitter {
-    margin-right: 20px;
-}
-
 .text9 {
-    margin-top: 30px;
+    margin-top: 0px;
     margin-bottom: 0px;
 
     font-family: 'Rubik', sans-serif;
@@ -198,5 +199,32 @@ footer .side-left .copyright {
     font-size: 16px;
     line-height: 30px;
     color: #4F5665;
+}
+
+@media (max-width: 768px) {
+    .box4 {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+    .box5 {
+        width: max-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .box7 {
+        width: max-content;
+    }
+    .text8 {
+        width: 300px;
+    }
+    .text9 {
+        display: none;
+    }
+    .product {
+        margin: 0 70px 0 0;
+    }
 }
 </style>

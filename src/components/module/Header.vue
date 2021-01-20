@@ -14,15 +14,23 @@
                     <a class="history" @click="toHistory" v-if="isAdmin">Manage Order</a>
                 </div>
                 <div class="box2">
-                    <img class="img2" src="../../assets/search.png" alt="image2">
-                    <div class="box3">
-                        <img class="img3" @click="toChat" src="../../assets/chat.png" alt="image3">
-                        <img class="img4" src="../../assets/ellipse.png" alt="image4">
-                        <p class="text1">1</p>
+                    <div class="box-search">
+                        <input class="search" type="text" placeholder="Search...">
+                    </div>
+                    <div class="box-chat">
+                        <img class="chat" @click="toChat" src="../../assets/chat.png" alt="image3">
                     </div>
                     <div class="user-profile">
                       <img @click="toProfile" :src="this.getUserData.photoProfile" alt="image5">
                     </div>
+                    <Slide right noOverlay  id="bm-burger-button">
+                        <a id="home" class="home" href="#"><span>Home</span></a>
+                        <a id="profile" class="profile" @click="toProfile"><span>Profile</span></a>
+                        <a id="product" class="product" @click="toProduct"><span>Product</span></a>
+                        <a id="cart" class="cart" @click="toCart" v-if="!isAdmin"><span>Your Cart</span></a>
+                        <a id="history" class="history" @click="toHistory" v-if="!isAdmin"><span>History</span></a>
+                        <a id="message" class="message" @click="toChat"><span>Message</span></a>
+                    </Slide>
                 </div>
             </div>
         </div>
@@ -31,8 +39,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { Slide } from 'vue-burger-menu'
+
 export default {
   name: 'Header',
+  components: {
+    Slide
+  },
   methods: {
     toHome () {
       this.$router.push({ path: '/home' })
@@ -69,15 +82,15 @@ body {
 }
 
 .container-fluid {
-    width: 100%;
-
     background: #FFFFFF;
     border-bottom: 0.5px solid #9F9F9F;
     box-sizing: border-box;
 }
 
 .box0 {
-    margin: 50px;
+    margin: 30px 0;
+    display: flex;
+    align-items: center;
 }
 
 .box {
@@ -106,9 +119,6 @@ body {
 }
 
 .box1 a{
-    width: 44px;
-    height: 19px;
-
     font-family: Rubik;
     font-style: normal;
     font-weight: normal;
@@ -118,16 +128,16 @@ body {
     color: #4F5665;
 }
 
-.home {
+.home, .product, .cart {
     margin-right: 41px;
     cursor: pointer;
 }
 
-.home:hover {
+.home:hover, .product:hover, .cart:hover, .history:hover {
     text-decoration: none;
 }
 
-.home:focus {
+.home:focus, .product:focus, .cart:focus, .history:focus {
     font-family: Rubik;
     font-style: normal;
     font-weight: bold;
@@ -137,64 +147,49 @@ body {
     color: #6A4029;
 }
 
-.product {
-    margin-right: 41px;
-    cursor: pointer;
-
-}
-
-.product:hover {
-    text-decoration: none;
-}
-
-.product:focus {
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 19px;
-
-    color: #6A4029;
-}
-
-.cart {
-    margin-right: 41px;
-    cursor: pointer;
-}
-
-.cart:hover {
-    text-decoration: none;
-}
-
-.cart:focus {
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 19px;
-
-    color: #6A4029;
-}
 .history {
     cursor: pointer;
 }
-.history:hover {
-    text-decoration: none;
-}
-
-.history:focus {
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 19px;
-
-    color: #6A4029;
-}
 
 .box2 {
+    width: 300px;
+    position: relative;
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.box-search {
+    width: 150px;
+    transform:rotateZ(180deg);
+}
+
+.search {
+    width: 0;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('../../assets/search.png');
+    background-position: right;
+    background-size: 25px;
+    background-repeat: no-repeat;
+    padding: 0px 20px 0px 5px;
+    -webkit-transition: all .55s ease;
+    -moz-transition: all .55s ease;
+    -ms-transition: all .55s ease;
+    -o-transition: all .55s ease;
+    transition: all .55s ease;
+    transform:rotateZ(180deg);
+}
+
+input[type=text]:focus {
+    width: 100%;
+    background-color: #f1f1f1;
+    background-position-x: 200px;
+    padding: 10px;
+    outline: none;
 }
 
 .img2 {
@@ -204,39 +199,11 @@ body {
     margin-right: 34px;
 }
 
-.box2 {
-    position: relative;
-}
-
-.img3 {
+.chat {
     width: 30px;
     height: 33px;
     cursor:pointer;
-    margin-right: 34px;
 }
-
-.img4 {
-    position: absolute;
-    top: -5px;
-    right: 85px;
-    cursor:pointer;
-}
-
-.text1 {
-    position: absolute;
-    top: -3px;
-    right: 91px;
-    width: 4px;
-    height: 9px;
-
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 8px;
-    line-height: 9px;
-
-    color: #FFFFFF;
-    }
 
 .img5 {
     width: 30px;
@@ -253,5 +220,57 @@ body {
     height: 100%;
     object-fit:cover;
     border-radius:50%;
+}
+
+#bm-burger-button {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .box1 {
+        display: none;
+    }
+    .box2 {
+        margin-right: 80px;
+    }
+    .box-search {
+        width: 120px;
+    }
+    #bm-burger-button {
+        display: flex;
+        position: absolute;
+        top: -30px;
+        right: -110px;
+    }
+    #message {
+        display: none;
+    }
+    #profile {
+        display: none;
+    }
+}
+
+@media (max-width: 515px) {
+    .box-search {
+        display: none;
+    }
+    .box-chat {
+        display: none;
+    }
+    .user-profile {
+        display: none;
+    }
+    #bm-burger-button {
+        display: flex;
+        position: absolute;
+        top: -55px;
+        right: -110px;
+    }
+    #message {
+        display: flex;
+    }
+    #profile {
+        display: flex;
+    }
 }
 </style>
