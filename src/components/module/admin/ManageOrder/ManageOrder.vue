@@ -2,64 +2,33 @@
   <main>
     <p class="title-text">Checkout your <br />item now!</p>
     <div class="row">
-      <div class="card-order p-5 col-5 p-0">
-          <p class="card-order-title">Order Summary</p>
-          <div class="card-order-list mt-5">
-            <div class="order-list row mt-3">
-              <div class="card-order-photo col-3">
-                <img/>
+      <div class="col-lg-5 p-0 d-flex justify-content-center">
+     <vue-card-stack :cards="cards" :stack-width="450" :card-width="400" :card-height="500" style="transform:rotateY(180deg);">
+      <template v-slot:card="{ card }">
+      <div class="box1" style="width: 100%; height: 100%; transform:rotateY(180deg);" :style="{ background: card.background, color: card.color }">
+          <div class="box2">
+              <div class="box3">
+                  <img :src="card.image" alt="image1">
               </div>
-              <div class="order-details col-6">
-                <p>qwe</p>
-                <p>xqwe</p>
-                <p>qwe</p>
-              </div>
-              <div class="order-price col-3">
-                <p>
-                 qwe
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="checkout-price row mt-4">
-            <div class="col-6">
-              <p class="bold-500">SUB TOTAL </p>
-            </div>
-            <div class="col-6">
-              <p class="price-amount">IDRqwe</p>
-            </div>
-            <div class="col-6">
-              <p class="bold-500">TAX & FEES</p>
-            </div>
-            <div class="col-6">
-            <p class="price-amount">IDR qwe</p>
-            </div>
-            <div class="col-6">
-              <p class="bold-500">SHIPPING</p>
-            </div>
-            <div class="col-6">
-              <p class="price-amount">IDR qwe</p>
-            </div>
-            <div class="col-6">
-              <p class="total">TOTAL </p>
-            </div>
-            <div class="col-6">
-              <p class="total">IDR qwe</p>
-            </div>
+              <p style="margin-bottom: 0px">{{card.foodName}}</p>
           </div>
       </div>
-      <div class="col-5 offset-2 p-0">
-        <div class="address-details">
-          <div class="address-title d-flex justify-content-between">
-            <p class="title">Address details</p>
-            <p class="action-edit m-2">edit</p>
-          </div>
-          <div class="card-address-details m-0 bold-500">
-            <p class="delivery-name"><span class="bold-700">Delivery</span> <span class="bold-500">to qweqwe</span></p>
-            <p class="delivery-to">qwe</p>
-            <p class="delivery-number">qwe</p>
-          </div>
-        </div>
+  </template>
+
+  <template v-slot:nav="{ activeCardIndex, onNext, onPrevious }">
+      <nav class="nav" >
+      <div class="counter" style="transform:rotateY(180deg)">{{activeCardIndex + 1}}/{{cards.length}}</div>
+      <button v-on:click="onPrevious" class="button" style="transform:rotateY(360deg)">
+          <span class="chevron left"></span>
+      </button>
+      <button v-on:click="onNext" class="button" style="transform:rotateY(360deg)">
+          <span class="chevron right"></span>
+      </button>
+      </nav>
+  </template>
+  </vue-card-stack>
+      </div>
+      <div class="col-lg-5 offset-2 p-0">
         <div class="payment-method mt-5">
           <div class="payment-title d-flex justify-content-between">
             <p class="title">Payment method</p>
@@ -89,7 +58,7 @@
           </div>
         </div>
     <!-- Button trigger modal -->
-      <button class="btn-confirm mt-5" data-toggle="modal" data-target="#exampleModalCenter">Confirm and Pay</button>
+      <button class="btn-confirm mt-5" data-toggle="modal" data-target="#exampleModalCenter">Mark as done</button>
       </div>
     </div>
 <!-- Modal -->
@@ -112,9 +81,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-// import Swal from 'sweetalert2'
+import VueCardStack from 'vue-card-stack'
 export default {
   name: 'PaymentDelivery',
+  components: {
+    VueCardStack
+  },
   data () {
     return {
       listOrder: '',
@@ -124,7 +96,24 @@ export default {
       totalAmountInvoice: 0,
       convertToFormatIDR: 0,
       userData: null,
-      paymentMethod: null
+      paymentMethod: null,
+      cards: [
+        {
+          background: '#FFCB65',
+          image: require('../../../../assets/food1.png'),
+          foodName: 'Beef Spaghetti'
+        },
+        {
+          background: '#FFC344',
+          image: require('../../../../assets/food1.png'),
+          foodName: 'Beef pizzaa'
+        },
+        {
+          background: '#FF1233',
+          image: require('../../../../assets/food1.png'),
+          foodName: 'Beef burger'
+        }
+      ]
     }
   },
   methods: {
@@ -415,5 +404,71 @@ main {
   border-radius: 20px;
   font-size: 20px;
   outline:none;
+}
+.box1 {
+    border-radius: 20px;
+}
+
+.box2 {
+    height: 400px;
+
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+.box3 {
+    width: 100px;
+}
+
+.box2 img {
+    width: 100%;
+    height: auto;
+
+    border-radius: 200px;
+}
+.chevron.right {
+    transform: rotate(45deg);
+}
+
+.nav .button:last-of-type {
+    right: 0;
+}
+
+.chevron.left {
+    transform: rotate(-135deg);
+    margin-left: 4px;
+}
+
+.chevron {
+    border-style: solid;
+    border-width: .25em .25em 0 0;
+    content: "";
+    height: .45em;
+    width: .45em;
+}
+
+.nav .button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #2d2d2d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 999;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+button.button {
+    outline: none;
 }
 </style>
