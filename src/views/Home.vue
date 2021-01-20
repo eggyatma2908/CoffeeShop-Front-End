@@ -1,18 +1,26 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <Header />
+    <Footer />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import Header from '@/components/module/Header.vue'
+import Footer from '@/components/module/Footer.vue'
+import { mapActions } from 'vuex'
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    Header,
+    Footer
+  },
+  methods: {
+    ...mapActions(['interceptorRequest'])
+  },
+  created () {
+    this.interceptorRequest()
   }
 }
 </script>
