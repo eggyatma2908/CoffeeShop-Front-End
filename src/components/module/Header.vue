@@ -8,10 +8,11 @@
                 </div>
                 <div class="box1">
                     <a class="home">Home</a>
-                    <a class="product" @click="toProduct">Product</a>
+                    <a class="product" @click="toProduct" v-if="!isAdmin">Product</a>
+                    <a class="product" @click="toProductAdmin" v-if="isAdmin">Product</a>
                     <a class="cart" @click="toCart" v-if="!isAdmin">Your Cart</a>
                     <a class="history" @click="toHistory" v-if="!isAdmin">History</a>
-                    <a class="history" @click="toHistory" v-if="isAdmin">Manage Order</a>
+                    <a class="history" @click="toManageOrder" v-if="isAdmin">Manage Order</a>
                 </div>
                 <div class="box2">
                     <div class="box3">
@@ -50,6 +51,12 @@ export default {
     },
     toProfile () {
       this.$router.push({ path: '/profile/user-profile' })
+    },
+    toProductAdmin () {
+      this.$router.push({ path: '/home/product-admin' })
+    },
+    toManageOrder () {
+      this.$router.push({ path: '/home/manage-order' })
     }
   },
   computed: {

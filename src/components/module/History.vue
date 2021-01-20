@@ -5,8 +5,8 @@
         <span class="small-title">Long press to delete item</span></p>
       </div>
       <div class="history mx-auto mt-5 container-fluid p-0">
-        <div class="container-fluid" v-for="(order, index) in data.orderHistory" :key="index">
-          <div class="card-history">
+        <div class="container-fluid">
+          <div class="card-history"  v-for="(order, index) in data.orderHistory" :key="index">
             <div class="box-history">
               <div class="card-image">
                 <img :src="order.photoProduct" alt="">

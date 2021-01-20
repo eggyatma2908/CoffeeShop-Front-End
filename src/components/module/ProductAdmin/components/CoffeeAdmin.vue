@@ -11,6 +11,7 @@
             </div>
             <p class="productName">{{ coffee.productName }}</p>
             <p class="price">{{ coffee.price }}</p>
+            <button class="edit3" @click="goPageEditProducts(coffee.idProduct)"><img src="../../../../assets/pen.png" alt=""></button>
         </div>
     </div>
 
@@ -21,6 +22,7 @@
             </div>
             <p class="productname">{{ coffee.productName }}</p>
             <p class="price">{{ coffee.price }}</p>
+            <button class="edit3" @click="goPageEditProducts(coffee.idProduct)"><img src="../../../../assets/pen.png" alt=""></button>
         </div>
     </div>
     <nav aria-label="Page navigation example">
@@ -55,6 +57,9 @@ export default {
     },
     toProductDetails (idProduct) {
       this.$router.push({ path: '/home/product-details/' + idProduct, query: { type: 'coffee' } })
+    },
+    goPageEditProducts (id) {
+      this.$router.push(`/home/edit-product-admin/${id}`)
     }
   },
   watch: {
@@ -64,14 +69,9 @@ export default {
       this.searchProduct()
     }
   },
-<<<<<<< HEAD
-  async mounted () {
-    await this.getProductCoffee()
-=======
   mounted () {
     this.getProductCoffee()
     this.searchProduct()
->>>>>>> staging
   },
   computed: {
     ...mapGetters(['getPagination', 'getDataType'])

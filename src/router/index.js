@@ -171,6 +171,12 @@ const routes = [
         name: 'NewProduct',
         component: NewProduct,
         meta: { requiresAuth: true }
+      },
+      {
+        path: 'manage-order',
+        name: 'ManageOrder',
+        component: ManageOrder,
+        meta: { requiresAdmin: true }
       }
     ]
   },
@@ -210,12 +216,6 @@ const routes = [
     name: 'UserProfile',
     component: UserProfile,
     meta: { requiresAuth: true }
-  },
-  {
-    path: '/manageorder',
-    name: 'ManageOrder',
-    component: ManageOrder,
-    meta: { requiresAdmin: true }
   }
 ]
 
