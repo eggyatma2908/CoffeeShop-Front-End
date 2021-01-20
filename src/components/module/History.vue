@@ -5,33 +5,25 @@
         <span class="small-title">Long press to delete item</span></p>
       </div>
       <div class="history mx-auto mt-5 container-fluid p-0">
-        <div class="row">
-          <div class="col-4 row-gap"  v-for="(order, index) in data.orderHistory" :key="index">
-            <div class="card-history p-0">
-              <div class="row">
-                <div class="col-4 p-2">
-                  <div class="card-image mx-auto">
-                    <img :src="order.photoProduct" alt="">
-                  </div>
+        <div class="container-fluid" v-for="(order, index) in data.orderHistory" :key="index">
+          <div class="card-history">
+            <div class="box-history">
+              <div class="card-image">
+                <img :src="order.photoProduct" alt="">
+              </div>
+              <div class="card-product-detail">
+                <p class="card-title-product">{{ order.productName }}</p>
+                <p class="card-product-price">{{ order.basePrice }}</p>
+                <p class="card-status-product">{{ order.deliveryStatus }}</p>
+              </div>
+            </div>
+            <div>
+              <div class="actions" alt="key" v-if="order.deliveryStatus === 'delivered'">
+                <div class="delete-action" @click="handleDeleteProduct(order.id)">
+                  <img src="../../assets/trash.png" alt="">
                 </div>
-                <div class="col-7 p-0">
-                  <div class="card-product-detail p-2">
-                    <p class="card-title-product">{{ order.productName }}</p>
-                    <p class="card-product-price">{{ order.basePrice }}</p>
-                    <p class="card-status-product">{{ order.deliveryStatus }}</p>
-                  </div>
-                  <div>
-                  </div>
-                </div>
-                <div class="col-1 p-0">
-                  <div class="actions" alt="key" v-if="order.deliveryStatus === 'delivered'">
-                    <div class="delete-action" @click="handleDeleteProduct(order.id)">
-                      <img src="../../assets/trash.png" alt="">
-                    </div>
-                    <div class="cancel-action">
-                      <img src="../../assets/x.png" alt="">
-                    </div>
-                  </div>
+                <div class="cancel-action">
+                  <img src="../../assets/x.png" alt="">
                 </div>
               </div>
             </div>
@@ -140,31 +132,40 @@ main {
   font-weight:700;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.8);
 }
+.container-fluid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 .small-title{
   font-weight:200;
-    font-size:25px;
+  font-size:25px;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.8);
 }
-
 .card-history{
-  padding:20px;
-  height:126px;
+  width: 350px;
   background-color:#FFFFFF;
   border-radius:20px;
   cursor: pointer;
+  margin: 10px
 }
-.row-gap {
-  margin-top:30px;
+.box-history {
+  display: flex;
+  flex-direction: row;
+  padding: 10px
 }
 .card-image {
   width: 100px;
   height: 100px;
   border-radius: 100px;
+  margin: 0 10px;
 }
 .card-image img{
   width:100%;
   height:100%;
   object-fit: cover;
+  border-radius: 100px;
 }
 .card-title-product {
   font-family: Poppins;
@@ -195,8 +196,13 @@ main {
 }
 .actions {
   display: none;
+  width: 0;
+  height: 0;
 }
 .delete-action {
+  position: absolute;
+  top: -140px;
+  left: 270px;
   width:50px;
   height:50px;
   border-radius:50%;
@@ -206,10 +212,13 @@ main {
   right:70px;
 }
 .delete-action img {
-  margin:14px 0 5px 17px;
+  margin:17px 0 5px 17px;
   cursor: pointer;
 }
 .cancel-action {
+  position: absolute;
+  top: -190px;
+  left: 320px;
   width:50px;
   height:50px;
   border-radius:50%;
@@ -219,7 +228,7 @@ main {
   right:20px;
 }
 .cancel-action img {
-  margin:14px 0 5px 17px;
+  margin:17px 0 5px 17px;
   cursor: pointer;
 }
 </style>
