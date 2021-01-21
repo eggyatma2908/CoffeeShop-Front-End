@@ -6,7 +6,7 @@
                     <p class="text">Promo for you</p>
                     <p class="text1">Coupons will be updated every weeks. Check them out! </p>
                     <div class="box">
-                        <vue-card-stack :cards="cards" :stack-width="360" :card-width="280" style="transform:rotateY(180deg);">
+                        <vue-card-stack :cards="cards" :stack-width="360" :scaleMultiplier="1" :card-width="280" style="transform:rotateY(180deg);">
                         <template v-slot:card="{ card }">
                             <div class="box1" style="width: 100%; height: 100%; transform:rotateY(180deg);" :style="{ background: card.background, color: card.color }">
                                 <div class="box2">

@@ -3,21 +3,19 @@
     <p class="title-text">Checkout your <br />item now!</p>
     <div class="row">
       <div class="col-lg-5 p-0 d-flex justify-content-center">
-     <vue-card-stack :cards="cards" :stack-width="450" :card-width="400" :card-height="500" style="transform:rotateY(180deg);">
+     <vue-card-stack :cards="listCart" v-if="listCart.length>0" :stack-width="450" :card-width="400"  :scaleMultiplier="1" :card-height="550">
       <template v-slot:card="{ card }">
-      <div class="box1" style="width: 100%; height: 100%; transform:rotateY(180deg);" :style="{ background: card.background, color: card.color }">
-          <div class="box2">
-              <div class="box3">
-                  <img :src="card.image" alt="image1">
-              </div>
-              <p style="margin-bottom: 0px">{{card.foodName}}</p>
+      <div class="card-order box1 p-5">
+          <div class="card-order-title">
+            <p class="title m-0">Delivery order</p>
+            <p class="to m-0">to {{card.cart.userId}}</p>
           </div>
+            <!-- <button class="btn-confirm mt-5" @click="() => markAsDone(card.cart.id)">Mark as done</button> -->
       </div>
   </template>
-
-  <template v-slot:nav="{ activeCardIndex, onNext, onPrevious }">
+  <template v-if="listCart.length>1" v-slot:nav="{ activeCardIndex, onNext, onPrevious }">
       <nav class="nav" >
-      <div class="counter" style="transform:rotateY(180deg)">{{activeCardIndex + 1}}/{{cards.length}}</div>
+      <div class="counter">{{activeCardIndex + 1}}/{{listCart.length}}</div>
       <button v-on:click="onPrevious" class="button" style="transform:rotateY(360deg)">
           <span class="chevron left"></span>
       </button>
@@ -57,8 +55,6 @@
             </div>
           </div>
         </div>
-    <!-- Button trigger modal -->
-      <button class="btn-confirm mt-5" data-toggle="modal" data-target="#exampleModalCenter">Mark as done</button>
       </div>
     </div>
 <!-- Modal -->
@@ -83,12 +79,15 @@
 import { mapGetters, mapActions } from 'vuex'
 import VueCardStack from 'vue-card-stack'
 export default {
-  name: 'PaymentDelivery',
+  name: 'ManageOrder',
   components: {
     VueCardStack
   },
   data () {
     return {
+      listCart: [
+      ],
+      selectedCart: [],
       listOrder: '',
       subTotal: 0,
       taxAndFees: 2000,
@@ -96,27 +95,32 @@ export default {
       totalAmountInvoice: 0,
       convertToFormatIDR: 0,
       userData: null,
-      paymentMethod: null,
-      cards: [
-        {
-          background: '#FFCB65',
-          image: require('../../../../assets/food1.png'),
-          foodName: 'Beef Spaghetti'
-        },
-        {
-          background: '#FFC344',
-          image: require('../../../../assets/food1.png'),
-          foodName: 'Beef pizzaa'
-        },
-        {
-          background: '#FF1233',
-          image: require('../../../../assets/food1.png'),
-          foodName: 'Beef burger'
-        }
-      ]
+      paymentMethod: null
     }
   },
   methods: {
+    ...mapActions(['getDataUserById', 'getAllCartAndOrderPending', 'markAsDelivered']),
+    async handleGetAllCartPending () {
+      try {
+        const result = await this.getAllCartAndOrderPending()
+        this.listCart = result
+        console.log('this.listCart', this.listCart)
+        console.log('result', result)
+      } catch (error) {
+        console.log('error', error)
+      }
+    },
+    async markAsDone (id) {
+      try {
+        console.log('cek')
+        await this.markAsDelivered(id)
+        const result = await this.handleGetAllCartPending()
+        this.listCart = result
+        alert('delivered')
+      } catch (error) {
+        console.log('error', error)
+      }
+    },
     totalAmount () {
       const subTotal = this.getListOrder.reduce((total, value) => {
         let totalLarge = 0
@@ -177,7 +181,6 @@ export default {
       const totalAmount = this.taxAndFees + this.shipping + this.subTotal
       this.totalAmountInvoice = totalAmount
     },
-    ...mapActions(['getDataUserById']),
     async getDataUser (idUser) {
       await this.getDataUserById(idUser)
         .then(result => {
@@ -222,9 +225,7 @@ export default {
       this.getTotalAmountInvoice()
       this.convertToRupiah(this.totalAmountInvoice)
     }
-    console.log('dibawah data cart')
-    console.log(this.dataCart)
-    console.log(this.getListOrder)
+    this.handleGetAllCartPending()
   }
 }
 </script>
@@ -253,10 +254,10 @@ main {
 .card-order {
   height: 737px;
   background-color:#ffffff;
-  border-radius:20px;
 }
 .card-order-photo {
-  width:80px;
+  width:60px;
+  height:60px;
 }
 .card-order-photo img{
   width:100%;
@@ -264,20 +265,36 @@ main {
   object-fit: cover;
   border-radius: 50%;
 }
-.card-order-title {
+.card-order-title .title{
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
-  font-size: 35px;
+  font-size: 25px;
   line-height: 52px;
   /* identical to box height */
 
   color: #362115;
   text-align: center;
 }
+.card-order-list {
+  overflow:auto;
+  height:150px;
+  overflow-x:hidden;
+}
+.order-list{
+  height:80px;
+}
+.card-order-title .to {
+    font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  text-align:center;
+}
 .order-details > * {
   margin:5px 0 0 0;
   font-family: Poppins;
+  font-size:12px;
 }
 .order-price {
   margin:auto 0;
@@ -388,25 +405,28 @@ main {
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 17px;
   line-height: 45px;
   /* identical to box height */
   color: #362115;
+  text-align:end;
 }
 .btn-confirm {
   width:100%;
-  height:84px;
+  height:50px;
   background-color:#6A4029;
   color:white;
   font-family: Poppins;
   font-weight: 700;
   border:none;
   border-radius: 20px;
-  font-size: 20px;
+  font-size: 16px;
   outline:none;
 }
 .box1 {
-    border-radius: 20px;
+    border-radius: 20px !important;
+    background:#FFFFFF;
+   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .box2 {
