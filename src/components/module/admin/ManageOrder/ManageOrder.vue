@@ -1,9 +1,9 @@
 <template>
   <main>
     <p class="title-text">Checkout your <br />item now!</p>
-    <div class="row">
-      <div class="col-lg-5 p-0 d-flex justify-content-center">
-     <vue-card-stack :cards="listCart" v-if="listCart.length>0" :maxVisibleCards="3" :stack-width="450" :card-width="400"  :scaleMultiplier="0" :card-height="550">
+    <div class="d-flex justify-content-center">
+      <div class="p-0 d-flex justify-content-center">
+     <vue-card-stack :cards="listCart" v-if="listCart.length>0 & refreshCard === false" :maxVisibleCards="3" :stack-width="450" :card-width="400"  :scaleMultiplier="0" :card-height="550">
       <template v-slot:card="{ card }">
       <div class="card-order box1 p-5">
           <div class="card-order-title">
@@ -49,36 +49,6 @@
   </template>
   </vue-card-stack>
       </div>
-      <div class="col-lg-5 offset-2 p-0">
-        <div class="payment-method mt-5">
-          <div class="payment-title d-flex justify-content-between">
-            <p class="title">Payment method</p>
-          </div>
-          <div class="card-payment-details m-0 bold-500">
-            <div class="payment-option pb-3">
-            <input type="radio" value="Card" name="checkout-option">
-            <div class="icon-radio-mail position-icon d-inline-block">
-              <img src="../../../../assets/mail.png" alt="">
-            </div>
-            <p class="d-inline-block ml-3">Card</p>
-            </div>
-            <div class="payment-option pb-3">
-            <input type="radio" value="Bank Account" name="checkout-option">
-            <div class="icon-radio-bank position-icon d-inline-block">
-              <img src="../../../../assets/Vector (1).png" alt="">
-            </div>
-            <p class="d-inline-block ml-3">Bank Account</p>
-            </div>
-            <div class="payment-option pb-3">
-            <input type="radio"  value="COD" name="checkout-option">
-            <div class="icon-radio-deliver position-icon d-inline-block">
-              <img src="../../../../assets/fast-delivery 3.png" alt="">
-            </div>
-            <p class="d-inline-block ml-3">Cash on delivery</p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -111,6 +81,7 @@ export default {
       listCart: [
       ],
       selectedCart: [],
+      refreshCard: false,
       listOrder: '',
       subTotal: 0,
       taxAndFees: 2000,
@@ -126,28 +97,31 @@ export default {
     async handleGetAllCartPending () {
       try {
         const result = await this.getAllCartAndOrderPending()
+        console.log('result.length', result.length)
         if (result.length < 3) {
           this.initializeCard(result)
           return
         }
         this.listCart = result
+        console.log('result dibawah', result)
         console.log('this.listCart', this.listCart)
-        console.log('result', result)
       } catch (error) {
         console.log('error', error)
       }
     },
     async markAsDone (id) {
       try {
+        this.refreshCard = true
         await this.markAsDelivered(id)
         this.handleGetAllCartPending()
+        this.refreshCard = false
         alert('delivered')
       } catch (error) {
         console.log('error', error)
       }
     },
     initializeCard (cart) {
-      const listCart = cart
+      const allCart = cart
       const payloadInitialize = [{
         cart: {
           id: 'ajakan',
@@ -178,9 +152,8 @@ export default {
         }
       }
       ]
-      listCart.push(...payloadInitialize)
-      this.listCart = listCart
-      console.log('this.listCart', this.listCart)
+      allCart.push(...payloadInitialize)
+      this.listCart = allCart
     },
     totalAmount () {
       const subTotal = this.getListOrder.reduce((total, value) => {
