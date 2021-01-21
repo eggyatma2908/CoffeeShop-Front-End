@@ -3,17 +3,40 @@
     <p class="title-text">Checkout your <br />item now!</p>
     <div class="row">
       <div class="col-lg-5 p-0 d-flex justify-content-center">
-     <vue-card-stack :cards="listCart" v-if="listCart.length>0" :stack-width="450" :card-width="400"  :scaleMultiplier="1" :card-height="550">
+     <vue-card-stack :cards="listCart" v-if="listCart.length>0" :maxVisibleCards="3" :stack-width="450" :card-width="400"  :scaleMultiplier="0" :card-height="550">
       <template v-slot:card="{ card }">
       <div class="card-order box1 p-5">
           <div class="card-order-title">
-            <p class="title m-0">Delivery order</p>
-            <p class="to m-0">to {{card.cart.userId}}</p>
+            <p class="title m-0" v-if="card.cart.id !== 'ajakan'">Delivery order</p>
+            <p class="title m-0" v-if="card.cart.id === 'ajakan'">{{card.cart.message}}</p>
+            <p class="to m-0">to {{card.user.username}}</p>
           </div>
-            <!-- <button class="btn-confirm mt-5" @click="() => markAsDone(card.cart.id)">Mark as done</button> -->
+          <div class="card-order-list mt-5">
+          <div class="order-list row mt-3" v-for="listOrder in card.listOrder" :key="listOrder.idProduct">
+              <div class="card-order-photo col-3">
+                <img :src="listOrder.photoProduct" />
+              </div>
+              <div class="order-details col-6">
+                <p>{{ listOrder.productName }}</p>
+                <p>x {{parseInt(listOrder.regular) + parseInt(listOrder.large) + parseInt(listOrder.xtralarge) }}</p>
+                <p>{{ listOrder.regular !== 0 ? 'Regular' : '' }} {{ listOrder.large !== 0 ? 'Large' : '' }} {{ listOrder.xtralarge !== 0 ? 'XtraLarge' : '' }}</p>
+              </div>
+              </div>
+              </div>
+              <div class="checkout-price mt-4" v-if="card.cart.id !== 'ajakan'">
+              <div class="d-flex justify-content-between">
+              <p class="total m-0">Payment Method </p>
+              <p class="total m-0">{{card.cart.paymentMethod}} </p>
+            </div>
+              <div class="d-flex justify-content-between" v-if="card.cart.id !== 'ajakan'">
+              <p class="total m-0">Total </p>
+              <p class="total m-0">{{card.cart.payTotal}} </p>
+            </div>
+          </div>
+            <button v-if="card.cart.id !== 'ajakan'" class="btn-confirm mt-5" @click="markAsDone(card.cart.id)">Mark as done</button>
       </div>
   </template>
-  <template v-if="listCart.length>1" v-slot:nav="{ activeCardIndex, onNext, onPrevious }">
+  <template v-slot:nav="{ activeCardIndex, onNext, onPrevious }">
       <nav class="nav" >
       <div class="counter">{{activeCardIndex + 1}}/{{listCart.length}}</div>
       <button v-on:click="onPrevious" class="button" style="transform:rotateY(360deg)">
@@ -103,6 +126,10 @@ export default {
     async handleGetAllCartPending () {
       try {
         const result = await this.getAllCartAndOrderPending()
+        if (result.length < 3) {
+          this.initializeCard(result)
+          return
+        }
         this.listCart = result
         console.log('this.listCart', this.listCart)
         console.log('result', result)
@@ -112,14 +139,48 @@ export default {
     },
     async markAsDone (id) {
       try {
-        console.log('cek')
         await this.markAsDelivered(id)
-        const result = await this.handleGetAllCartPending()
-        this.listCart = result
+        this.handleGetAllCartPending()
         alert('delivered')
       } catch (error) {
         console.log('error', error)
       }
+    },
+    initializeCard (cart) {
+      const listCart = cart
+      const payloadInitialize = [{
+        cart: {
+          id: 'ajakan',
+          userId: 'c9755918-fbb5-4dff-b4f9-dc42c013393d',
+          payTotal: 244000,
+          paymentMethod: 'Card',
+          deliveryMethod: 'dinein',
+          deliveryStatus: 'pending',
+          message: 'thank you for your order :)'
+        },
+        listOrder: [],
+        user: {
+          username: 'You'
+        }
+      }, {
+        cart: {
+          id: 'ajakan',
+          userId: 'c9755918-fbb5-4dff-b4f9-dc42c013393d',
+          payTotal: 244000,
+          paymentMethod: 'Card',
+          deliveryMethod: 'dinein',
+          deliveryStatus: 'pending',
+          message: 'We have so many interesting product for you :)'
+        },
+        listOrder: [],
+        user: {
+          username: 'You'
+        }
+      }
+      ]
+      listCart.push(...payloadInitialize)
+      this.listCart = listCart
+      console.log('this.listCart', this.listCart)
     },
     totalAmount () {
       const subTotal = this.getListOrder.reduce((total, value) => {
