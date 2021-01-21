@@ -2,64 +2,54 @@
   <main>
     <p class="title-text">Checkout your <br />item now!</p>
     <div class="row">
-      <div class="card-order p-5 col-5 p-0">
-          <p class="card-order-title">Order Summary</p>
+      <div class="col-lg-5 p-0 d-flex justify-content-center">
+     <vue-card-stack :cards="listCart" v-if="listCart.length>0" :maxVisibleCards="3" :stack-width="450" :card-width="400"  :scaleMultiplier="0" :card-height="550">
+      <template v-slot:card="{ card }">
+      <div class="card-order box1 p-5">
+          <div class="card-order-title">
+            <p class="title m-0" v-if="card.cart.id !== 'ajakan'">Delivery order</p>
+            <p class="title m-0" v-if="card.cart.id === 'ajakan'">{{card.cart.message}}</p>
+            <p class="to m-0">to {{card.user.username}}</p>
+          </div>
           <div class="card-order-list mt-5">
-            <div class="order-list row mt-3">
+          <div class="order-list row mt-3" v-for="listOrder in card.listOrder" :key="listOrder.idProduct">
               <div class="card-order-photo col-3">
-                <img/>
+                <img :src="listOrder.photoProduct" />
               </div>
               <div class="order-details col-6">
-                <p>qwe</p>
-                <p>xqwe</p>
-                <p>qwe</p>
+                <p>{{ listOrder.productName }}</p>
+                <p>x {{parseInt(listOrder.regular) + parseInt(listOrder.large) + parseInt(listOrder.xtralarge) }}</p>
+                <p>{{ listOrder.regular !== 0 ? 'Regular' : '' }} {{ listOrder.large !== 0 ? 'Large' : '' }} {{ listOrder.xtralarge !== 0 ? 'XtraLarge' : '' }}</p>
               </div>
-              <div class="order-price col-3">
-                <p>
-                 qwe
-                </p>
               </div>
+              </div>
+              <div class="checkout-price mt-4" v-if="card.cart.id !== 'ajakan'">
+              <div class="d-flex justify-content-between">
+              <p class="total m-0">Payment Method </p>
+              <p class="total m-0">{{card.cart.paymentMethod}} </p>
+            </div>
+              <div class="d-flex justify-content-between" v-if="card.cart.id !== 'ajakan'">
+              <p class="total m-0">Total </p>
+              <p class="total m-0">{{card.cart.payTotal}} </p>
             </div>
           </div>
-          <div class="checkout-price row mt-4">
-            <div class="col-6">
-              <p class="bold-500">SUB TOTAL </p>
-            </div>
-            <div class="col-6">
-              <p class="price-amount">IDRqwe</p>
-            </div>
-            <div class="col-6">
-              <p class="bold-500">TAX & FEES</p>
-            </div>
-            <div class="col-6">
-            <p class="price-amount">IDR qwe</p>
-            </div>
-            <div class="col-6">
-              <p class="bold-500">SHIPPING</p>
-            </div>
-            <div class="col-6">
-              <p class="price-amount">IDR qwe</p>
-            </div>
-            <div class="col-6">
-              <p class="total">TOTAL </p>
-            </div>
-            <div class="col-6">
-              <p class="total">IDR qwe</p>
-            </div>
-          </div>
+            <button v-if="card.cart.id !== 'ajakan'" class="btn-confirm mt-5" @click="markAsDone(card.cart.id)">Mark as done</button>
       </div>
-      <div class="col-5 offset-2 p-0">
-        <div class="address-details">
-          <div class="address-title d-flex justify-content-between">
-            <p class="title">Address details</p>
-            <p class="action-edit m-2">edit</p>
-          </div>
-          <div class="card-address-details m-0 bold-500">
-            <p class="delivery-name"><span class="bold-700">Delivery</span> <span class="bold-500">to qweqwe</span></p>
-            <p class="delivery-to">qwe</p>
-            <p class="delivery-number">qwe</p>
-          </div>
-        </div>
+  </template>
+  <template v-slot:nav="{ activeCardIndex, onNext, onPrevious }">
+      <nav class="nav" >
+      <div class="counter">{{activeCardIndex + 1}}/{{listCart.length}}</div>
+      <button v-on:click="onPrevious" class="button" style="transform:rotateY(360deg)">
+          <span class="chevron left"></span>
+      </button>
+      <button v-on:click="onNext" class="button" style="transform:rotateY(360deg)">
+          <span class="chevron right"></span>
+      </button>
+      </nav>
+  </template>
+  </vue-card-stack>
+      </div>
+      <div class="col-lg-5 offset-2 p-0">
         <div class="payment-method mt-5">
           <div class="payment-title d-flex justify-content-between">
             <p class="title">Payment method</p>
@@ -88,8 +78,6 @@
             </div>
           </div>
         </div>
-    <!-- Button trigger modal -->
-      <button class="btn-confirm mt-5" data-toggle="modal" data-target="#exampleModalCenter">Confirm and Pay</button>
       </div>
     </div>
 <!-- Modal -->
@@ -112,11 +100,17 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-// import Swal from 'sweetalert2'
+import VueCardStack from 'vue-card-stack'
 export default {
-  name: 'PaymentDelivery',
+  name: 'ManageOrder',
+  components: {
+    VueCardStack
+  },
   data () {
     return {
+      listCart: [
+      ],
+      selectedCart: [],
       listOrder: '',
       subTotal: 0,
       taxAndFees: 2000,
@@ -128,6 +122,66 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getDataUserById', 'getAllCartAndOrderPending', 'markAsDelivered']),
+    async handleGetAllCartPending () {
+      try {
+        const result = await this.getAllCartAndOrderPending()
+        if (result.length < 3) {
+          this.initializeCard(result)
+          return
+        }
+        this.listCart = result
+        console.log('this.listCart', this.listCart)
+        console.log('result', result)
+      } catch (error) {
+        console.log('error', error)
+      }
+    },
+    async markAsDone (id) {
+      try {
+        await this.markAsDelivered(id)
+        this.handleGetAllCartPending()
+        alert('delivered')
+      } catch (error) {
+        console.log('error', error)
+      }
+    },
+    initializeCard (cart) {
+      const listCart = cart
+      const payloadInitialize = [{
+        cart: {
+          id: 'ajakan',
+          userId: 'c9755918-fbb5-4dff-b4f9-dc42c013393d',
+          payTotal: 244000,
+          paymentMethod: 'Card',
+          deliveryMethod: 'dinein',
+          deliveryStatus: 'pending',
+          message: 'thank you for your order :)'
+        },
+        listOrder: [],
+        user: {
+          username: 'You'
+        }
+      }, {
+        cart: {
+          id: 'ajakan',
+          userId: 'c9755918-fbb5-4dff-b4f9-dc42c013393d',
+          payTotal: 244000,
+          paymentMethod: 'Card',
+          deliveryMethod: 'dinein',
+          deliveryStatus: 'pending',
+          message: 'We have so many interesting product for you :)'
+        },
+        listOrder: [],
+        user: {
+          username: 'You'
+        }
+      }
+      ]
+      listCart.push(...payloadInitialize)
+      this.listCart = listCart
+      console.log('this.listCart', this.listCart)
+    },
     totalAmount () {
       const subTotal = this.getListOrder.reduce((total, value) => {
         let totalLarge = 0
@@ -188,7 +242,6 @@ export default {
       const totalAmount = this.taxAndFees + this.shipping + this.subTotal
       this.totalAmountInvoice = totalAmount
     },
-    ...mapActions(['getDataUserById']),
     async getDataUser (idUser) {
       await this.getDataUserById(idUser)
         .then(result => {
@@ -233,9 +286,7 @@ export default {
       this.getTotalAmountInvoice()
       this.convertToRupiah(this.totalAmountInvoice)
     }
-    console.log('dibawah data cart')
-    console.log(this.dataCart)
-    console.log(this.getListOrder)
+    this.handleGetAllCartPending()
   }
 }
 </script>
@@ -264,10 +315,10 @@ main {
 .card-order {
   height: 737px;
   background-color:#ffffff;
-  border-radius:20px;
 }
 .card-order-photo {
-  width:80px;
+  width:60px;
+  height:60px;
 }
 .card-order-photo img{
   width:100%;
@@ -275,20 +326,36 @@ main {
   object-fit: cover;
   border-radius: 50%;
 }
-.card-order-title {
+.card-order-title .title{
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
-  font-size: 35px;
+  font-size: 25px;
   line-height: 52px;
   /* identical to box height */
 
   color: #362115;
   text-align: center;
 }
+.card-order-list {
+  overflow:auto;
+  height:150px;
+  overflow-x:hidden;
+}
+.order-list{
+  height:80px;
+}
+.card-order-title .to {
+    font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  text-align:center;
+}
 .order-details > * {
   margin:5px 0 0 0;
   font-family: Poppins;
+  font-size:12px;
 }
 .order-price {
   margin:auto 0;
@@ -399,21 +466,90 @@ main {
   font-family: Poppins;
   font-style: normal;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 17px;
   line-height: 45px;
   /* identical to box height */
   color: #362115;
+  text-align:end;
 }
 .btn-confirm {
   width:100%;
-  height:84px;
+  height:50px;
   background-color:#6A4029;
   color:white;
   font-family: Poppins;
   font-weight: 700;
   border:none;
   border-radius: 20px;
-  font-size: 20px;
+  font-size: 16px;
   outline:none;
+}
+.box1 {
+    border-radius: 20px !important;
+    background:#FFFFFF;
+   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.box2 {
+    height: 400px;
+
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+.box3 {
+    width: 100px;
+}
+
+.box2 img {
+    width: 100%;
+    height: auto;
+
+    border-radius: 200px;
+}
+.chevron.right {
+    transform: rotate(45deg);
+}
+
+.nav .button:last-of-type {
+    right: 0;
+}
+
+.chevron.left {
+    transform: rotate(-135deg);
+    margin-left: 4px;
+}
+
+.chevron {
+    border-style: solid;
+    border-width: .25em .25em 0 0;
+    content: "";
+    height: .45em;
+    width: .45em;
+}
+
+.nav .button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #2d2d2d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 999;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+button.button {
+    outline: none;
 }
 </style>

@@ -349,6 +349,39 @@ export default new Vuex.Store({
           })
       })
     },
+    getAllCartPending ({ dispatch }, { page, limit }) {
+      return new Promise((resolve, reject) => {
+        dispatch('interceptorRequest')
+        axios.get(`${process.env.VUE_APP_URL_API}/cart?page=${page}&limit=${limit}&where=pending`)
+          .then((result) => {
+            resolve(result.data.result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    getAllCartAndOrderPending ({ dispatch }, payload) {
+      dispatch('interceptorRequest')
+      return new Promise((resolve, reject) => {
+        axios.get(`${process.env.VUE_APP_URL_API}/cart/cart-and-order`)
+          .then((result) => {
+            resolve(result.data.result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
+    markAsDelivered ({ dispatch }, payload) {
+      dispatch('interceptorRequest')
+      return new Promise((resolve, reject) => {
+        axios.patch(`${process.env.VUE_APP_URL_API}/cart/${payload}`)
+          .then((result) => {
+            resolve(result)
+          }).catch((err) => {
+            reject(err)
+          })
+      })
+    },
     interceptorRequest (context) {
       axios.interceptors.request.use(function (config) {
         config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`
