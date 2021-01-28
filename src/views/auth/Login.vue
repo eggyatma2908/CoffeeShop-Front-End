@@ -64,7 +64,6 @@ export default {
       }
       this.login(payload)
         .then(res => {
-          console.log(res, 'halo')
           Swal.fire({
             icon: 'success',
             title: 'success login',

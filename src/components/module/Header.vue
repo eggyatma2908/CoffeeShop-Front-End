@@ -22,7 +22,7 @@
                         <img class="chat" @click="toChat" src="../../assets/chat.png" alt="image3">
                     </div>
                     <div class="user-profile">
-                      <img @click="toProfile" :src="this.getUserData.photoProfile" alt="image5">
+                      <img @click="toProfile" :src="getUserData.photoProfile" alt="image5">
                     </div>
                     <Slide right noOverlay  id="bm-burger-button">
                         <a id="home" class="home" href="#"><span>Home</span></a>
@@ -39,15 +39,25 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import { mapGetters } from 'vuex'
 import { Slide } from 'vue-burger-menu'
 
+=======
+import { mapGetters, mapActions } from 'vuex'
+>>>>>>> origin/integrasiUpdateProfile
 export default {
   name: 'Header',
   components: {
     Slide
   },
   methods: {
+    ...mapActions(['getDataUserById']),
+    async userLogin () {
+      const id = await this.getUserData.id
+      console.log(id)
+      this.getDataUserById(id)
+    },
     toHome () {
       this.$router.push({ path: '/home' })
     },
@@ -73,11 +83,11 @@ export default {
       this.$router.push({ path: '/home/manage-order' })
     }
   },
+  async mounted () {
+    await this.userLogin()
+  },
   computed: {
-    ...mapGetters(['getUserData', 'isAdmin']),
-    foto () {
-      return this.getUserData.photoProfile !== '' ? this.getUserData : '../../assets/user-avatar.png'
-    }
+    ...mapGetters(['getUserData', 'isAdmin'])
   }
 }
 </script>

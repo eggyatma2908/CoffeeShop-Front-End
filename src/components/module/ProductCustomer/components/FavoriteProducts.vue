@@ -64,22 +64,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'Favorite-Product',
-  methods: {
-    ...mapActions(['getDataUserById']),
-    async fetchUserData () {
-      const id = this.getUserData.id
-      await this.getDataUserById(id)
-    }
-  },
-  async mounted () {
-    await this.fetchUserData()
-  },
-  computed: {
-    ...mapGetters(['getUserData'])
-  }
+  name: 'Favorite-Product'
 }
 </script>
 
