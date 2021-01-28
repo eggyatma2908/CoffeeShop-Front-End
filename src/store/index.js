@@ -105,14 +105,18 @@ export default new Vuex.Store({
               if (!error) {
                 delete data.iat
                 delete data.exp
-                console.log(data)
+                console.log('result encode', data.userId)
+                const id = { id: data.userId }
+                console.log('id', id)
+                context.commit('SET_USER_DATA', id)
+                console.log('context.state', context.state)
                 context.dispatch('getDataUserById', data.userId)
                 context.dispatch('getRoleId', data.userId)
+                context.commit('SET_USER', result)
+                context.dispatch('interceptorRequest')
+                resolve(res)
               }
             })
-            context.commit('SET_USER', result)
-            context.dispatch('interceptorRequest')
-            resolve(res)
           })
       })
     },

@@ -39,13 +39,9 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { Slide } from 'vue-burger-menu'
 
-=======
-import { mapGetters, mapActions } from 'vuex'
->>>>>>> origin/integrasiUpdateProfile
 export default {
   name: 'Header',
   components: {
@@ -55,7 +51,7 @@ export default {
     ...mapActions(['getDataUserById']),
     async userLogin () {
       const id = await this.getUserData.id
-      console.log(id)
+      console.log('this.getUserData', this.getUserData)
       this.getDataUserById(id)
     },
     toHome () {

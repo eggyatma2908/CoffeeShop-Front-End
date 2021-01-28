@@ -55,23 +55,30 @@ export default {
       return typeof validation !== 'undefined' ? validation.$error : false
     },
     ...mapActions(['login']),
-    goLogin () {
+    async goLogin () {
       this.$v.$touch()
       if (this.$v.$pendding || this.$v.$error) return
       const payload = {
         email: this.email,
         password: this.password
       }
-      this.login(payload)
-        .then(res => {
-          Swal.fire({
-            icon: 'success',
-            title: 'success login',
-            showConfirmButton: false,
-            timer: 1500
-          })
-          this.$router.push('/home/product-customer')
+      try {
+        await this.login(payload)
+        Swal.fire({
+          icon: 'success',
+          title: 'success login',
+          showConfirmButton: false,
+          timer: 1500
         })
+        this.$router.push('/home/product-customer')
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: error,
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
     },
     goPageRegister () {
       this.$router.push('/auth/register')
