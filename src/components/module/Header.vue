@@ -29,10 +29,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Header',
   methods: {
+    ...mapActions(['getDataUserById']),
+    async userLogin () {
+      const id = await this.getUserData.id
+      console.log(id)
+      this.getDataUserById(id)
+    },
     toHome () {
       this.$router.push({ path: '/home' })
     },
@@ -52,11 +58,14 @@ export default {
       this.$router.push({ path: '/profile/user-profile' })
     }
   },
+  async mounted () {
+    await this.userLogin()
+  },
   computed: {
-    ...mapGetters(['getUserData']),
-    foto () {
-      return this.getUserData.photoProfile !== '' ? this.getUserData : '../../assets/user-avatar.png'
-    }
+    ...mapGetters(['getUserData'])
+    // foto () {
+    //   return this.getUserData.photoProfile !== '' ? this.getUserData : '../../assets/user-avatar.png'
+    // }
   }
 }
 </script>
