@@ -82,7 +82,7 @@ Contributions are what make the open source community such an amazing place to b
 
 
 ## Related Project
-* [`Frontend Coffee Shop`](https://github.com/Gefyaqiilah/CoffeeShop-Back-End)
+* [`Backend Coffee Shop`](https://github.com/Gefyaqiilah/CoffeeShop-Back-End)
 
 
 ## Author
