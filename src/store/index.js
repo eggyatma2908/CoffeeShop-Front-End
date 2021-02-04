@@ -15,7 +15,7 @@ export default new Vuex.Store({
     user: {},
     accessToken: null || localStorage.getItem('accessToken'),
     refreshToken: null || localStorage.getItem('refreshToken'),
-    userData: '',
+    userData: [],
     cartData: [],
     products: [],
     removeProduct: [],
@@ -77,11 +77,13 @@ export default new Vuex.Store({
     },
     REMOVE_USER (state) {
       state.user = null
-      state.userData = null
+      state.userData = []
       state.pagination = null
-      state.dataType = null
+      state.dataType = []
       state.products = null
       state.removeProduct = null
+      state.roleId = null
+      state.searchProduct = []
     },
     SET_ROLE_ID (state, payload) {
       state.roleId = payload
@@ -97,20 +99,24 @@ export default new Vuex.Store({
         axios.post(`${process.env.VUE_APP_URL_API}/users/login`, payload)
           .then((res) => {
             const result = res.data.result
-            console.log(result)
             localStorage.setItem('accessToken', result.accessToken)
             localStorage.setItem('refreshToken', result.refreshToken)
             jwt.verify(result.accessToken, process.env.VUE_APP_ACCESS_TOKEN_KEY, (error, data) => {
               if (!error) {
                 delete data.iat
                 delete data.exp
-                context.dispatch('getRoleId', data.userId)
+                console.log('result encode', data.userId)
+                const id = { id: data.userId }
+                console.log('id', id)
+                context.commit('SET_USER_DATA', id)
+                console.log('context.state', context.state)
                 context.dispatch('getDataUserById', data.userId)
+                context.dispatch('getRoleId', data.userId)
+                context.commit('SET_USER', result)
+                context.dispatch('interceptorRequest')
+                resolve(res)
               }
             })
-            context.commit('SET_USER', result)
-            context.dispatch('interceptorRequest')
-            resolve(res)
           })
       })
     },
@@ -132,18 +138,15 @@ export default new Vuex.Store({
     },
     updateUserProfile (context, payload) {
       return new Promise((resolve, reject) => {
-        context.dispatch('interceptorRequest')
-        axios.patch(`${process.env.VUE_APP_URL_API}/users/profile/${payload.userId}`, payload.formData)
+        // context.dispatch('interceptorRequest'
+        axios.patch(`${process.env.VUE_APP_URL_API}/users/profile/${payload.id}`, payload.formData)
           .then(result => {
-            Swal.fire({
-              icon: 'success',
-              title: 'Succeed',
-              text: 'Your personal information has been updated',
-              showConfirmButton: false,
-              timer: 1500
-            })
-            router.push({ path: '/home/product-customer/favorite-product' })
+            console.log('data update', result)
             resolve(result)
+          })
+          .catch(err => {
+            console.log(err)
+            reject(err)
           })
       })
     },
@@ -261,13 +264,15 @@ export default new Vuex.Store({
     getDataUserById (context, payload) {
       return new Promise((resolve, reject) => {
         context.dispatch('interceptorRequest')
-        console.log(payload)
-        axios.get(`${process.env.VUE_APP_URL_API}/users/${payload}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
-        })
+        axios.get(`${process.env.VUE_APP_URL_API}/users/${payload}`)
           .then(results => {
-            console.log('masuk ini ke get')
-            context.commit('SET_USER_DATA', results.data.result)
+            const result = results.data.result
+            console.log('masuk ini ke get', result)
+            context.commit('SET_USER_DATA', result)
+            resolve(result)
+          })
+          .catch(err => {
+            reject(err)
           })
       })
     },
@@ -478,6 +483,13 @@ export default new Vuex.Store({
             Swal.fire({
               icon: 'error',
               title: 'Product not found',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          } else if (error.response.data.err.message === 'Rejected: File accepted only JPG, JPEG, GIF & PNG.') {
+            Swal.fire({
+              icon: 'error',
+              title: 'Rejected: File accepted only JPG, JPEG, GIF & PNG.',
               showConfirmButton: false,
               timer: 1500
             })

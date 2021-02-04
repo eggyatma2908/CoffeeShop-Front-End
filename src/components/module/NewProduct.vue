@@ -42,7 +42,7 @@
                                 <label class="form-label">Name :</label>
                                 <input type="text" v-model.trim="$v.productName.$model" :class="{ 'is-invalid': validationStatus($v.productName) }" class="productname" placeholder="Type product name min. 20 characters">
                                 <div class="invalid-feedback" v-if="!$v.productName.required">Field is required.</div>
-                                <div class="invalid-feedback" v-if="!$v.productName.minLength">Minim 50 characters</div>
+                                <div class="invalid-feedback" v-if="!$v.productName.minLength">Minim 10 characters</div>
                             </div>
                             <div class="mb-3 mt-5 form-group">
                                 <label class="form-label">Price :</label>
@@ -53,7 +53,7 @@
                                 <label class="form-label">Description :</label>
                                 <input type="text" v-model.trim="$v.description.$model" :class="{ 'is-invalid': validationStatus($v.description) }" class="description" placeholder="Describe your product min. 150 characters">
                                 <div class="invalid-feedback" v-if="!$v.description.required">Field is required.</div>
-                                <div class="invalid-feedback" v-if="!$v.description.minLength">Minim 50 characters</div>
+                                <div class="invalid-feedback" v-if="!$v.description.minLength">Minim 25 characters</div>
                             </div>
                             <form id="selectcategory" onsubmit="return false">
                             <select id="category" v-on:change="addCategory">
@@ -138,9 +138,9 @@ export default {
     }
   },
   validations: {
-    productName: { required, minLength: minLength(20) },
+    productName: { required, minLength: minLength(10) },
     price: { required },
-    description: { required, minLength: minLength(50) },
+    description: { required, minLength: minLength(25) },
     stock: { required, minLength: minLength(0) },
     idTypeProduct: { required, minLength: minLength(0) }
   },

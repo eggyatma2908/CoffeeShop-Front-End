@@ -5,7 +5,7 @@
             <div class="container">
                 <h6 class="text-main">User Profile</h6>
                 <div class="row">
-                    <div class="col-lg-3 box-profile">
+                    <div class="col-lg-3 col-sm-12 col-12 box-profile">
                         <div class="box-image">
                             <img id="update-photo" :src="getUserData.photoProfile" alt="user profile">
                             <div class="edit-image">
@@ -13,11 +13,11 @@
                                <label for="input-upload-image"><img src="../../assets/edit.png" alt="edit" class="icon-edit"></label>
                             </div>
                         </div>
-                        <h6 class="user-name">{{ this.getUserData.username ? this.getUserData.username : 'username has not been added ' }}</h6>
+                        <h6 class="user-name">{{ getUserData.username ? getUserData.username : 'username has not been added ' }}</h6>
                         <h6 class="user-email">{{ this.getUserData.email ? this.getUserData.email : 'email has not been added' }}</h6>
                         <h6 class="total-order">Has been ordered 15 products</h6>
                     </div>
-                    <div class="col-lg-8 box-contact">
+                    <div class="col-lg-8 col-12 box-contact">
                         <div class="top-edit">
                             <h6 class="text-contact">Contacts</h6>
                             <div class="edit-contact">
@@ -45,7 +45,7 @@
                             <div class="form-group">
                                 <label class="form-label">Delivery address:</label>
                                 <input type="text" v-model.trim="$v.deliveryAddress.$model" :class="{ 'is-invalid': validationStatus($v.deliveryAddress) }" class="form-control">
-                                <div class="invalid-feedback" v-if="!$v.deliveryAddress.minLength">home address too short</div>
+                                <div class="invalid-feedback" v-if="!$v.deliveryAddress.minLength">home address must more than 10 character</div>
                                 <div class="invalid-feedback" v-if="!$v.deliveryAddress.required">deliverya ddress required</div>
                                 <div class="invalid-feedback" v-if="!$v.deliveryAddress.maxLength">maximum letters is 200</div>
                             </div>
@@ -144,7 +144,7 @@ export default {
   validations: {
     email: { required, email },
     mobileNumber: { required, numeric, maxLength: maxLength(15) },
-    deliveryAddress: { required, minLength: minLength(50), maxLength: maxLength(255) },
+    deliveryAddress: { required, minLength: minLength(10), maxLength: maxLength(255) },
     displayName: { required },
     firstName: { required },
     lastName: { required },
@@ -152,7 +152,11 @@ export default {
     gender: { required }
   },
   methods: {
-    ...mapActions(['updateUserProfile', 'logout']),
+    ...mapActions(['getDataUserById', 'updateUserProfile', 'logout']),
+    userLogin () {
+      const id = this.getUserData.id
+      this.getDataUserById(id)
+    },
     validationStatus (validation) {
       return typeof validation !== 'undefined' ? validation.$error : false
     },
@@ -164,7 +168,7 @@ export default {
     dateObject () {
       return this.bornDate ? new Date(this.date) : null
     },
-    async handleUpdateUserProfile () {
+    handleUpdateUserProfile () {
       this.$v.$touch()
       if (!document.getElementById('input-upload-image').files[0]) {
         return Swal.fire({
@@ -174,11 +178,10 @@ export default {
           showConfirmButton: false
         })
       }
-      if (this.$v.$prndding || this.$v.$error) return
+      if (this.$v.$pendding || this.$v.$error) return
 
       const form = new FormData()
-      const image = document.getElementById('input-upload-image').files[0]
-      form.append('photoProfile', image)
+      form.append('photoProfile', document.getElementById('input-upload-image').files[0])
       form.append('email', this.email)
       form.append('phoneNumber', this.mobileNumber)
       form.append('address', this.deliveryAddress)
@@ -187,12 +190,16 @@ export default {
       form.append('lastName', this.lastName)
       form.append('bornDate', this.bornDate)
       form.append('gender', this.gender)
-      const userId = this.getUserData.id
+      const id = this.getUserData.id
       const payload = {
-        userId,
+        id,
         formData: form
       }
-      await this.updateUserProfile(payload)
+      this.updateUserProfile(payload)
+        .then(() => {
+          this.$awn.success('Success update')
+          this.userLogin()
+        })
     },
     onInputUploadChange () {
       const self = this
@@ -232,7 +239,6 @@ export default {
         this.firstName = this.getUserData.firstName
         this.lastName = this.getUserData.lastName
         this.bornDate = this.convertDate(this.getUserData.bornDate)
-        console.log(bornDate)
         this.gender = this.getUserData.gender
       }
     },
@@ -243,6 +249,7 @@ export default {
   mounted () {
     this.onInputUploadChange()
     this.assignInputField()
+    this.userLogin()
   },
   computed: {
     ...mapGetters(['getUserData'])
