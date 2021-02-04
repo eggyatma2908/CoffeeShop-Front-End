@@ -2,8 +2,9 @@
 <p align="center">
 
   <h3 align="center">Coffee Shop Web</h3>
-  <p align="center">
+  <p align="center" class="flex">
     <image align="center" width="50" height="50" src='./screenshots/coffee-logo.png' />
+    <image align="center" width="50" height="50" src='./screenshots/logo.png' />
   </p>
 
   <p align="center">
