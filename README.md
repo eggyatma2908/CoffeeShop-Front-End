@@ -11,13 +11,13 @@ This is the frontend repository of the coffeeshop project, this project uses vue
   * [Installation](#installation)
 * [Screenshots](#screenshots)
 * [Related Project](#related-project-backend)
-* [Contact](#author)
+* [Author](#author)
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
 
-The Hiring Channel Web is a Website that contains data from Company and Engineer, which is made for Engineers to enter their profiles so that Companies can searching for Engineers that match their specifications.
+Coffee Shop created using Vue JS framework, which the functions for online order foods services using vue stripe as the card payment. User can choose food and drink according to the type. Made with a design that is not complicated and user friendly.
 
 ### Built with
 * [Vue JS](https://vuejs.org/)
