@@ -1,5 +1,21 @@
-# Coffee Shop
-This is the frontend repository of the coffeeshop project, this project uses vuejs.
+<br />
+<p align="center">
+
+  <h3 align="center">Coffee Shop Web</h3>
+  <p align="center">
+    <image align="center" width="200" src='' />
+  </p>
+
+  <p align="center">
+    <br />
+    <a href="https://github.com/Gefyaqiilah/CoffeeShop-Front-End"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/Gefyaqiilah/CoffeeShop-Front-End/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/Gefyaqiilah/CoffeeShop-Front-End/issues">Request Feature</a>
+  </p>
+</p>
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
