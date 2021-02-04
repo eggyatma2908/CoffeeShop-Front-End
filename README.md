@@ -3,7 +3,7 @@
 
   <h3 align="center">Coffee Shop Web</h3>
   <p align="center">
-    <image align="center" width="200" src='./screenshots/coffee-logo.png' />
+    <image align="center" src='./screenshots/coffee-logo.png' />
   </p>
 
   <p align="center">
@@ -78,8 +78,8 @@ VUE_APP_STRIPE_SECRET_KEY =
 <p align='center'>
   <span>
       <image width="200" src='./screenshots/login.png' />
-      <image width="200" src='./screenshots/product-details.png' />
       <image width="200" src='./screenshots/payment-detai.png' />
+      <image width="200" src='./screenshots/product-details.png' />
       <image width="200" src='./screenshots/profile.png' />
      
 
