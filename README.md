@@ -77,10 +77,10 @@ VUE_APP_STRIPE_SECRET_KEY =
 
 <p align='center'>
   <span>
-      <image width="200" src='./screenshots/login.png' />
-      <image width="200" src='./screenshots/payment-detai.png' />
-      <image width="200" src='./screenshots/product-details.png' />
-      <image width="200" src='./screenshots/profile.png' />
+      <image width="300" height="300" src='./screenshots/login.png' />
+      <image width="300" height="300" src='./screenshots/product-details.png' />
+      <image width="300" height="300" src='./screenshots/payment-detai.png' />
+      <image width="300" height="300" src='./screenshots/profile.png' />
      
 
 <!-- CONTRIBUTING -->
