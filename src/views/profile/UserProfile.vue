@@ -5,7 +5,7 @@
             <div class="container">
                 <h6 class="text-main">User Profile</h6>
                 <div class="row">
-                    <div class="col-lg-3 box-profile">
+                    <div class="col-lg-3 col-sm-12 col-12 box-profile">
                         <div class="box-image">
                             <img id="update-photo" :src="getUserData.photoProfile" alt="user profile">
                             <div class="edit-image">
@@ -17,7 +17,7 @@
                         <h6 class="user-email">{{ this.getUserData.email ? this.getUserData.email : 'email has not been added' }}</h6>
                         <h6 class="total-order">Has been ordered 15 products</h6>
                     </div>
-                    <div class="col-lg-8 box-contact">
+                    <div class="col-lg-8 col-12 box-contact">
                         <div class="top-edit">
                             <h6 class="text-contact">Contacts</h6>
                             <div class="edit-contact">
@@ -144,7 +144,7 @@ export default {
   validations: {
     email: { required, email },
     mobileNumber: { required, numeric, maxLength: maxLength(15) },
-    deliveryAddress: { required, minLength: minLength(50), maxLength: maxLength(255) },
+    deliveryAddress: { required, minLength: minLength(10), maxLength: maxLength(255) },
     displayName: { required },
     firstName: { required },
     lastName: { required },

@@ -75,7 +75,7 @@ const routes = [
         name: 'ProductCustomer',
         component: ProductCustomer,
         meta: { requiresAuth: true },
-        redirect: '/home/product-customer/favorite-product',
+        redirect: '/home/product-customer/coffee',
         children: [
           {
             path: 'favorite-product',
@@ -236,7 +236,7 @@ router.beforeEach((to, from, next) => {
         next()
       } else {
         next({
-          path: '/home/product-customer/favorite-product'
+          path: '/home/product-customer/coffee'
         })
       }
     }

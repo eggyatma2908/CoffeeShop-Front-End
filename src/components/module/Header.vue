@@ -25,7 +25,7 @@
                       <img @click="toProfile" :src="getUserData.photoProfile" alt="image5">
                     </div>
                     <Slide right noOverlay  id="bm-burger-button">
-                        <a id="home" class="home" href="#"><span>Home</span></a>
+                        <a id="home" class="home" @click="toHome"><span>Home</span></a>
                         <a id="profile" class="profile" @click="toProfile"><span>Profile</span></a>
                         <a id="product" class="product" @click="toProduct"><span>Product</span></a>
                         <a id="cart" class="cart" @click="toCart" v-if="!isAdmin"><span>Your Cart</span></a>
@@ -58,7 +58,7 @@ export default {
       this.$router.push({ path: '/home' })
     },
     toProduct () {
-      this.$router.push({ path: '/home/product-customer/favorite-product' })
+      this.$router.push({ path: '/home/product-customer/coffee' })
     },
     toCart () {
       this.$router.push({ path: '/home/payment-delivery' })

@@ -245,12 +245,10 @@ export default {
         imageWidth: 400,
         imageHeight: 200,
         imageAlt: 'Custom image',
-        confirmButtonText: '<a style="text-decoration:none;color:white;" href="/home/product-customer">Lets go shopping</a>'
+        confirmButtonText: 'Lets go shopping'
       })
+      this.$router.push({ path: '/home/product-customer' })
     }
-    console.log('dibawah data cart')
-    console.log(this.dataCart)
-    console.log(this.getListOrder)
   }
 }
 </script>
