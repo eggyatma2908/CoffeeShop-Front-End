@@ -45,7 +45,7 @@
                             <div class="form-group">
                                 <label class="form-label">Delivery address:</label>
                                 <input type="text" v-model.trim="$v.deliveryAddress.$model" :class="{ 'is-invalid': validationStatus($v.deliveryAddress) }" class="form-control">
-                                <div class="invalid-feedback" v-if="!$v.deliveryAddress.minLength">home address too short</div>
+                                <div class="invalid-feedback" v-if="!$v.deliveryAddress.minLength">home address must more than 10 character</div>
                                 <div class="invalid-feedback" v-if="!$v.deliveryAddress.required">deliverya ddress required</div>
                                 <div class="invalid-feedback" v-if="!$v.deliveryAddress.maxLength">maximum letters is 200</div>
                             </div>

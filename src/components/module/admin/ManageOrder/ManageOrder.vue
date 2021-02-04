@@ -3,7 +3,7 @@
     <p class="title-text">Checkout your <br />item now!</p>
     <div class="d-flex justify-content-center">
       <div class="p-0 d-flex justify-content-center">
-     <vue-card-stack :cards="listCart" :cardHeight="700" v-if="listCart.length>0 & refreshCard === false" :stack-width="500" :card-width="350">
+     <vue-card-stack :cards="listCart" :cardHeight="700" v-if="listCart.length>0 & refreshCard === false" :stack-width="500" :card-width="450">
       <template v-slot:card="{ card }">
       <div class="card-order box1 p-5">
           <div class="card-order-title">
