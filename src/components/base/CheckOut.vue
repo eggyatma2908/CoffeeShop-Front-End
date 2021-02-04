@@ -95,7 +95,7 @@ export default {
             .catch(() => {
 
             })
-          router.push({ path: '/home/product-customer/favorite-product' })
+          router.push({ path: '/home/product-customer/coffee' })
         }).catch(function (error) {
           console.log(error)
           return Swal.fire({

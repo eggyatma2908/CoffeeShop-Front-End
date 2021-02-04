@@ -22,10 +22,10 @@
                         <img class="chat" @click="toChat" src="../../assets/chat.png" alt="image3">
                     </div>
                     <div class="user-profile">
-                      <img @click="toProfile" :src="this.getUserData.photoProfile" alt="image5">
+                      <img @click="toProfile" :src="getUserData.photoProfile" alt="image5">
                     </div>
                     <Slide right noOverlay  id="bm-burger-button">
-                        <a id="home" class="home" href="#"><span>Home</span></a>
+                        <a id="home" class="home" @click="toHome"><span>Home</span></a>
                         <a id="profile" class="profile" @click="toProfile"><span>Profile</span></a>
                         <a id="product" class="product" @click="toProduct"><span>Product</span></a>
                         <a id="cart" class="cart" @click="toCart" v-if="!isAdmin"><span>Your Cart</span></a>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { Slide } from 'vue-burger-menu'
 
 export default {
@@ -48,11 +48,17 @@ export default {
     Slide
   },
   methods: {
+    ...mapActions(['getDataUserById']),
+    async userLogin () {
+      const id = await this.getUserData.id
+      console.log('this.getUserData', this.getUserData)
+      this.getDataUserById(id)
+    },
     toHome () {
       this.$router.push({ path: '/home' })
     },
     toProduct () {
-      this.$router.push({ path: '/home/product-customer/favorite-product' })
+      this.$router.push({ path: '/home/product-customer/coffee' })
     },
     toCart () {
       this.$router.push({ path: '/home/payment-delivery' })
@@ -73,11 +79,11 @@ export default {
       this.$router.push({ path: '/home/manage-order' })
     }
   },
+  async mounted () {
+    await this.userLogin()
+  },
   computed: {
-    ...mapGetters(['getUserData', 'isAdmin']),
-    foto () {
-      return this.getUserData.photoProfile !== '' ? this.getUserData : '../../assets/user-avatar.png'
-    }
+    ...mapGetters(['getUserData', 'isAdmin'])
   }
 }
 </script>
