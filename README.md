@@ -28,7 +28,7 @@
   * [Installation](#installation)
 * [Screenshots](#screenshots)
 * [Related Project](#related-project-backend)
-* [Author](#author)
+* [Contributors](#contributors)
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -101,9 +101,34 @@ Contributions are what make the open source community such an amazing place to b
 * [`Backend Coffee Shop`](https://github.com/Gefyaqiilah/CoffeeShop-Back-End)
 
 
-## Author
-This project was built by :
-* [Gefy Aqiilah Aqsal](https://github.com/Gefyaqiilah)
-* [Eggy Atma Riansyah](https://github.com/eggyatma2908)
-* [Shaula Jasminetya Saga](https://github.com/sjasminetya)
-* [Renaldi Pratama Tumanggor](https://github.com/renaldipratama97)
+## Contributors
+<center>
+  <table>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/Gefyaqiilah">
+          <img width="150" src="https://avatars.githubusercontent.com/u/54069791?s=400&u=d52c9220de7f217fab6be5eed1a2f237325ef741&v=4" alt="Gefy Aqiilah Aqshal"><br/>
+          <b>Gefy Aqiilah Aqshal</b>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/sjasminetya">
+          <img width="150" src="https://avatars.githubusercontent.com/u/36390515?v=4" alt="Shaula Jasminetya Saga"><br/>
+          <b>Shaula Jasminetya Saga</b>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/eggyatma2908">
+          <img width="150" src="https://avatars.githubusercontent.com/u/26200397?v=4" alt="Eggy Atma"><br/>
+          <b>Eggy Atma</b>
+        </a>
+      </td>
+       <td align="center">
+        <a href="https://github.com/renaldipratama97">
+          <img width="150" src="https://avatars.githubusercontent.com/u/72293996?v=4" alt="Renaldi Pratama Tumanggor"><br/>
+          <b>Renaldi Pratama Tumanggor</b>
+        </a>
+      </td>
+    </tr>
+  </table>
+</center>
