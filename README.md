@@ -2,8 +2,9 @@
 <p align="center">
 
   <h3 align="center">Coffee Shop Web</h3>
-  <p align="center">
-    <image align="center" width="200" src='' />
+  <p align="center" class="flex">
+    <image align="center" width="150" src='./screenshots/coffee-logo.png' />
+    <image align="center" width="150" src='./screenshots/logo.png' />
   </p>
 
   <p align="center">
@@ -77,11 +78,10 @@ VUE_APP_STRIPE_SECRET_KEY =
 
 <p align='center'>
   <span>
-      <image width="200" src='https://cdn.discordapp.com/attachments/788294075723677740/790405082948567080/unknown.png' />
-      <image width="200" src='https://media.discordapp.net/attachments/788294075723677740/790405330843467786/unknown.png?height=406' />
-      <image width="200" src='https://media.discordapp.net/attachments/788391948754616350/790406006450028564/Screenshot_559.png?height=406' />
-      <image width="200" src='https://media.discordapp.net/attachments/788391948754616350/790406012707405874/Screenshot_563.png?height=406' />
-      <image width="200" src='https://cdn.discordapp.com/attachments/788391948754616350/790406005103788042/Screenshot_562.png' />
+      <image width="200" height="200" src='./screenshots/login.png' />
+      <image width="200" height="200" src='./screenshots/product-details.png' />
+      <image width="200" height="200" src='./screenshots/payment-detai.png' />
+      <image width="200" height="200" src='./screenshots/profile.png' />
      
 
 <!-- CONTRIBUTING -->
@@ -105,5 +105,5 @@ Contributions are what make the open source community such an amazing place to b
 This project was built by :
 * [Gefy Aqiilah Aqsal](https://github.com/Gefyaqiilah)
 * [Eggy Atma Riansyah](https://github.com/eggyatma2908)
-* [Shaula Jaminetya Saga](https://github.com/sjasminetya)
+* [Shaula Jasminetya Saga](https://github.com/sjasminetya)
 * [Renaldi Pratama Tumanggor](https://github.com/renaldipratama97)
