@@ -105,5 +105,5 @@ Contributions are what make the open source community such an amazing place to b
 This project was built by :
 * [Gefy Aqiilah Aqsal](https://github.com/Gefyaqiilah)
 * [Eggy Atma Riansyah](https://github.com/eggyatma2908)
-* [Shaula Jaminetya Saga](https://github.com/sjasminetya)
+* [Shaula Jasminetya Saga](https://github.com/sjasminetya)
 * [Renaldi Pratama Tumanggor](https://github.com/renaldipratama97)
