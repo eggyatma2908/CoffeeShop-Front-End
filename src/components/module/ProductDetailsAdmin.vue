@@ -47,7 +47,7 @@
                 <div class="box7">
                     <div class="box8">
                         <div class="box9">
-                            <img class="img1" src="../../assets/coffee2.png" alt="image2">
+                            <img class="img1" :src="getProductId.photoProduct" alt="image2">
                             <div class="box10">
                                 <p class="text8">{{getProductId.productName}}</p>
                                 <p class="text10" v-if="listOrder.regular > 0">x{{ listOrder.regular }} (Regular)</p>
@@ -310,8 +310,8 @@ export default {
 .img {
     width: 300px;
     height: 300px;
-    object-fit: contain;
-    border-radius: 50%;
+    object-fit: cover;
+    border-radius: 100%;
 }
 
 .text2 {
@@ -789,8 +789,9 @@ export default {
 }
 .img1 {
     width: 100px;
-
-    border-radius: 50px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 100%;
 }
 
 .box10 {
