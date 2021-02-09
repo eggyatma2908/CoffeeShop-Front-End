@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="menu">
-                        <div class="favoriteproduct"><router-link class="navbar1" :to="{path: '/home/product-admin/favorite-product'}">Favorite Product</router-link></div>
+                        <!-- <div class="favoriteproduct"><router-link class="navbar1" :to="{path: '/home/product-admin/favorite-product'}">Favorite Product</router-link></div> -->
                         <div class="coffee1"><router-link class="navbar2" :to="{path: '/home/product-admin/coffee'}">Coffee</router-link></div>
                         <div class="noncoffee"><router-link class="navbar3" :to="{path: '/home/product-admin/non-coffee'}">Non Coffee</router-link></div>
                         <div class="foods"><router-link class="navbar4" :to="{path: '/home/product-admin/foods'}">Foods</router-link></div>

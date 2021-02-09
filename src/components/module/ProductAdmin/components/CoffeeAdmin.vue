@@ -9,7 +9,7 @@
             <div class="photo-product">
                 <img :src="coffee.photoProduct ? coffee.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
             </div>
-            <p class="productName">{{ coffee.productName }}</p>
+            <p class="productname">{{ coffee.productName }}</p>
             <p class="price">{{ coffee.price }}</p>
             <button class="edit3" @click="goPageEditProducts(coffee.idProduct)"><img src="../../../../assets/pen.png" alt=""></button>
         </div>
@@ -26,8 +26,8 @@
         </div>
     </div>
     <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
+        <ul class="pagination pagination-lg justify-content-center">
+            <li class="page-item" :class="[getPagination.prevPage == null ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
             <li v-for="noPage in getPagination.totalPage" :key="noPage" :class="[getPagination.currentPage == noPage ? 'active' : '']" class="page-item"><a class="page-link" href="#" @click.prevent="getProductCoffee(noPage)">{{noPage}}</a></li>
             <li class="page-item" :class="[getPagination.currentPage == getPagination.totalPage ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductCoffee(parseInt(getPagination.currentPage) + 1)">Next</a></li>
         </ul>
@@ -85,13 +85,13 @@ export default {
 }
 
 .search-box input {
-    width: 550px;
+    width: 250px;
     height: 54px;
     background: rgba(58, 61, 66, 0.1);
     border-radius: 12px;
     border: none;
     margin-top: 3%;
-    margin-left: 82px;
+    margin-left: 500px;
     padding-left: 45px;
 }
 
@@ -101,9 +101,9 @@ export default {
 
 .search-box span {
     color: #A9A9A9;
-    margin-left: 5%;
+    margin-left: 60%;
     position: absolute;
-    top: 50%;
+    top: 52%;
 }
 
 nav {

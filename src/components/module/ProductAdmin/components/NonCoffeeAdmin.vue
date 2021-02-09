@@ -78,13 +78,13 @@ export default {
 }
 
 .search-box input {
-    width: 550px;
+    width: 250px;
     height: 54px;
     background: rgba(58, 61, 66, 0.1);
     border-radius: 12px;
     border: none;
     margin-top: 3%;
-    margin-left: 82px;
+    margin-left: 500px;
     padding-left: 45px;
 }
 
@@ -94,9 +94,9 @@ export default {
 
 .search-box span {
     color: #A9A9A9;
-    margin-left: 5%;
+    margin-left: 60%;
     position: absolute;
-    top: 50%;
+    top: 52%;
 }
 
 .edit3 {
