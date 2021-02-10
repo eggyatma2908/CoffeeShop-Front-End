@@ -27,11 +27,19 @@
             <button class="edit3" @click="goPageEditProducts(nonCoffee.idProduct)"><img src="../../../../assets/pen.png" alt=""></button>
         </div>
     </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-lg justify-content-center">
+            <li class="page-item" :class="[getPagination.prevPage == null ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductNonCoffee(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
+            <li v-for="noPage in getPagination.totalPage" :key="noPage" :class="[getPagination.currentPage == noPage ? 'active' : '']" class="page-item"><a class="page-link" href="#" @click.prevent="getProductNonCoffee(noPage)">{{noPage}}</a></li>
+            <li class="page-item" :class="[getPagination.currentPage == getPagination.totalPage ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductNonCoffee(parseInt(getPagination.currentPage) + 1)">Next</a></li>
+        </ul>
+    </nav>
 </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'NonCoffeeAdmin',
   data () {
@@ -42,7 +50,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getProductNonCoffee']),
+    ...mapActions(['getProductNonCoffee', 'getProductName']),
     async handleGetGetProductNonCoffee () {
       const result = await this.getProductNonCoffee()
       this.dataNonCoffee = result.products
@@ -68,6 +76,9 @@ export default {
   mounted () {
     this.handleGetGetProductNonCoffee()
     this.searchProduct()
+  },
+  computed: {
+    ...mapGetters(['getPagination'])
   }
 }
 </script>

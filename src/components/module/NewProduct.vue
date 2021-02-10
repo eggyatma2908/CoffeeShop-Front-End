@@ -87,19 +87,19 @@
                             <div class="box4">
                                 <div>
                                     <label>
-                                        <input id="checkbox1" type="checkbox" v-on:change="addHomeDelivery" value="1">
+                                        <input id="checkbox1" type="checkbox" v-model="homeDelivery" value="1">
                                         <span>Home Delivery</span>
                                      </label>
                                 </div>
                                 <div>
                                     <label>
-                                        <input id="checkbox2" type="checkbox" class="btn btn-dine-in" v-on:change="addDineIn" value="1">
+                                        <input id="checkbox2" type="checkbox" v-model="dineIn" class="btn btn-dine-in" value="1">
                                         <span>Dine in</span>
                                     </label>
                                 </div>
                                 <div>
                                     <label>
-                                        <input id="checkbox3" type="checkbox" class="btn btn-take-away" v-on:change="addTakeAway" value="1">
+                                        <input id="checkbox3" type="checkbox" v-model="takeAway" class="btn btn-take-away" value="1">
                                         <span>Take away</span>
                                     </label>
                                 </div>
@@ -153,18 +153,6 @@ export default {
       const categoryId = document.getElementById('selectcategory').category.value
       this.idTypeProduct = categoryId
     },
-    addHomeDelivery (event) {
-      const valueHomeDelivery = (document.querySelector('.btn-home-delivery:checked').value)
-      this.homeDelivery = valueHomeDelivery
-    },
-    addDineIn (event) {
-      const valueDineIn = (document.querySelector('.btn-dine-in:checked').value)
-      this.dineIn = valueDineIn
-    },
-    addTakeAway (event) {
-      const valueTakeAway = (document.querySelector('.btn-take-away:checked').value)
-      this.takeAway = valueTakeAway
-    },
     setTime (event) {
       const valueTime = document.getElementById('settime').value
       this.deliveryHourStart = valueTime
@@ -188,8 +176,23 @@ export default {
           showConfirmButton: false
         })
       }
-      if (this.$v.$prndding || this.$v.$error) return
+      if (this.$v.$pendding || this.$v.$error) return
       const form = new FormData()
+      if (this.homeDelivery === true) {
+        this.homeDelivery = 1
+      } else {
+        this.homeDelivery = 0
+      }
+      if (this.dineIn === true) {
+        this.dineIn = 1
+      } else {
+        this.dineIn = 0
+      }
+      if (this.takeAway === true) {
+        this.takeAway = 1
+      } else {
+        this.takeAway = 0
+      }
       form.append('photoProduct', document.getElementById('upload-image').files[0])
       form.append('productName', this.productName)
       form.append('price', this.price)
@@ -205,6 +208,19 @@ export default {
         formData: form
       }
       this.addNewProduct(payload)
+        .then(() => {
+          this.photoProduct = ''
+          this.productName = ''
+          this.price = ''
+          this.stock = ''
+          this.description = ''
+          this.idTypeProduct = ''
+          this.homeDelivery = ''
+          this.dineIn = ''
+          this.takeAway = ''
+          this.deliveryHourStart = ''
+          this.deliveryHourEnd = ''
+        })
     },
     onInputUploadChange () {
       const self = this

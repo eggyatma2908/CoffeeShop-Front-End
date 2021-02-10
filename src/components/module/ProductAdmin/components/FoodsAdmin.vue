@@ -5,7 +5,7 @@
         <input type="text" v-model="search" @keyup.enter="searchProduct" class="search" placeholder="Search name product">
     </div>
     <div v-if="!search" class="box4">
-        <div v-on:click="goPageDetailsProducts(food.idProduct)" v-for="food in dataFoods" :key="food.idProduct" class="card">
+        <div v-on:click="goPageDetailsProducts(food.idProduct)" v-for="food in getDataType" :key="food.idProduct" class="card">
             <div class="photo-product">
                 {{  }}
                 <img :src="food.photoProduct ? food.photoProduct : '../../../../assets/coffee-logo-symbol-19.png'" alt="image2">
@@ -26,11 +26,19 @@
             <button class="edit3" @click="goPageEditProducts(food.idProduct)"><img src="../../../../assets/pen.png" alt=""></button>
         </div>
     </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-lg justify-content-center">
+            <li class="page-item" :class="[getPagination.prevPage == null ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductFoods(parseInt(getPagination.currentPage) - 1)">Previous</a></li>
+            <li v-for="noPage in getPagination.totalPage" :key="noPage" :class="[getPagination.currentPage == noPage ? 'active' : '']" class="page-item"><a class="page-link" href="#" @click.prevent="getProductFoods(noPage)">{{noPage}}</a></li>
+            <li class="page-item" :class="[getPagination.currentPage == getPagination.totalPage ? 'disabled' : '']"><a class="page-link" href="#" @click.prevent="getProductFoods(parseInt(getPagination.currentPage) + 1)">Next</a></li>
+        </ul>
+    </nav>
 </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'FoodsAdmin',
   data () {
@@ -41,12 +49,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getProductFoods']),
-    async handleGetProductFoods () {
-      const result = await this.getProductFoods()
-      this.dataFoods = result.products
-      console.log('data food ', this.dataFoods)
-    },
+    ...mapActions(['getProductFoods', 'getProductName']),
+    // async handleGetProductFoods () {
+    //   const result = await this.getProductFoods()
+    //   this.dataFoods = result.products
+    //   console.log('data food ', this.dataFoods)
+    // },
     goPageEditProducts (id) {
       this.$router.push(`/home/edit-product-admin/${id}`)
     },
@@ -65,8 +73,11 @@ export default {
     }
   },
   mounted () {
-    this.handleGetProductFoods()
+    this.getProductFoods()
     this.searchProduct()
+  },
+  computed: {
+    ...mapGetters(['getPagination', 'getDataType'])
   }
 }
 </script>

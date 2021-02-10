@@ -187,6 +187,8 @@ export default new Vuex.Store({
           .then(res => {
             context.commit('SET_DATA_TYPE', res.data.result.products)
             context.commit('SET_PAGINATION', res.data.result.pagination)
+            console.log('product', res.data.result.products)
+            console.log('pagination', res.data.result.pagination)
             resolve(res.data.result)
           })
           .catch(error => {
