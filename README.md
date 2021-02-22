@@ -3,8 +3,7 @@
 
   <h3 align="center">Coffee Shop Web</h3>
   <p align="center" class="flex">
-    <image align="center" src='./screenshots/coffee-logo.png' />
-    <image align="center" width="150" src='./screenshots/logo.png' />
+    <image align="center" width="100" src='./screenshots/coffee-logo.png' />
   </p>
 
   <p align="center">
