@@ -7,7 +7,8 @@
                 <div class="row">
                     <div class="col-lg-3 col-sm-12 col-12 box-profile">
                         <div class="box-image">
-                            <img id="update-photo" :src="getUserData.photoProfile" alt="user profile">
+                            <img id="update-photo" :src="getUserData.photoProfile" alt="user profile" v-if="getUserData.photoProfile">
+                            <img id="update-photo" src="../../assets/user-avatar.png" alt="user profile" v-else>
                             <div class="edit-image">
                                <input id="input-upload-image" type="file" accept="image/x-png/,image/gif,image/jpeg"/>
                                <label for="input-upload-image"><img src="../../assets/edit.png" alt="edit" class="icon-edit"></label>
@@ -161,7 +162,6 @@ export default {
       return typeof validation !== 'undefined' ? validation.$error : false
     },
     convertDate (dateString) {
-      console.log(dateString)
       var p = dateString.split(/\D/g)
       return [p[0], p[1], p[2]].join('-')
     },
@@ -217,9 +217,9 @@ export default {
       }
     },
     handleLogout () {
-      localStorage.removeItem('vuex')
       this.logout()
         .then(() => {
+          localStorage.removeItem('vuex')
           Swal.fire({
             icon: 'success',
             title: 'Succeed logout',

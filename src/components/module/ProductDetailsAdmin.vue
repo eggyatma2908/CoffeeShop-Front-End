@@ -104,10 +104,6 @@ export default {
         id
       }
       this.getProductDetailsById(payload)
-        .then(res => {
-          console.log(res)
-        })
-      console.log('ini get product by id')
     },
     deleteProduct () {
       const swalWithBootstrapButtons = Swal.mixin({
@@ -202,9 +198,7 @@ export default {
       if (cardData) {
         if (cardData.length > 0) {
           if (cardData.find((value) => value.productName === this.productDetails.productName)) {
-            console.log(cardData)
             const cardDataCopy = cardData.map(item => {
-              console.log(item)
               if (item.productName === this.productDetails.productName) {
                 const newItem = Object.assign({}, item)
                 newItem.regular += this.increaseLarge.regular

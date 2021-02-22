@@ -22,7 +22,8 @@
                         <img class="chat" @click="toChat" src="../../assets/chat.png" alt="image3">
                     </div>
                     <div class="user-profile">
-                      <img @click="toProfile" :src="getUserData.photoProfile" alt="image5">
+                      <img @click="toProfile" :src="getUserData.photoProfile" alt="image5" v-if="getUserData.photoProfile">
+                      <img @click="toProfile" src="../../assets/user-avatar.png" alt="image5" v-else>
                     </div>
                     <Slide right noOverlay  id="bm-burger-button">
                         <a id="home" class="home" @click="toHome"><span>Home</span></a>
@@ -51,7 +52,6 @@ export default {
     ...mapActions(['getDataUserById']),
     async userLogin () {
       const id = await this.getUserData.id
-      console.log('this.getUserData', this.getUserData)
       this.getDataUserById(id)
     },
     toHome () {

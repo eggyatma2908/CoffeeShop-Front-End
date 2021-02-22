@@ -62,8 +62,6 @@ export default {
       const self = this
       return axios.post(`${process.env.VUE_APP_URL_API}/purchase`, charge)
         .then(function () {
-          console.log(localStorage.getItem('cardData'))
-          console.log('self.dataCart', self.dataCart)
           const idCart = self.$uuid.v4()
           const dataCart = {
             ...self.dataCart,
@@ -71,7 +69,6 @@ export default {
           }
           self.addCart(dataCart)
             .then(() => {
-              console.log('res addcart')
               const dataOrder = {
                 cartId: idCart,
                 item: JSON.parse(localStorage.getItem('cardData'))
@@ -96,8 +93,7 @@ export default {
 
             })
           router.push({ path: '/home/product-customer/coffee' })
-        }).catch(function (error) {
-          console.log(error)
+        }).catch(function () {
           return Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -111,16 +107,12 @@ export default {
     }
   },
   handleaddItemsOrder () {
-    console.log('halo')
     const itemsOrder = JSON.parse(localStorage.getItem('cardData'))
-    console.log(itemsOrder)
     var output = itemsOrder.map(function (obj) {
       return Object.keys(obj).sort().map(function (key) {
         return obj[key]
       })
     })
-    console.log('dibawah ini output')
-    console.log(output)
     this.addItemsOrder(output)
   }
 }

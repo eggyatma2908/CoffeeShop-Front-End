@@ -97,14 +97,11 @@ export default {
     async handleGetAllCartPending () {
       try {
         const result = await this.getAllCartAndOrderPending()
-        console.log('result.length', result.length)
         if (result.length < 3) {
           this.initializeCard(result)
           return
         }
         this.listCart = result
-        console.log('result dibawah', result)
-        console.log('this.listCart', this.listCart)
       } catch (error) {
         console.log('error', error)
       }

@@ -75,16 +75,6 @@ export default new Vuex.Store({
     REMOVE_CART_DATA (state, payload) {
       state.cartData = []
     },
-    REMOVE_USER (state) {
-      state.user = null
-      state.userData = []
-      state.pagination = null
-      state.dataType = []
-      state.products = null
-      state.removeProduct = null
-      state.roleId = null
-      state.searchProduct = []
-    },
     SET_ROLE_ID (state, payload) {
       state.roleId = payload
     },
@@ -105,11 +95,8 @@ export default new Vuex.Store({
               if (!error) {
                 delete data.iat
                 delete data.exp
-                console.log('result encode', data.userId)
                 const id = { id: data.userId }
-                console.log('id', id)
                 context.commit('SET_USER_DATA', id)
-                console.log('context.state', context.state)
                 context.dispatch('getDataUserById', data.userId)
                 context.dispatch('getRoleId', data.userId)
                 context.commit('SET_USER', result)
@@ -125,7 +112,6 @@ export default new Vuex.Store({
       localStorage.removeItem('refreshToken')
       localStorage.removeItem('cardData')
       context.commit('REMOVE_TOKEN')
-      context.commit('REMOVE_USER')
     },
     register (context, payload) {
       return new Promise((resolve, reject) => {
@@ -141,11 +127,9 @@ export default new Vuex.Store({
         // context.dispatch('interceptorRequest'
         axios.patch(`${process.env.VUE_APP_URL_API}/users/profile/${payload.id}`, payload.formData)
           .then(result => {
-            console.log('data update', result)
             resolve(result)
           })
           .catch(err => {
-            console.log(err)
             reject(err)
           })
       })
@@ -155,12 +139,11 @@ export default new Vuex.Store({
         context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_URL_API}/users/getroleid/${payload}`)
           .then(result => {
-            console.log(result.data.result)
             resolve(result.data.result.roleId)
             context.commit('SET_ROLE_ID', result.data.result.roleId)
           })
           .catch(error => {
-            console.log(error)
+            reject(error)
           })
       })
     },
@@ -169,14 +152,12 @@ export default new Vuex.Store({
         context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=coffee&page=${noPage}&limit=9`)
           .then(res => {
-            console.log('product', res.data.result.products)
-            console.log('pagination', res.data.result.pagination)
             context.commit('SET_DATA_TYPE', res.data.result.products)
             context.commit('SET_PAGINATION', res.data.result.pagination)
             resolve(res.data.result)
           })
           .catch(error => {
-            console.log(error)
+            reject(error)
           })
       })
     },
@@ -187,12 +168,10 @@ export default new Vuex.Store({
           .then(res => {
             context.commit('SET_DATA_TYPE', res.data.result.products)
             context.commit('SET_PAGINATION', res.data.result.pagination)
-            console.log('product', res.data.result.products)
-            console.log('pagination', res.data.result.pagination)
             resolve(res.data.result)
           })
           .catch(error => {
-            console.log(error)
+            reject(error)
           })
       })
     },
@@ -204,7 +183,7 @@ export default new Vuex.Store({
             resolve(result)
           })
           .catch(error => {
-            console.log(error)
+            reject(error)
           })
       })
     },
@@ -216,7 +195,7 @@ export default new Vuex.Store({
             resolve(result)
           })
           .catch(error => {
-            console.log(error)
+            reject(error)
           })
       })
     },
@@ -225,12 +204,11 @@ export default new Vuex.Store({
         context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=non-coffee&page=${noPage}&limit=9`)
           .then(results => {
-            console.log('pagination', results.data.result.pagination)
             context.commit('SET_PAGINATION', results.data.result.pagination)
             resolve(results.data.result)
           })
           .catch(error => {
-            console.log(error)
+            reject(error)
           })
       })
     },
@@ -239,13 +217,11 @@ export default new Vuex.Store({
         context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_URL_API}/products/typeProduct?typeProduct=add-on&page=${noPage}&limit=9`)
           .then(results => {
-            console.log(results.data.result)
-            console.log('pagination', results.data.result.pagination)
             context.commit('SET_PAGINATION', results.data.result.pagination)
             resolve(results.data.result)
           })
           .catch(error => {
-            console.log(error)
+            reject(error)
           })
       })
     },
@@ -254,12 +230,11 @@ export default new Vuex.Store({
         context.dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_URL_API}/products/${router.currentRoute.params.idProduct}`)
           .then(results => {
-            console.log('isi api ', results.data.result)
             context.commit('SET_PRODUCT', results.data.result)
             resolve(results.data.result)
           })
           .catch(error => {
-            console.log(error)
+            reject(error)
           })
       })
     },
@@ -269,7 +244,6 @@ export default new Vuex.Store({
         axios.get(`${process.env.VUE_APP_URL_API}/users/${payload}`)
           .then(results => {
             const result = results.data.result
-            console.log('masuk ini ke get', result)
             context.commit('SET_USER_DATA', result)
             resolve(result)
           })
@@ -287,7 +261,7 @@ export default new Vuex.Store({
             resolve(res)
           })
           .catch(err => {
-            console.log(err)
+            reject(err)
           })
       })
     },
@@ -300,7 +274,7 @@ export default new Vuex.Store({
             resolve(results)
           })
           .catch(error => {
-            console.log(error)
+            reject(error)
           })
       })
     },
@@ -311,11 +285,10 @@ export default new Vuex.Store({
           headers: { 'Content-Type': 'multipart/form-data' }
         })
           .then(results => {
-            console.log('hasil result', results)
             resolve(results)
           })
           .catch(error => {
-            console.log(error.response)
+            reject(error)
           })
       })
     },
@@ -349,7 +322,6 @@ export default new Vuex.Store({
         dispatch('interceptorRequest')
         axios.get(`${process.env.VUE_APP_URL_API}/history`)
           .then((result) => {
-            console.log('result', result)
             resolve(result.data.result)
           }).catch((err) => {
             reject(err)
@@ -419,6 +391,7 @@ export default new Vuex.Store({
         }
         return response
       }, function (error) {
+        console.log(error.response)
         if (error.response.data.status === 401) {
           if (error.response.data.err.message === 'Invalid Token') {
             localStorage.removeItem('accessToken')

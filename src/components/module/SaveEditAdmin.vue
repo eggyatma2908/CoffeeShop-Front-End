@@ -82,7 +82,6 @@ export default {
       const payload = {
         id
       }
-      console.log('hasil update ', this.getProductDetailsById(payload))
       this.getProductDetailsById(payload)
     },
     deleteProduct () {

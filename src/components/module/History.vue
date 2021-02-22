@@ -20,7 +20,7 @@
             <div>
               <div class="actions" alt="key" v-if="order.deliveryStatus === 'delivered'">
                 <div class="delete-action" @click="handleDeleteProduct(order.id)">
-                  <img src="../../assets/trash.png" alt="">
+                  <img src="../../assets/trash1.png" alt="">
                 </div>
                 <div class="cancel-action">
                   <img src="../../assets/x.png" alt="">
