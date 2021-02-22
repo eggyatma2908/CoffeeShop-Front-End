@@ -53,7 +53,7 @@ This is an example of how to list things you need to use the software and how to
 
 1. Clone the repo
 ```sh
-git clone https://github.com/Gefyaqiilah/CoffeeShop-Front-End.git
+git clone https://github.com/eggyatma2908/CoffeeShop-Front-End.git
 ```
 2. Install NPM packages
 ```sh
