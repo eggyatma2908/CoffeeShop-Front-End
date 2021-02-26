@@ -11,9 +11,9 @@
     <a href="https://github.com/eggyatma2908/CoffeeShop-Front-End"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/eggyatma2908/CoffeeShop-Front-End/issues">Report Bug</a>
+    <a href="https://github.com/gefyaqiilah/CoffeeShop-Front-End/issues">Report Bug</a>
     ·
-    <a href="https://github.com/eggyatma2908/CoffeeShop-Front-End/issues">Request Feature</a>
+    <a href="https://github.com/gefyaqiilah/CoffeeShop-Front-End/issues">Request Feature</a>
   </p>
 </p>
 
